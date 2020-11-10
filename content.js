@@ -40,9 +40,9 @@ const fontFamily = val => {
   for (let i = 0; i < allFontContainer.children.length; i++) {
     let fontElement = allFontContainer.children[i]
     const fontText = fontElement.children[0].children[1].innerHTML
-    console.log(fontText)
     if (fontText === val) {
       clickEl(fontElement)
+      break
     }
   }
 }
@@ -91,6 +91,44 @@ const fontSize = async val => {
   return
 }
 
+const heading = val => {
+  let headingButtonElement = document.getElementById('headingStyleSelect')
+  clickEl(headingButtonElement)
+  const headingListContainer = document.getElementsByClassName('goog-menuitem goog-option-selected goog-option goog-submenu docs-halfhovermenuitem docs-submenuitem apps-menuitem goog-menuitem-highlight')[0].parentNode
+  for (let i = 0; i < headingListContainer.children.length; i++) {
+    let headingItemContainer = headingListContainer.children[i]
+    const headingText = headingItemContainer.children[0].children[1].innerHTML
+    console.log(headingText)
+    if (headingText === val) {
+      clickEl(headingItemContainer)
+      break
+    }
+  }
+}
+
+const align = val => {
+  if (val === 'Left align') {
+    let leftAlignElement = document.getElementById('alignLeftButton')
+    clickEl(leftAlignElement)
+  } else if (val === 'Center align') {
+    let centerAlignElement = document.getElementById('alignCenterButton')
+    clickEl(centerAlignElement)
+  } else if (val === 'Right align') {
+    let rightAlignElement = document.getElementById('alignRightButton')
+    clickEl(rightAlignElement)
+  } else if (val === 'Justify') {
+    let justifyElement = document.getElementById('alignJustifyButton')
+    clickEl(justifyElement)
+  } else {
+    console.log('could not find align value')
+  }
+}
+
+const clearFormatting = () => {
+  let clearFormattingElement = document.getElementById('clearFormattingButton')
+  clickEl(clearFormattingElement)
+}
+
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
   console.log('received: ' + req.command)
   // console.log(req.command == 'highlight')
@@ -100,6 +138,7 @@ chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
     underline()
     await fontSize(12)
     fontFamily('Calibri')
+    clearFormatting()
   }
   sendRes('all is well')
 })
