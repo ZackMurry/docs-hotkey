@@ -1,3 +1,5 @@
+// todo: load commands from sync storage
+
 const dispatchMouseEvent = function(target, var_args) {
   if (!target) {
     return false
@@ -47,19 +49,23 @@ const fontFamily = val => {
   }
 }
 
+// todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
+const unhighlight = () => {
+  let unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0].children[0]
+  clickEl(unselectEl)
+  clickEl(unselectEl)
+}
+
 const highlight = () => {
   let element = document.getElementById('bgColorButton')
   if (element) {
     clickEl(element)
 
     const highlightElContainer = document.getElementById('docs-material-colorpalette-cell-103')
-    console.log('contains? ' + highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected'))
     
     // if this color is already selected, unselect it. else select it
     if (highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected')) {
-      let unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0].children[0]
-      clickEl(unselectEl)
-      clickEl(unselectEl)
+      unhighlight()
     } else {
       let highlightEl = document.getElementsByClassName('docs-material-colorpalette-colorswatch')[13]
       clickEl(highlightEl)
@@ -129,16 +135,50 @@ const clearFormatting = () => {
   clickEl(clearFormattingElement)
 }
 
+/**
+ * uses an array from storage to execute commands
+ * 
+ * format for commands:
+ *  b - bold
+ *  u - underline
+ *  h - hightlight yellow (todo allow different colors)
+ *  i - italics
+ *  fs#12 - change font size to 12
+ *  ff#Calibri - change font family to Calibri
+ * 
+ * @param {Array} input 
+ */
+const runBasedOnString = async input => {
+  for (const commandString of input) {
+    if (commandString === 'b') {
+      bold()
+    } else if (commandString === 'u') {
+      underline()
+    } else if (commandString === 'h') {
+      highlight()
+    } else if (commandString === 'i') {
+      italicize()
+    } else if (commandString.startsWith('fs#')) {
+      await fontSize(commandString.substring(3))
+    } else if (commandString.startsWith('ff#')) {
+      fontFamily(commandString.substring(3))
+    } else {
+      console.log('unknown command: ' + commandString)
+    }
+  }
+}
+
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
   console.log('received: ' + req.command)
   // console.log(req.command == 'highlight')
   if (req.command === 'highlight') {
-    highlight()
-    bold()
-    underline()
-    await fontSize(12)
-    fontFamily('Calibri')
-    clearFormatting()
+    await runBasedOnString([
+      'h',
+      'b',
+      'u',
+      'fs#12',
+      'ff#Calibri'
+    ])
   }
   sendRes('all is well')
 })

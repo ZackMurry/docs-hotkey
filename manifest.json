@@ -2,7 +2,10 @@
   "name": "Docs Hotkey",
   "version": "0.1",
   "description": "An extension that allows the user to create hotkeys with Google Docs.",
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
