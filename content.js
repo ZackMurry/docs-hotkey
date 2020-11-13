@@ -1,4 +1,10 @@
-// todo: load commands from sync storage
+// todo: set commands to sync storage
+
+let commands = []
+chrome.storage.sync.get(['commands'], result => {
+  console.log('actions: ' + JSON.stringify(result.commands))
+  commands = result.commands
+})
 
 const dispatchMouseEvent = function(target, var_args) {
   if (!target) {
@@ -169,16 +175,10 @@ const runBasedOnString = async input => {
 }
 
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
+  // todo right now user has to refresh the page for new commands to load
   console.log('received: ' + req.command)
-  // console.log(req.command == 'highlight')
-  if (req.command === 'highlight') {
-    await runBasedOnString([
-      'h',
-      'b',
-      'u',
-      'fs#12',
-      'ff#Calibri'
-    ])
-  }
+  const command = commands[req.command]
+  console.log('actions: ' + JSON.stringify(command.actions))
+  await runBasedOnString(command.actions)
   sendRes('all is well')
 })

@@ -18,16 +18,26 @@
       "all_frames": false
     }
   ],
-  "browser_action": {
-    "default_title": "Program events"
-  },
-  "manifest_version": 2,
   "commands": {
-    "highlight": {
+    "slot1": {
       "suggested_key": {
         "default": "Ctrl+Shift+H"
       },
-      "description": "Highlight with Google Docs"
+      "description": "Trigger the command in your first slot."
+    },
+    "slot2": {
+      "description": "Trigger the command in your second slot."
+    },
+    "slot3": {
+      "description": "Trigger the command in your third slot."
+    },
+    "slot4": {
+      "description": "Trigger the command in your fourth slot."
     }
-  }
+  },
+  "browser_action": {
+    "default_title": "Docs Hotkey",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
 }
