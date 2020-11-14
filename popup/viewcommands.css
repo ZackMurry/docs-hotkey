@@ -1,0 +1,14 @@
+.command-item-button {
+  font-size: 1rem;
+  width: 95%;
+  margin: 0 auto;
+  padding: 10%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.command-item-container {
+  width: 95%;
+  margin: 5px auto;
+}

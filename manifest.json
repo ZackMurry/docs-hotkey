@@ -4,7 +4,8 @@
   "description": "An extension that allows the user to create hotkeys with Google Docs.",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "browserAction"
   ],
   "background": {
     "scripts": ["background.js"],
@@ -37,7 +38,7 @@
   },
   "browser_action": {
     "default_title": "Docs Hotkey",
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   },
   "manifest_version": 2
 }

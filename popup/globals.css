@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  --blue-color: #4688f4;
+  --light-gray-color: #f4f8f9;
+  font-family: Roboto, Arial;
+}
+
+button {
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.header {
+  width: 100%;
+  padding: 15px;
+  padding-right: 250px;
+  margin: 0;
+  background-color: var(--blue-color);
+}
+
+.title {
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 300;
+}

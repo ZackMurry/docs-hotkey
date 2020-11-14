@@ -23,5 +23,8 @@ const handleNewCommand = e => {
   })
 }
 
-window.onload = () => document.getElementById('new-command').addEventListener('submit', handleNewCommand, false)
+window.onload = () => {
+  document.getElementById('new-command').addEventListener('submit', handleNewCommand, false)
+  document.getElementById('view-commands-button').addEventListener('click', () => window.location.href = 'viewcommands.html', false)
+}
 
