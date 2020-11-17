@@ -1,3 +1,11 @@
+const escapeHtml = unsafe => (
+  unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+)
 
 const setCommands = () => {
   chrome.storage.sync.get(['commands'], ({ commands }) => {
@@ -8,7 +16,7 @@ const setCommands = () => {
       `<div class="command-item-container">
         <button class="command-item-button">
           <div>
-            ${cmd.alias}
+            ${escapeHtml(cmd.alias)}
           </div>
           <div>
             ${cmd.actions.length} actions

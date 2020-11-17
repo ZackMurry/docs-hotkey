@@ -1,8 +1,9 @@
 // todo: set commands to sync storage
 
 let commands = []
+
 chrome.storage.sync.get(['commands'], result => {
-  console.log('actions: ' + JSON.stringify(result.commands))
+  console.log('commands: ' + JSON.stringify(result.commands))
   commands = result.commands
 })
 
@@ -154,7 +155,7 @@ const clearFormatting = () => {
  * 
  * @param {Array} input 
  */
-const runBasedOnString = async input => {
+const runActionsFromArray = async input => {
   for (const commandString of input) {
     if (commandString === 'b') {
       bold()
@@ -177,8 +178,12 @@ const runBasedOnString = async input => {
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
   // todo right now user has to refresh the page for new commands to load
   console.log('received: ' + req.command)
+  if (!commands) {
+    console.warn('no commands stored; nothing to activate')
+    return
+  }
   const command = commands[req.command]
   console.log('actions: ' + JSON.stringify(command.actions))
-  await runBasedOnString(command.actions)
+  await runActionsFromArray(command.actions)
   sendRes('all is well')
 })

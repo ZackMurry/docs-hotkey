@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="./addcommand.js" ></script>
+    <link rel="stylesheet" href="addcommand.css" >
+    <link rel="stylesheet" href="globals.css" >
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div class="header">
+      <h1 class="title">
+        Docs Hotkey
+      </h1>
+    </div>
+    <div id="main-content">
+      <form id="add-command-form">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" />
+        </div>
+        <div id="action-container">
+          <div id="action-1-container">
+            <label for="action-1">Action 1</label>
+            <select name="action-1" class="action-select" id="action-1-select">
+              <option value="b">Bold</option>
+              <option value="u">Underline</option>
+              <option value="i">Italicize</option>
+              <option value="h">Highlight</option>
+            </select>
+          </div>
+        </div>
+        <button id="add-action-button">Add another action</button>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </body>
+</html>
