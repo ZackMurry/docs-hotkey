@@ -12,3 +12,30 @@
   width: 95%;
   margin: 5px auto;
 }
+
+.page-title {
+  margin-left: 5%;
+}
+
+h3 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#actions-list {
+  margin-left: 10px;
+}
+
+.title {
+  cursor: pointer;
+}
