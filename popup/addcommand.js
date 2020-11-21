@@ -39,14 +39,14 @@ const removeAction = e => {
 const addAction = e => {
   e.preventDefault()
   console.log('addAction')
-  let actionContainer = document.getElementById('action-container')
+  let actionContainer = document.getElementById('actions-container')
   console.log(actionContainer)
 
   const actionNum = actionContainer.children.length + 1
   let newElement = document.createElement('div')
   newElement.id = `action-${actionNum}-container`
   newElement.innerHTML = `
-    <label for="action-${actionNum}">Action ${actionNum}</label>
+    <label for="action-${actionNum}" class="action-label">Action ${actionNum}</label>
     <select name="action-${actionNum}" class="action-select" id="action-${actionNum}-select">
       <option value="b">Bold</option>
       <option value="u">Underline</option>
@@ -80,11 +80,20 @@ const handleSubmit = e => {
   const commandAlias = e.target[0].value
   let actions = []
   for (let i = 1, actionData = e.target[i]; actionData; i++, actionData = e.target[i]) {
+    const { value } = actionData
     // excluding buttons
-    if (actionData.value) {
-      actions.push(actionData.value)
+    if (value) {
+      if (value === 'fs') {
+        if (!e.target[i+1].value) {
+          console.error('ERROR: invalid font size.')
+          return
+        }
+        actions.push('fs#' + e.target[++i].value)
+      }
     }
   }
+  console.log(actions)
+  return
   chrome.storage.sync.get(['commands'], result => {
     console.log(result)
     let internalNameNumber = 1
@@ -103,9 +112,57 @@ const handleSubmit = e => {
   })
 }
 
+/**
+ * @param {Event} e 
+ */
+const handleFsValue = e => {
+  let actionContainerEl = e.composedPath()[1]
+  let fontSizeInput = document.createElement('input')
+  fontSizeInput.setAttribute('type', 'number')
+  fontSizeInput.setAttribute('class', 'font-size-input')
+  fontSizeInput.setAttribute('placeholder', 'Size')
+  actionContainerEl.appendChild(fontSizeInput)
+}
+
+const removeFsInput = e => {
+  e.composedPath()[1].children[2].remove()
+}
+
+/**
+ * todo implement
+ * @param {Event} e 
+ */
+const handleFfValue = e => {
+  let actionContainerEl = e.composedPath()[1]
+  let fontFamilyInput = document.createElement('in')
+}
+
+const handleSelectChange = e => {
+  console.log(e)
+
+  const { value } = e.target
+
+  // setting data value
+  const prevValue = e.srcElement.getAttribute('data-prev-value')
+  e.srcElement.setAttribute('data-prev-value', value)
+
+  if (prevValue === 'fs') {
+    removeFsInput(e)
+  }
+
+  // doing case-specific action
+  if (value === 'fs') {
+    handleFsValue(e)
+  } else if (value === 'ff') {
+    // handleFfValue(e)
+  }
+}
+
 const initForm = () => {
   document.getElementById('add-action-button').addEventListener('click', addAction, false)
   document.getElementById('add-command-form').addEventListener('submit', handleSubmit)
+  document.getElementById('action-1-select').addEventListener('change', handleSelectChange)
+  document.getElementById('action-1-select').setAttribute('data-prev-value', 'b')
 }
 
 window.onload = () => {

@@ -18,19 +18,25 @@
           <label for="name">Name</label>
           <input type="text" />
         </div>
-        <div id="action-container">
-          <div id="action-1-container">
-            <label for="action-1">Action 1</label>
+        <div id="actions-container">
+          <div id="action-1-container" class="action-container">
+            <label for="action-1" class="action-label">Action 1</label>
             <select name="action-1" class="action-select" id="action-1-select">
               <option value="b">Bold</option>
               <option value="u">Underline</option>
               <option value="i">Italicize</option>
               <option value="h">Highlight</option>
+              <option value="fs">Font size</option>
+              <option value="ff">Font family</option>
             </select>
           </div>
         </div>
-        <button id="add-action-button">Add another action</button>
-        <button type="submit">Create</button>
+        <div class="button-container">
+          <button id="add-action-button">Add another action</button>
+        </div>
+        <div class="button-container">
+          <button type="submit">Create</button>
+        </div>
       </form>
     </div>
   </body>

@@ -1,3 +1,25 @@
 .title {
   cursor: pointer;
 }
+
+.button-container {
+  padding-top: 10px;
+}
+
+.font-size-input {
+  width: 45px;
+}
+
+.action-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.action-label {
+  margin-right: 3px;
+}
+
+.action-select {
+  margin-right: 5px;
+}
