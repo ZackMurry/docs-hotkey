@@ -33,9 +33,25 @@ h6 {
 }
 
 #actions-list {
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .title {
   cursor: pointer;
+}
+
+#command-container {
+  margin: 10px 25px 25px 15px;
+}
+
+.alias-title {
+  font-weight: 300;
+}
+
+.cmd-shortcut .cmd-slot #actions-container {
+  font-size: 20px;
+}
+
+.action-text {
+  font-size: 16px;
 }
