@@ -88,15 +88,15 @@ const viewCommand = e => {
 
   content.innerHTML = `
     <div id="command-container">
-      <h3 class="alias-title">${commandAlias}</h3>
-      <h5 class="cmd-shortcut">Shortcut: ${shortcut}</h5>
-      <h5 class="cmd-slot">Slot name: ${cmdInternalName}</h5>
+      <h3>${commandAlias}</h3>
+      <h5>Shortcut: ${shortcut}</h5>
+      <h5>Slot name: ${cmdInternalName}</h5>
       <div id="actions-container">
         <h5>Actions:</h5>
         <div id="actions-list">
           ${fullCmd.actions.map(action => (
-            `<div class="action-container">
-              <h6 class="action-text">${mapActionAbbrToFull(action)}</h6>
+            `<div class="action-item">
+              <h6>${mapActionAbbrToFull(action)}</h6>
             </div>`
           )).join('')}
         </div>

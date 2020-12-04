@@ -7,13 +7,13 @@
     "storage"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["src/background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
       "matches": ["*://docs.google.com/*"],
-      "js": ["content.js"],
+      "js": ["src/content.js"],
       "run_at": "document_start",
       "all_frames": false
     }
@@ -37,7 +37,7 @@
   },
   "browser_action": {
     "default_title": "Docs Hotkey",
-    "default_popup": "popup/popup.html"
+    "default_popup": "src/popup/popup.html"
   },
   "manifest_version": 2
 }

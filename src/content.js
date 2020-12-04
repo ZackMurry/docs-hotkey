@@ -83,22 +83,6 @@ const highlight = () => {
   }
 }
 
-const highlightWithColor = (row, column) => {
-  let element = document.getElementById('bgColorButton')
-  clickEl(element)
-  
-  let rowEl = document.getElementsByClassName('docs-material-colorpalette-row')[row]
-  let highlightCell = rowEl.children[column]
-
-  if (highlightCell.classList.contains('docs-material-colorpalette-cell-selected')) {
-    unhighlight()
-  } else {
-    clickEl(highlightCell)
-  }
-}
-
-// todo add method for highlighting by hex
-
 const fontSize = async val => {
   let fontSizeInputElement = document.getElementById('fontSizeSelect').children[0].children[0].children[0].children[0]
   if (!fontSizeInputElement) {
@@ -194,10 +178,6 @@ const runActionsFromArray = async input => {
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
   // todo right now user has to refresh the page for new commands to load
   console.log('received: ' + req.command)
-
-  highlightWithColor(5, 1)
-
-  return sendRes('all is well')
   if (!commands) {
     console.warn('no commands stored; nothing to activate')
     return

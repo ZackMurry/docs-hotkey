@@ -89,11 +89,13 @@ const handleSubmit = e => {
           return
         }
         actions.push('fs#' + e.target[++i].value)
+      } else {
+        // todo other multi-entry actions
+        actions.push(value)
       }
     }
   }
   console.log(actions)
-  return
   chrome.storage.sync.get(['commands'], result => {
     console.log(result)
     let internalNameNumber = 1
