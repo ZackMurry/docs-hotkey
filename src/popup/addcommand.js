@@ -70,6 +70,7 @@ const addCommand = (currentCommands, internalName, alias, actions) => {
     }
   }, () => {
     console.log('values set')
+    window.close()
   })
 }
 

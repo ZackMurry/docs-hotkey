@@ -42,6 +42,17 @@ const mapActionAbbrToFull = abbr => {
   return map[abbr] ?? 'Action not found'
 }
 
+const deleteCommand = internalName => {
+  commands[internalName] = undefined
+  console.log(commands)
+  chrome.storage.sync.set({
+    commands
+  }, () => {
+    console.log('values set')
+    window.location.reload()
+  })
+}
+
 /**
  * 
  * @param {MouseEvent} e 
@@ -81,9 +92,13 @@ const viewCommand = e => {
       break
     }
   }
-  if (!shortcut) {
-    console.warn('shortcut not found')
-    return
+  if (shortcut === null) {
+    console.log(extCommands)
+    console.warn(`shortcut for ${cmdInternalName} not found`)
+  }
+
+  if (shortcut === '') {
+    shortcut = 'not set'
   }
 
   content.innerHTML = `
@@ -101,8 +116,14 @@ const viewCommand = e => {
           )).join('')}
         </div>
       </div>
+      <div>
+        <button id="delete-cmd">Delete</button>
+        <button id="edit-cmd">Edit</button>
+      </div>
     </div>`
   document.body.appendChild(content)
+  document.getElementById('delete-cmd').addEventListener('click', () => deleteCommand(cmdInternalName), false)
+  // todo editing commands
 }
 
 const setCommands = () => {
