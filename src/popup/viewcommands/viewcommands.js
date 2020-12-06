@@ -1,18 +1,40 @@
 let commands = {}
 
-const updateCommands = () => {
-  chrome.storage.sync.get(['commands'], result => {
+const refreshCommands = () => {
+  return new Promise(resolve => chrome.storage.sync.get(['commands'], result => {
     console.log('commands: ' + JSON.stringify(result.commands))
     commands = result.commands
-  })
+    resolve()
+  }))
 }
 
-updateCommands()
+refreshCommands()
 
 let extCommands
 chrome.commands.getAll(cmds => {
   extCommands = cmds
 })
+
+/**
+ * @param {String} internalName slot name of command
+ * @param {Object} val new value of command
+ * @returns {Promise}
+ */
+const updateCommand = (internalName, val) => {
+  return new Promise(resolve => {
+    chrome.storage.sync.get(['commands'], result => {
+      chrome.storage.sync.set({
+        commands: {
+          ...(result && result.commands),
+          [internalName]: val
+        }
+      }, () => {
+        resolve()
+      })
+    })
+  })
+  
+}
 
 const escapeHtml = unsafe => (
   unsafe
@@ -62,16 +84,22 @@ const handleEditSubmit = (e, internalName) => {
   console.log(e)
 
   const newAlias = e.target[0].value
-  let actions = []
-
-  const s = 'test'
+  const actions = []
 
   // todo would need to change if other options above this get added
-  for (let i = 1, currentActionEl = e.target[i];
-    currentActionEl.getAttribute('id')?.match(/action-.+select/);currentActionEl = e.target[++i]) {
-    console.log(currentActionEl.value)
+  for (
+    let i = 1, currentActionEl = e.target[i];
+    currentActionEl.getAttribute('id')?.match(/action-.+select/);
+    currentActionEl = e.target[++i]
+  ) {
+    actions.push(currentActionEl.value)
   }
 
+  updateCommand(internalName, {
+    alias: newAlias,
+    actions
+  }).then(refreshCommands)
+    .then(() => viewCommand(newAlias))
 
 }
 
