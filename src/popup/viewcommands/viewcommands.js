@@ -86,14 +86,25 @@ const handleEditSubmit = (e, internalName) => {
   const newAlias = e.target[0].value
   const actions = []
 
-  // todo would need to change if other options above this get added
-  for (
-    let i = 1, currentActionEl = e.target[i];
-    currentActionEl.getAttribute('id')?.match(/action-.+select/);
-    currentActionEl = e.target[++i]
-  ) {
-    actions.push(currentActionEl.value)
+  // see addcommand.handleSubmit()
+  for (let i = 1, actionData = e.target[i]; actionData; i++, actionData = e.target[i]) {
+    const { value } = actionData
+
+    if (value) { // excluding buttons
+      if (value === 'fs') {
+        if (!e.target[i+1].value) {
+          console.error('ERROR: invalid font size.')
+          return
+        }
+        actions.push('fs#' + e.target[++i].value)
+      } else {
+        // todo other multi-input actions
+        actions.push(value)
+      }
+    }
   }
+
+  console.log(actions)
 
   updateCommand(internalName, {
     alias: newAlias,
@@ -101,6 +112,73 @@ const handleEditSubmit = (e, internalName) => {
   }).then(refreshCommands)
     .then(() => viewCommand(newAlias))
 
+}
+
+const removeActionInEditPage = e => {
+  let actionButtonId = e.composedPath()[0].id.substring(14)
+  let actionNumber = ''
+  for (let i = 0, currentNum = actionButtonId.charAt(i); +currentNum; currentNum = actionButtonId.charAt(++i)) {
+    actionNumber += currentNum
+  }
+  actionNumber = +actionNumber
+  console.log('removing action ' + actionNumber)
+  
+  // remove action
+  document.getElementById(`action-${actionNumber}-edit-container`).remove()
+
+  // update other action numbers
+
+  const numActions = document.getElementById('edit-actions-list').children.length
+
+  for (let i = actionNumber + 1; i <= numActions + 1; i++) {
+    console.log(i)
+    // have to use ids to ensure that we're not editing an extra field or something (like a font size modifier)
+
+    // changing container
+    document.getElementById(`action-${i}-edit-container`).id = `action-${i-1}-edit-container`
+
+    // changing label
+    const label = document.getElementById(`action-${i}-label`)
+    label.id = `action-${i-1}-label`
+    label.setAttribute('for', `action-${i-1}`)
+    label.innerHTML = `Action ${i-1}`
+
+    // changing select
+    const select = document.getElementById(`action-${i}-select`)
+    select.setAttribute('name', `action${i-1}`)
+    select.id = `action-${i-1}-select`
+
+    // changing remove button
+    document.getElementById(`remove-action-${i}-button`).id = `remove-action-${i-1}-button`
+
+    // todo need to implement stuff for font size and such
+  }
+
+}
+
+const addActionInEditPage = () => {
+  console.log('add action')
+  let newActionField = document.createElement('div')
+  let actionsList = document.getElementById('edit-actions-list')
+
+  const newActionIndex = actionsList.children.length + 1
+  newActionField.setAttribute('id', `action-${newActionIndex}-edit-container`)
+
+  // todo don't think the name for select is needed
+  newActionField.innerHTML = `
+    <label id="action-${newActionIndex}-label" for="action-${newActionIndex}" class="action-label">Action ${newActionIndex}</label>
+    <select name="action-${newActionIndex}" class="action-select" id="action-${newActionIndex}-select">
+      <option value="b" selected>Bold</option>
+      <option value="u">Underline</option>
+      <option value="i">Italicize</option>
+      <option value="h">Highlight</option>
+      <option value="fs">Font size</option>
+      <option value="ff">Font family</option>
+    </select>
+    <button type="button" id="remove-action-${newActionIndex}-button">Remove</button>`
+
+  actionsList.appendChild(newActionField)
+  document.getElementById(`remove-action-${newActionIndex}-button`).addEventListener('click', removeActionInEditPage, false)
 }
 
 const editCommand = (commandContent, internalName, alias, shortcut) => {
@@ -130,7 +208,7 @@ const editCommand = (commandContent, internalName, alias, shortcut) => {
         <div id="edit-actions-list">
           ${commandContent.actions.map((action, index) => (
             `<div id="action-${index + 1}-edit-container">
-              <label for="action-${index + 1}" class="action-label">Action ${index + 1}</label>
+              <label id="action-${index + 1}-label" for="action-${index + 1}" class="action-label">Action ${index + 1}</label>
               <select name="action-${index + 1}" class="action-select" id="action-${index + 1}-select">
                 <option value="b" ${action === 'b' && 'selected'}>Bold</option>
                 <option value="u" ${action === 'u' && 'selected'}>Underline</option>
@@ -139,18 +217,27 @@ const editCommand = (commandContent, internalName, alias, shortcut) => {
                 <option value="fs">Font size</option>
                 <option value="ff">Font family</option>
               </select>
+              <button type="button" id="remove-action-${index + 1}-button">Remove</button>
             </div>`
           )).join('')}
         </div>
       </div>
-      <button type="submit">Done</button>
-      <button id="cancel-edit-button">Cancel</button>
+      <div id="add-action-container">
+        <button type="button" id="add-action-button" class="add-action-button form-button">Add action</button>
+      </div>
+      <button type="submit" class="form-done-button form-button">Done</button>
+      <button type="button" id="cancel-edit-button" class="form-cancel-button form-button">Cancel</button>
     </form>
   `
 
   document.body.appendChild(content)
   document.getElementById('edit-cmd-form').addEventListener('submit', e => handleEditSubmit(e, internalName))
   document.getElementById('cancel-edit-button').addEventListener('click', () => viewCommand(alias), false)
+  document.getElementById('add-action-button').addEventListener('click', addActionInEditPage, false)
+  const numActions = document.getElementById('edit-actions-list').children.length
+  for (let i = 1; i <= numActions; i++) {
+    document.getElementById(`remove-action-${i}-button`).addEventListener('click', removeActionInEditPage, false)
+  }
 }
 
 const viewCommand = alias => {
@@ -220,9 +307,12 @@ const viewCommand = alias => {
  */
 const viewCommandWithClick = e => {
   // getting the alias from the command clicked
-  const commandAlias = unescapeHtml(e.composedPath()[0].children[0].innerHTML ?? '')
+  const unescapedCommandAlias = e.composedPath()[0]?.children[0]?.innerHTML
+  const commandAlias = unescapeHtml(unescapedCommandAlias ?? '')
   console.log(commandAlias)
   if (!commandAlias) {
+    console.warn('Command alias should be truthy; unescaped: ' + unescapedCommandAlias)
+    console.log(e.composedPath())
     return
   }
   viewCommand(commandAlias)

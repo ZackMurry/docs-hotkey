@@ -7,7 +7,7 @@
  */
 const removeAction = e => {
   e.preventDefault()
-  const actionNum = e.target.id.charAt(14)
+  const actionNum = e.target.id.charAt(14) // todo: this would limit to 9 actions
   let removedActionContainer = document.getElementById(`action-${actionNum}-container`)
   removedActionContainer.remove()
 
@@ -16,6 +16,7 @@ const removeAction = e => {
   let newActionNum = parseInt(actionNum)
   let actionContainerToUpdate = document.getElementById(`action-${newActionNum+1}-container`)
   while (actionContainerToUpdate) {
+    // todo: don't think this will work with actions with another field (like font size)
     actionContainerToUpdate.id = `action-${newActionNum}-container`
 
     // updating label id, for, and text
@@ -36,6 +37,7 @@ const removeAction = e => {
   }
 }
 
+// todo add font size and stuff to these
 const addAction = e => {
   e.preventDefault()
   console.log('addAction')
