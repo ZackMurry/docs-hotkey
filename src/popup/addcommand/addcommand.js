@@ -170,5 +170,5 @@ const initForm = () => {
 
 window.onload = () => {
   initForm()
-  document.getElementsByClassName('title')[0].addEventListener('click', () => window.location.href = 'popup.html', false)
+  document.getElementsByClassName('title')[0].addEventListener('click', () => window.location.href = '../popup.html', false)
 }

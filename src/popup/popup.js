@@ -5,7 +5,7 @@ const logCommands = () => {
 }
 
 window.onload = () => {
-  document.getElementById('view-commands-button').addEventListener('click', () => window.location.href = 'viewcommands.html', false)
-  document.getElementById('add-command-button').addEventListener('click', () => window.location.href = 'addcommand.html', false)
+  document.getElementById('view-commands-button').addEventListener('click', () => window.location.href = 'viewcommands/viewcommands.html', false)
+  document.getElementById('add-command-button').addEventListener('click', () => window.location.href = 'addcommand/addcommand.html', false)
 }
 

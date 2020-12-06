@@ -35,22 +35,22 @@
       "description": "Trigger the command in your fourth slot."
     },
     "slot5": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your fifth slot."
     },
     "slot6": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your sixth slot."
     },
     "slot7": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your seventh slot."
     },
     "slot8": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your eighth slot."
     },
     "slot9": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your ninth slot."
     },
     "slot10": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "Trigger the command in your tenth slot."
     }
   },
   "browser_action": {

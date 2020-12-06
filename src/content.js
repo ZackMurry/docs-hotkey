@@ -1,4 +1,5 @@
 // todo: set commands to sync storage
+// todo: extract some functions and stuff into their own files (using export)
 
 let commands = []
 
