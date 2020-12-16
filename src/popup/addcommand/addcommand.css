@@ -10,6 +10,10 @@
   width: 45px;
 }
 
+.font-family-input {
+  width: 60px;
+}
+
 .action-container {
   display: flex;
   align-items: center;

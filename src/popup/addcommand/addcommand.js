@@ -1,3 +1,6 @@
+import { handleSelectChange } from '../utils/actioneditutils.js'
+
+// todo require non-empty cmd name
 
 /**
  * remove an action input field from the add command form
@@ -54,11 +57,14 @@ const addAction = e => {
       <option value="u">Underline</option>
       <option value="i">Italicize</option>
       <option value="h">Highlight</option>
+      <option value="fs">Font size</option>
+      <option value="ff">Font family</option>
     </select>
     <button id="remove-action-${actionNum}-btn">Remove</button>
   `
   actionContainer.appendChild(newElement)
   document.getElementById(`remove-action-${actionNum}-btn`).addEventListener('click', removeAction, false)
+  initAction(actionNum)
 }
 
 const addCommand = (currentCommands, internalName, alias, actions) => {
@@ -117,57 +123,15 @@ const handleSubmit = e => {
   })
 }
 
-/**
- * @param {Event} e 
- */
-const handleFsValue = e => {
-  let actionContainerEl = e.composedPath()[1]
-  let fontSizeInput = document.createElement('input')
-  fontSizeInput.setAttribute('type', 'number')
-  fontSizeInput.setAttribute('class', 'font-size-input')
-  fontSizeInput.setAttribute('placeholder', 'Size')
-  actionContainerEl.appendChild(fontSizeInput)
-}
-
-const removeFsInput = e => {
-  e.composedPath()[1].children[2].remove()
-}
-
-/**
- * todo implement
- * @param {Event} e 
- */
-const handleFfValue = e => {
-  let actionContainerEl = e.composedPath()[1]
-  let fontFamilyInput = document.createElement('in')
-}
-
-const handleSelectChange = e => {
-  console.log(e)
-
-  const { value } = e.target
-
-  // setting data value
-  const prevValue = e.srcElement.getAttribute('data-prev-value')
-  e.srcElement.setAttribute('data-prev-value', value)
-
-  if (prevValue === 'fs') {
-    removeFsInput(e)
-  }
-
-  // doing case-specific action
-  if (value === 'fs') {
-    handleFsValue(e)
-  } else if (value === 'ff') {
-    // handleFfValue(e)
-  }
-}
-
 const initForm = () => {
   document.getElementById('add-action-button').addEventListener('click', addAction, false)
   document.getElementById('add-command-form').addEventListener('submit', handleSubmit)
-  document.getElementById('action-1-select').addEventListener('change', handleSelectChange)
-  document.getElementById('action-1-select').setAttribute('data-prev-value', 'b')
+  initAction(1)
+}
+
+const initAction = num => {
+  document.getElementById(`action-${num}-select`).addEventListener('change', handleSelectChange)
+  document.getElementById(`action-${num}-select`).setAttribute('data-prev-value', 'b')
 }
 
 window.onload = () => {

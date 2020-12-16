@@ -64,3 +64,11 @@ h6 {
 .cmd-actions-container #change-alias-container {
   display: flex;
 }
+
+.font-size-input {
+  width: 45px;
+}
+
+.font-family-input {
+  width: 60px;
+}
