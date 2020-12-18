@@ -23,39 +23,42 @@
       "suggested_key": {
         "default": "Ctrl+Shift+H"
       },
-      "description": "Trigger the command in your first slot."
+      "description": "slot1"
     },
     "slot2": {
-      "description": "Trigger the command in your second slot."
+      "description": "slot2"
     },
     "slot3": {
-      "description": "Trigger the command in your third slot."
+      "description": "slot3"
     },
     "slot4": {
-      "description": "Trigger the command in your fourth slot."
+      "description": "slot4"
     },
     "slot5": {
-      "description": "Trigger the command in your fifth slot."
+      "description": "slot5"
     },
     "slot6": {
-      "description": "Trigger the command in your sixth slot."
+      "description": "slot6"
     },
     "slot7": {
-      "description": "Trigger the command in your seventh slot."
+      "description": "slot7"
     },
     "slot8": {
-      "description": "Trigger the command in your eighth slot."
+      "description": "slot8"
     },
     "slot9": {
-      "description": "Trigger the command in your ninth slot."
-    },
-    "slot10": {
-      "description": "Trigger the command in your tenth slot."
+      "description": "slot9"
     }
   },
   "browser_action": {
     "default_title": "Docs Hotkey",
     "default_popup": "src/popup/popup.html"
   },
-  "manifest_version": 2
+  "manifest_version": 2,
+  "icons": {
+    "128": "icons/128.png",
+    "64": "icons/64.png",
+    "32": "icons/32.png",
+    "16": "icons/16.png"
+  }
 }

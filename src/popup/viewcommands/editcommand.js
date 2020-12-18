@@ -19,11 +19,17 @@ const handleEditSubmit = (e, internalName) => {
 
     if (value) { // excluding buttons
       if (value === 'fs') {
-        if (!e.target[i+1].value) {
+        if (!e.target[i + 1].value) {
           console.error('ERROR: invalid font size.')
           return
         }
         actions.push('fs#' + e.target[++i].value)
+      } else if (value === 'ff') {
+        if (!e.target[i + 1].value) {
+          console.error('ERROR: invalid font family')
+          return
+        }
+        actions.push('ff#' + e.target[++i].value)
       } else {
         // todo other multi-input actions
         actions.push(value)
