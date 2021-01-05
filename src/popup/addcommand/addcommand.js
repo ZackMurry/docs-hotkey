@@ -40,7 +40,6 @@ const removeAction = e => {
   }
 }
 
-// todo add font size and stuff to these
 const addAction = e => {
   e.preventDefault()
   console.log('addAction')
@@ -78,6 +77,9 @@ const addCommand = (currentCommands, internalName, alias, actions) => {
     }
   }, () => {
     console.log('values set')
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.executeScript(tabs[0].id, { code: 'window.location.reload()' })
+    })
     window.close()
   })
 }
@@ -98,6 +100,12 @@ const handleSubmit = e => {
           return
         }
         actions.push('fs#' + e.target[++i].value)
+      } else if (value === 'ff') {
+        if (!e.target[i + 1].value) {
+          console.error('ERROR: invalid font family')
+          return
+        }
+        actions.push('ff#' + e.target[++i].value)
       } else {
         // todo other multi-entry actions
         actions.push(value)

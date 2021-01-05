@@ -72,3 +72,8 @@ h6 {
 .font-family-input {
   width: 60px;
 }
+
+#edit-cmd, #delete-cmd {
+  margin-top: 5px;
+  padding: 5px;
+}

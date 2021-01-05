@@ -27,3 +27,11 @@
 .action-select {
   margin-right: 5px;
 }
+
+h2 {
+  margin-bottom: 5px;
+}
+
+#add-command-form {
+  padding: 15px;
+}

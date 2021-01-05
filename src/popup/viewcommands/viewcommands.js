@@ -154,7 +154,7 @@ const setCommands = () => {
     `<div class="command-item-container">
       <button class="command-item-button">
         <div>${escapeHtml(cmd.alias)}</div>
-        <div>${cmd.actions.length} actions</div>
+        <div>${cmd.actions.length} action${cmd.actions.length !== 1 ? 's' : ''}</div>
       </button>
     </div>`
   )).join('')
