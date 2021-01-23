@@ -122,8 +122,8 @@ export const viewCommand = alias => {
         </div>
       </div>
       <div class="cmd-actions-container">
-        <button id="delete-cmd">Delete</button>
-        <button id="edit-cmd">Edit</button>
+        <button id="edit-cmd" class="btn-filled">Edit</button>
+        <button id="delete-cmd" class="btn-outlined">Delete</button>
       </div>
     </div>`
   document.body.appendChild(content)

@@ -1,5 +1,5 @@
 import { viewCommand, refreshCommands } from './viewcommands.js'
-import { handleSelectChange, handleFsVal } from '../utils/actioneditutils.js'
+import { handleSelectChange, handleFsVal, handleSelectInit } from '../utils/actioneditutils.js'
 
 /**
  * @param {MouseEvent} e 
@@ -13,7 +13,6 @@ const handleEditSubmit = (e, internalName) => {
   const actions = []
 
   // see addcommand.handleSubmit()
-  console.log(e.target)
   for (let i = 1, actionData = e.target[i]; actionData; i++, actionData = e.target[i]) {
     const { value } = actionData
 
@@ -36,8 +35,6 @@ const handleEditSubmit = (e, internalName) => {
       }
     }
   }
-
-  console.log(actions)
 
   updateCommand(internalName, {
     alias: newAlias,
@@ -108,9 +105,10 @@ const addActionInEditPage = () => {
       <option value="fs">Font size</option>
       <option value="ff">Font family</option>
     </select>
-    <button type="button" id="remove-action-${newActionIndex}-button">Remove</button>`
+    <button class="remove-action-btn" type="button" id="remove-action-${newActionIndex}-button">\u00d7</button>`
 
   actionsList.appendChild(newActionField)
+  document.getElementById(`action-${newActionIndex}-select`).addEventListener('change', handleSelectChange)
   document.getElementById(`remove-action-${newActionIndex}-button`).addEventListener('click', removeActionInEditPage, false)
 }
 
@@ -120,15 +118,15 @@ const addActionInEditPage = () => {
  * @param initValue initial value of action (in abbr form)
  */
 const initAction = (num, initValue = 'b') => {
-  document.getElementById(`action-${num}-select`).addEventListener('change', handleSelectChange)
-  document.getElementById(`action-${num}-select`).setAttribute('data-prev-value', initValue.substring(0, 2))
+  const selectEl = document.getElementById(`action-${num}-select`)
+  console.log(selectEl.parentElement)
+  handleSelectInit(initValue, selectEl.parentElement)
+  selectEl.addEventListener('change', handleSelectChange)
+  selectEl.setAttribute('data-prev-value', initValue.substring(0, 2))
 
   console.log(num + ': ' + initValue)
   const itemContainerEl = document.getElementById(`action-${num}-edit-container`)
   console.log(itemContainerEl)
-  if (initValue.substring(0, 2) === 'fs') {
-    handleFsVal(itemContainerEl).value = initValue.substring(3)
-  }
 }
 
 /**
@@ -189,7 +187,7 @@ export const editCommand = (commandContent, internalName, alias, shortcut) => {
                 <option value="fs" ${action.substring(0, 2) === 'fs' ? 'selected' : ''}>Font size</option>
                 <option value="ff" ${action.substring(0, 2) === 'ff' ? 'selected' : ''}>Font family</option>
               </select>
-              <button type="button" id="remove-action-${index + 1}-button">Remove</button>
+              <button class="remove-action-btn" type="button" id="remove-action-${index + 1}-button">\u00d7</button>
             </div>`
           )).join('')}
         </div>
@@ -197,8 +195,10 @@ export const editCommand = (commandContent, internalName, alias, shortcut) => {
       <div id="add-action-container">
         <button type="button" id="add-action-button" class="add-action-button form-button">Add action</button>
       </div>
-      <button type="submit" class="form-done-button form-button">Done</button>
-      <button type="button" id="cancel-edit-button" class="form-cancel-button form-button">Cancel</button>
+      <div class="edit-cmd-btn-container">
+        <button type="submit" class="btn-filled">Done</button>
+        <button type="button" id="cancel-edit-button" class="btn-outlined">Cancel</button>
+      </div>
     </form>
   `
 
