@@ -59,7 +59,7 @@ const addAction = e => {
       <option value="fs">Font size</option>
       <option value="ff">Font family</option>
     </select>
-    <button id="remove-action-${actionNum}-btn">Remove</button>
+    <button class="remove-action-btn" type="button" id="remove-action-${actionNum}-btn">\u00d7</button>
   `
   actionContainer.appendChild(newElement)
   document.getElementById(`remove-action-${actionNum}-btn`).addEventListener('click', removeAction, false)

@@ -1,20 +1,32 @@
 .command-item-button {
   font-size: 1rem;
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
-  padding: 10%;
+  padding: 5%;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  background-color: var(--light-gray-color);
+}
+
+.command-item-button:hover {
+  background-color: #eeeeee;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.command-item-button:active {
+  background-color: #e0e0e0;
+  transition: background-color 0.1s ease-in-out;
 }
 
 .command-item-container {
-  width: 95%;
-  margin: 5px auto;
+  width: 100%;
+  /* margin: 5px auto; */
 }
 
 .page-title {
-  margin-left: 5%;
+  margin: 5%;
+  font-weight: 400;
 }
 
 h3 {
