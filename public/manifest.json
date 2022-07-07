@@ -2,18 +2,14 @@
   "name": "Docs Hotkey",
   "version": "0.1",
   "description": "An extension that allows the user to create hotkeys with Google Docs.",
-  "permissions": [
-    "activeTab",
-    "storage"
-  ],
+  "permissions": ["activeTab", "storage"],
   "background": {
-    "scripts": ["src/background.js"],
-    "persistent": false
+    "service_worker": "static/js/background.js"
   },
   "content_scripts": [
     {
       "matches": ["*://docs.google.com/*"],
-      "js": ["src/content.js"],
+      "js": ["static/js/content.js"],
       "run_at": "document_start",
       "all_frames": false
     }
@@ -23,38 +19,38 @@
       "suggested_key": {
         "default": "Ctrl+Shift+H"
       },
-      "description": "slot1"
+      "description": "Slot 1"
     },
     "slot2": {
-      "description": "slot2"
+      "description": "Slot 2"
     },
     "slot3": {
-      "description": "slot3"
+      "description": "Slot 3"
     },
     "slot4": {
-      "description": "slot4"
+      "description": "Slot 4"
     },
     "slot5": {
-      "description": "slot5"
+      "description": "Slot 5"
     },
     "slot6": {
-      "description": "slot6"
+      "description": "Slot 6"
     },
     "slot7": {
-      "description": "slot7"
+      "description": "Slot 7"
     },
     "slot8": {
-      "description": "slot8"
+      "description": "Slot 8"
     },
     "slot9": {
-      "description": "slot9"
+      "description": "Slot 9"
     }
   },
-  "browser_action": {
-    "default_title": "Docs Hotkey",
-    "default_popup": "src/popup/popup.html"
+  "action": {
+    "default_title": "Open popup",
+    "default_popup": "index.html"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "icons": {
     "128": "icons/128.png",
     "64": "icons/64.png",
