@@ -52,7 +52,7 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
 
   return (
     <Flex py='3px' alignItems='center'>
-      <Select size='sm' value={type} placeholder='Select action type' onChange={onTypeChange}>
+      <Select size='sm' value={type === 'ht' ? 'hl' : type} placeholder='Select action type' onChange={onTypeChange}>
         <option value='b'>Bold</option>
         <option value='u'>Underline</option>
         <option value='hl'>Highlight</option>
@@ -66,7 +66,7 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <option value='uu'>Un-underline</option>
         <option value='ui'>Unitalicize</option>
       </Select>
-      {(type === 'ff' || type === 'hl' || type === 'hd' || type === 'al') && (
+      {(type === 'ff' || type === 'hl' || type === 'ht' || type === 'hd' || type === 'al') && (
         <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />
       )}
       {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />}
