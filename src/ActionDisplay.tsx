@@ -1,10 +1,11 @@
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, ChangeEvent } from 'react'
 import { Flex, IconButton, Input, Select } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
 type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al'
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
+export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
 interface Props {
   value: string
@@ -12,13 +13,10 @@ interface Props {
   onDelete: () => void
 }
 
-// todo: clear highlight action
 const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
-  const [type, setType] = useState<ActionType | undefined>(() => (value ? getActionType(value) : undefined))
-  const [config, setConfig] = useState<string>(() =>
-    value.indexOf('#') !== -1 ? value.substring(value.indexOf('#') + 1) : ''
-  )
-  console.log(type + (config.length ? `#${config}` : ''))
+  const type = value ? getActionType(value) : undefined
+  const config = getActionConfig(value)
+
   const onTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const type = e.target.value as ActionType
     let newConfig = ''
@@ -33,9 +31,12 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
     } else if (type === 'al') {
       newConfig = 'left'
     }
-    setConfig(newConfig)
-    setType(type)
     onChange(type + (newConfig.length ? `#${newConfig}` : ''))
+  }
+
+  const onConfigChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value: val } = e.target
+    onChange(type + (val.length ? `#${val}` : ''))
   }
 
   return (
@@ -49,12 +50,12 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <option value='fs'>Font Size</option>
         <option value='hd'>Heading</option>
         <option value='al'>Align</option>
-        <option value='cl'>Clear</option>
+        <option value='cl'>Unstyle</option>
       </Select>
       {(type === 'ff' || type === 'hl' || type === 'hd' || type === 'al') && (
-        <Input size='sm' ml='3px' value={config} onChange={e => setConfig(e.target.value)} />
+        <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />
       )}
-      {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={e => setConfig(e.target.value)} />}
+      {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />}
       <IconButton
         bg='transparent'
         size='sm'

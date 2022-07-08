@@ -1,5 +1,4 @@
-// todo: extract some functions and stuff into their own files (using export)
-// todo: escape text to avoid XSS
+// todo: unbold, ununderline, unitalicize (maybe through remove checkbox)
 
 import { getActionType } from './ActionDisplay'
 
@@ -84,7 +83,7 @@ const fontFamily = (val: string) => {
 
 // todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
 const unhighlight = () => {
-  let unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0]
+  const unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0]
     .children[0] as HTMLElement
   if (!unselectEl) {
     throw new Error('unable to unhighlight')
@@ -94,29 +93,33 @@ const unhighlight = () => {
 }
 
 const highlight = (color: string) => {
-  if (color !== 'yellow') {
-    throw new Error('unknown color!')
-  }
   let dropdownElement = document.getElementById('bgColorButton')
   if (!dropdownElement) {
     throw new Error('unable to highlight')
   }
   clickEl(dropdownElement)
+  if (color === 'none') {
+    unhighlight()
+    return
+  }
+  if (color !== 'yellow') {
+    throw new Error('unknown color!')
+  }
   const highlightElContainer = document.getElementById('docs-material-colorpalette-cell-103')
   if (!highlightElContainer) {
     throw new Error('unable to highlight')
   }
 
   // if this color is already selected, unselect it. else select it
-  if (highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected')) {
-    unhighlight()
-  } else {
-    let highlightEl = document.getElementsByClassName('docs-material-colorpalette-colorswatch')[13] as HTMLElement
-    if (!highlightEl) {
-      throw new Error('unable to highlight')
-    }
-    clickEl(highlightEl)
+  // if (highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected')) {
+  // unhighlight()
+  // } else {
+  const highlightEl = document.getElementsByClassName('docs-material-colorpalette-colorswatch')[13] as HTMLElement
+  if (!highlightEl) {
+    throw new Error('unable to highlight')
   }
+  clickEl(highlightEl)
+  // }
 }
 
 const fontSize = async (val: string) => {
