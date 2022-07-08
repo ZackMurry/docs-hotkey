@@ -1,3 +1,3 @@
 # Docs Hotkey
 
-Docs Hotkey is a Chrome extension for easily styling content on Google Docs with hotkeys.
+Docs Hotkey allows for complex hotkey setups with simple configuration.

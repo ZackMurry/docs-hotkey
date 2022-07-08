@@ -12,12 +12,12 @@ import {
   Heading,
   IconButton,
   Input,
-  Link,
   Text
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { Command } from './types'
 import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
+import { colorMap } from './content'
 
 // todo: add an MD file with instructions for use and then use a MD to HTML converter to serve that and have it open on install
 // todo: error messages (including when actions are invalid)
@@ -85,7 +85,7 @@ const App: FC = () => {
         ) {
           addActionError(alias, index, 'invalid heading type')
           hasErrors = true
-        } else if (type === 'hl' && config !== 'yellow' && config !== 'none') {
+        } else if (type === 'hl' && !colorMap.has(config) && config !== 'none') {
           addActionError(alias, index, 'invalid highlight color')
           hasErrors = true
         } else if ((type === 'b' || type === 'u' || type === 'i') && config !== '' && config !== 'toggle') {

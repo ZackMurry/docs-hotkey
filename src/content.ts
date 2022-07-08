@@ -120,6 +120,94 @@ const unhighlight = () => {
   clickEl(unselectEl)
 }
 
+// i literally don't care... thank god for vim
+export const colorMap = new Map(
+  Object.entries({
+    black: 100,
+    'dark gray 4': 101,
+    'dark gray 3': 102,
+    'dark gray 2': 103,
+    'dark gray 1': 104,
+    gray: 105,
+    'light gray 1': 106,
+    'light gray 2': 107,
+    'light gray 3': 108,
+    white: 109,
+    'red berry': 110,
+    red: 111,
+    orange: 112,
+    yellow: 113,
+    green: 114,
+    cyan: 115,
+    'cornflower blue': 116,
+    blue: 117,
+    purple: 118,
+    magenta: 119,
+    'light red berry 3': 120,
+    'light red 3': 121,
+    'light orange 3': 122,
+    'light yellow 3': 123,
+    'light green 3': 124,
+    'light cyan 3': 125,
+    'light cornflower blue 3': 126,
+    'light blue 3': 127,
+    'light purple 3': 128,
+    'light magenta 3': 129,
+    'light red berry 2': 130,
+    'light red 2': 131,
+    'light orange 2': 132,
+    'light yellow 2': 133,
+    'light green 2': 134,
+    'light cyan 2': 135,
+    'light cornflower blue 2': 136,
+    'light blue 2': 137,
+    'light purple 2': 138,
+    'light magenta 2': 139,
+    'light red berry 1': 140,
+    'light red 1': 141,
+    'light orange 1': 142,
+    'light yellow 1': 143,
+    'light green 1': 144,
+    'light cyan 1': 145,
+    'light cornflower blue 1': 146,
+    'light blue 1': 147,
+    'light purple 1': 148,
+    'light magenta 1': 149,
+    'dark red berry 1': 150,
+    'dark red 1': 151,
+    'dark orange 1': 152,
+    'dark yellow 1': 153,
+    'dark green 1': 154,
+    'dark cyan 1': 155,
+    'dark cornflower blue 1': 156,
+    'dark blue 1': 157,
+    'dark purple 1': 158,
+    'dark magenta 1': 159,
+    'dark red berry 2': 160,
+    'dark red 2': 161,
+    'dark orange 2': 162,
+    'dark yellow 2': 163,
+    'dark green 2': 164,
+    'dark cyan 2': 165,
+    'dark cornflower blue 2': 166,
+    'dark blue 2': 167,
+    'dark purple 2': 168,
+    'dark magenta 2': 169,
+    'dark red berry 3': 170,
+    'dark red 3': 171,
+    'dark orange 3': 172,
+    'dark yellow 3': 173,
+    'dark green 3': 174,
+    'dark cyan 3': 175,
+    'dark cornflower blue 3': 176,
+    'dark blue 3': 177,
+    'dark purple 3': 178,
+    'dark magenta 3': 179
+  })
+)
+
+// todo: toggle highlight option
+// todo: custom hex value in a future version?
 const highlight = (color: string) => {
   let dropdownElement = document.getElementById('bgColorButton')
   if (!dropdownElement) {
@@ -130,19 +218,15 @@ const highlight = (color: string) => {
     unhighlight()
     return
   }
-  if (color !== 'yellow') {
+  if (!colorMap.has(color)) {
     throw new Error('unknown color!')
-  }
-  const highlightElContainer = document.getElementById('docs-material-colorpalette-cell-103')
-  if (!highlightElContainer) {
-    throw new Error('unable to highlight')
   }
 
   // if this color is already selected, unselect it. else select it
   // if (highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected')) {
   // unhighlight()
   // } else {
-  const highlightEl = document.getElementsByClassName('docs-material-colorpalette-colorswatch')[13] as HTMLElement
+  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color)}`)
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
