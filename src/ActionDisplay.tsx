@@ -26,7 +26,7 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
     } else if (type === 'ff') {
       newConfig = 'Arial'
     } else if (type === 'fs') {
-      newConfig = '12'
+      newConfig = '11'
     } else if (type === 'hd') {
       newConfig = 'Normal text'
     } else if (type === 'al') {

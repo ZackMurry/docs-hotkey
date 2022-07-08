@@ -1,5 +1,3 @@
-// todo: unbold, ununderline, unitalicize (maybe through remove checkbox)
-
 import { getActionType } from './ActionDisplay'
 
 interface Command {
@@ -206,7 +204,6 @@ export const colorMap = new Map(
   })
 )
 
-// todo: toggle highlight option
 // todo: custom hex value in a future version?
 const highlight = (color: string, toggle: boolean = false) => {
   let dropdownElement = document.getElementById('bgColorButton')
@@ -265,15 +262,22 @@ const heading = (val: string) => {
     throw new Error('unable to set as heading')
   }
   clickEl(headingButtonElement)
-  const headingListContainer = document.getElementsByClassName(
-    'goog-menuitem goog-option-selected goog-option goog-submenu docs-halfhovermenuitem docs-submenuitem apps-menuitem goog-menuitem-highlight'
-  )[0].parentNode as HTMLElement
+  const headingListContainer = document.getElementById(':fc')?.parentNode
+  if (!headingListContainer) {
+    throw new Error('unable to find heading list container')
+  }
+  console.log('for')
   for (let i = 0; i < headingListContainer.children.length; i++) {
-    const headingItemContainer = headingListContainer.children[i] as HTMLElement
-    const headingText = headingItemContainer.children[0].children[1].innerHTML
+    console.log(i)
+    const headingItemContainer = headingListContainer?.children[i] as HTMLElement
+    const headingText = headingItemContainer?.children[0]?.children[1].innerHTML
+    if (!headingText) {
+      throw new Error('unable to set heading type')
+    }
     console.log(headingText)
     if (headingText === val) {
       clickEl(headingItemContainer)
+      console.log('clicked')
       break
     }
   }
@@ -393,6 +397,7 @@ chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
     await runActionsFromArray(command.actions)
     sendRes('1')
   } catch (e) {
+    console.error(e)
     sendRes('0')
   }
 })
