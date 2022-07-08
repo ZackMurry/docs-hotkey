@@ -12,3 +12,7 @@ Docs Hotkey allows for complex hotkey setups with simple configuration. Hotkeys 
 - Clear all styles (and remove specific styles)
 
 A single hotkey can be configured to do several of these at once.
+
+
+https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-a1cb-ad9672e3d089.mp4
+
