@@ -12,6 +12,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Link,
   Text
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
