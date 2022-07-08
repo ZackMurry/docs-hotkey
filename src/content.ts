@@ -15,8 +15,6 @@ chrome.storage.sync.get(['commands'], result => {
 })
 
 chrome.storage.onChanged.addListener((changes, area) => {
-  console.log('CHANGE')
-  console.log(changes)
   if (area === 'sync' && changes['commands'] !== null) {
     commands = changes['commands'].newValue
     console.log('new commands: ' + JSON.stringify(commands))
@@ -48,12 +46,12 @@ const toggleBold = () => {
   clickEl(boldElement)
 }
 
-const bold = () => {
+const bold = (inverse: boolean = false) => {
   const boldElement = document.getElementById('boldButton')
   if (!boldElement) {
     throw new Error('unable to bold')
   }
-  if (!boldElement.classList.contains('goog-toolbar-button-checked')) {
+  if (inverse === boldElement.classList.contains('goog-toolbar-button-checked')) {
     toggleBold()
   }
 }
@@ -66,12 +64,12 @@ const toggleUnderline = () => {
   clickEl(underlineElement)
 }
 
-const underline = () => {
+const underline = (inverse: boolean = false) => {
   const underlineElement = document.getElementById('underlineButton')
   if (!underlineElement) {
     throw new Error('unable to underline')
   }
-  if (!underlineElement.classList.contains('goog-toolbar-button-checked')) {
+  if (inverse === underlineElement.classList.contains('goog-toolbar-button-checked')) {
     toggleUnderline()
   }
 }
@@ -84,12 +82,12 @@ const toggleItalics = () => {
   clickEl(italicizeElement)
 }
 
-const italicize = () => {
+const italicize = (inverse: boolean = false) => {
   const italicizeElement = document.getElementById('italicButton')
   if (!italicizeElement) {
     throw new Error('unable to italicize')
   }
-  if (!italicizeElement.classList.contains('goog-toolbar-button-checked')) {
+  if (inverse === italicizeElement.classList.contains('goog-toolbar-button-checked')) {
     toggleItalics()
   }
 }
@@ -229,50 +227,81 @@ const runActionsFromArray = async (input: string[]) => {
   for (const commandString of input) {
     const actionType = getActionType(commandString)
     const config = commandString.substring(commandString.indexOf('#') + 1)
-    if (actionType === 'b') {
-      if (config === 'toggle') {
-        toggleBold()
-      } else {
-        bold()
+    switch (actionType) {
+      case 'b': {
+        if (config === 'toggle') {
+          toggleBold()
+        } else {
+          bold()
+        }
+        break
       }
-    } else if (actionType === 'u') {
-      if (config === 'toggle') {
-        toggleUnderline()
-      } else {
-        underline()
+      case 'u': {
+        if (config === 'toggle') {
+          toggleUnderline()
+        } else {
+          underline()
+        }
+        break
       }
-    } else if (actionType === 'i') {
-      if (config === 'toggle') {
-        toggleItalics()
-      } else {
-        italicize()
+      case 'i': {
+        if (config === 'toggle') {
+          toggleItalics()
+        } else {
+          italicize()
+        }
+        break
       }
-    } else if (actionType === 'hl') {
-      highlight(config)
-    } else if (actionType === 'fs') {
-      await fontSize(config)
-    } else if (actionType === 'ff') {
-      fontFamily(config)
-    } else if (actionType === 'hd') {
-      heading(config)
-    } else if (actionType === 'cl') {
-      clearFormatting()
-    } else if (actionType === 'al') {
-      align(config)
-    } else {
-      console.log('unknown command: ' + commandString)
+      case 'hl': {
+        highlight(config)
+        break
+      }
+      case 'fs': {
+        await fontSize(config)
+        break
+      }
+      case 'ff': {
+        fontFamily(config)
+        break
+      }
+      case 'hd': {
+        heading(config)
+        break
+      }
+      case 'cl': {
+        clearFormatting()
+        break
+      }
+      case 'al': {
+        align(config)
+        break
+      }
+      case 'ub': {
+        bold(true)
+        break
+      }
+      case 'uu': {
+        underline(true)
+        break
+      }
+      case 'ui': {
+        italicize(true)
+        break
+      }
+      default: {
+        console.error('unknown command: ', commandString)
+      }
     }
   }
 }
 
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
-  // todo right now user has to refresh the page for new commands to load
-  console.log('received: ' + req.command)
+  // console.log('received: ' + req.command)
   const command = commands[req.command]
   if (!command) {
     throw new Error('unknown command ' + command)
   }
-  console.log('actions: ' + JSON.stringify(command.actions))
+  // console.log('actions: ' + JSON.stringify(command.actions))
   try {
     await runActionsFromArray(command.actions)
     sendRes('1')

@@ -2,7 +2,7 @@ import React, { FC, ChangeEvent } from 'react'
 import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
-type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al'
+type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui'
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
@@ -55,6 +55,9 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <option value='hd'>Heading</option>
         <option value='al'>Align</option>
         <option value='cl'>Unstyle</option>
+        <option value='ub'>Unbold</option>
+        <option value='uu'>Un-underline</option>
+        <option value='ui'>Unitalicize</option>
       </Select>
       {(type === 'ff' || type === 'hl' || type === 'hd' || type === 'al') && (
         <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />

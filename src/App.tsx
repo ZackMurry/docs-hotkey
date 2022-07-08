@@ -72,7 +72,7 @@ const App: FC = () => {
         if (type === 'al' && config !== 'left' && config !== 'center' && config !== 'right' && config !== 'justify') {
           addActionError(alias, index, 'the configuration for align must be one of `left`, `center`, `right`, or `justify`')
           hasErrors = true
-        } else if (type === 'cl' && config !== '') {
+        } else if ((type === 'cl' || type === 'ub' || type === 'uu' || type === 'ui') && config !== '') {
           addActionError(alias, index, 'this action type cannot have a configuration')
           hasErrors = true
         } else if (
