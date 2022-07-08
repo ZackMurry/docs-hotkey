@@ -208,7 +208,7 @@ export const colorMap = new Map(
 
 // todo: toggle highlight option
 // todo: custom hex value in a future version?
-const highlight = (color: string) => {
+const highlight = (color: string, toggle: boolean = false) => {
   let dropdownElement = document.getElementById('bgColorButton')
   if (!dropdownElement) {
     throw new Error('unable to highlight')
@@ -222,16 +222,15 @@ const highlight = (color: string) => {
     throw new Error('unknown color!')
   }
 
-  // if this color is already selected, unselect it. else select it
-  // if (highlightElContainer.classList.contains('docs-material-colorpalette-cell-selected')) {
-  // unhighlight()
-  // } else {
   const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color)}`)
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
-  clickEl(highlightEl)
-  // }
+  if (toggle && highlightEl.classList.contains('docs-material-colorpalette-cell-selected')) {
+    unhighlight()
+  } else {
+    clickEl(highlightEl)
+  }
 }
 
 const fontSize = async (val: string) => {
@@ -338,6 +337,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'hl': {
         highlight(config)
+        break
+      }
+      case 'ht': {
+        highlight(config, true)
         break
       }
       case 'fs': {

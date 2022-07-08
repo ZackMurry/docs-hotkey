@@ -85,7 +85,7 @@ const App: FC = () => {
         ) {
           addActionError(alias, index, 'invalid heading type')
           hasErrors = true
-        } else if (type === 'hl' && !colorMap.has(config) && config !== 'none') {
+        } else if ((type === 'hl' || type === 'ht') && !colorMap.has(config) && config !== 'none') {
           addActionError(alias, index, 'invalid highlight color')
           hasErrors = true
         } else if ((type === 'b' || type === 'u' || type === 'i') && config !== '' && config !== 'toggle') {
@@ -130,7 +130,7 @@ const App: FC = () => {
   }, [])
 
   return (
-    <Box w={300} h={400}>
+    <Box w={325} h={400}>
       <Box bg='docsBlue' p='5px'>
         <Heading color='white' ml='5px'>
           Docs Hotkey

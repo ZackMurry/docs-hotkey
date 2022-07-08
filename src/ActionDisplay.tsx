@@ -2,7 +2,8 @@ import React, { FC, ChangeEvent } from 'react'
 import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
-type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui'
+// bold, underline, highlight, italicize, font family, font size, heading, clear, align, unbold, un-underline, unitalicize, toggle highlight
+type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui' | 'ht'
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
@@ -40,7 +41,13 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
   }
 
   const onToggleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(type + (e.target.checked ? '#toggle' : ''))
+    if (type === 'hl') {
+      onChange(`ht#${config}`)
+    } else if (type === 'ht') {
+      onChange(`hl#${config}`)
+    } else {
+      onChange(type + (e.target.checked ? '#toggle' : ''))
+    }
   }
 
   return (
@@ -63,9 +70,9 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />
       )}
       {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />}
-      {(type === 'b' || type === 'u' || type === 'i') && (
+      {(type === 'b' || type === 'u' || type === 'i' || type === 'hl' || type === 'ht') && (
         <Tooltip label='Toggle' shouldWrapChildren>
-          <Checkbox size='md' ml='8px' isChecked={config === 'toggle'} onChange={onToggleChange} />
+          <Checkbox size='md' ml='8px' isChecked={config === 'toggle' || type === 'ht'} onChange={onToggleChange} />
         </Tooltip>
       )}
       <IconButton
