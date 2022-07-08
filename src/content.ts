@@ -40,7 +40,7 @@ const clickEl = (el: HTMLElement) => {
   dispatchMouseEvent(el, 'mouseup')
 }
 
-const bold = () => {
+const toggleBold = () => {
   const boldElement = document.getElementById('boldButton')
   if (!boldElement) {
     throw new Error('unable to bold')
@@ -48,7 +48,17 @@ const bold = () => {
   clickEl(boldElement)
 }
 
-const underline = () => {
+const bold = () => {
+  const boldElement = document.getElementById('boldButton')
+  if (!boldElement) {
+    throw new Error('unable to bold')
+  }
+  if (!boldElement.classList.contains('goog-toolbar-button-checked')) {
+    toggleBold()
+  }
+}
+
+const toggleUnderline = () => {
   const underlineElement = document.getElementById('underlineButton')
   if (!underlineElement) {
     throw new Error('unable to underline')
@@ -56,12 +66,32 @@ const underline = () => {
   clickEl(underlineElement)
 }
 
-const italicize = () => {
+const underline = () => {
+  const underlineElement = document.getElementById('underlineButton')
+  if (!underlineElement) {
+    throw new Error('unable to underline')
+  }
+  if (!underlineElement.classList.contains('goog-toolbar-button-checked')) {
+    toggleUnderline()
+  }
+}
+
+const toggleItalics = () => {
   const italicizeElement = document.getElementById('italicButton')
   if (!italicizeElement) {
     throw new Error('unable to italicize')
   }
   clickEl(italicizeElement)
+}
+
+const italicize = () => {
+  const italicizeElement = document.getElementById('italicButton')
+  if (!italicizeElement) {
+    throw new Error('unable to italicize')
+  }
+  if (!italicizeElement.classList.contains('goog-toolbar-button-checked')) {
+    toggleItalics()
+  }
 }
 
 const fontFamily = (val: string) => {
@@ -200,13 +230,25 @@ const runActionsFromArray = async (input: string[]) => {
     const actionType = getActionType(commandString)
     const config = commandString.substring(commandString.indexOf('#') + 1)
     if (actionType === 'b') {
-      bold()
+      if (config === 'toggle') {
+        toggleBold()
+      } else {
+        bold()
+      }
     } else if (actionType === 'u') {
-      underline()
+      if (config === 'toggle') {
+        toggleUnderline()
+      } else {
+        underline()
+      }
+    } else if (actionType === 'i') {
+      if (config === 'toggle') {
+        toggleItalics()
+      } else {
+        italicize()
+      }
     } else if (actionType === 'hl') {
       highlight(config)
-    } else if (actionType === 'i') {
-      italicize()
     } else if (actionType === 'fs') {
       await fontSize(config)
     } else if (actionType === 'ff') {
@@ -231,8 +273,12 @@ chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
     throw new Error('unknown command ' + command)
   }
   console.log('actions: ' + JSON.stringify(command.actions))
-  await runActionsFromArray(command.actions)
-  sendRes('all is well')
+  try {
+    await runActionsFromArray(command.actions)
+    sendRes('1')
+  } catch (e) {
+    sendRes('0')
+  }
 })
 
 export {}

@@ -1,5 +1,5 @@
 import React, { FC, ChangeEvent } from 'react'
-import { Flex, IconButton, Input, Select } from '@chakra-ui/react'
+import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
 type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al'
@@ -39,8 +39,12 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
     onChange(type + (val.length ? `#${val}` : ''))
   }
 
+  const onToggleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(type + (e.target.checked ? '#toggle' : ''))
+  }
+
   return (
-    <Flex py='3px'>
+    <Flex py='3px' alignItems='center'>
       <Select size='sm' value={type} placeholder='Select action type' onChange={onTypeChange}>
         <option value='b'>Bold</option>
         <option value='u'>Underline</option>
@@ -56,6 +60,11 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />
       )}
       {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />}
+      {(type === 'b' || type === 'u' || type === 'i') && (
+        <Tooltip label='Toggle' shouldWrapChildren>
+          <Checkbox size='md' ml='8px' isChecked={config === 'toggle'} onChange={onToggleChange} />
+        </Tooltip>
+      )}
       <IconButton
         bg='transparent'
         size='sm'

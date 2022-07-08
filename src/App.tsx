@@ -87,6 +87,8 @@ const App: FC = () => {
         } else if (type === 'hl' && config !== 'yellow' && config !== 'none') {
           addActionError(alias, index, 'invalid highlight color')
           hasErrors = true
+        } else if ((type === 'b' || type === 'u' || type === 'i') && config !== '' && config !== 'toggle') {
+          addActionError(alias, index, 'unknown configuration')
         }
       })
     })
