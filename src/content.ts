@@ -100,7 +100,7 @@ const fontFamily = (val: string) => {
   for (let i = 0; i < allFontContainer.children.length; i++) {
     const fontElement = allFontContainer.children[i] as HTMLElement
     const fontText = fontElement.children[0].children[1].innerHTML
-    if (fontText === val) {
+    if (fontText.toLowerCase() === val.toLowerCase()) {
       clickEl(fontElement)
       break
     }
@@ -211,15 +211,15 @@ const highlight = (color: string, toggle: boolean = false) => {
     throw new Error('unable to highlight')
   }
   clickEl(dropdownElement)
-  if (color === 'none') {
+  if (color.toLowerCase() === 'none') {
     unhighlight()
     return
   }
-  if (!colorMap.has(color)) {
+  if (!colorMap.has(color.toLowerCase())) {
     throw new Error('unknown color!')
   }
 
-  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color)}`)
+  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`)
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
@@ -275,7 +275,7 @@ const heading = (val: string) => {
       throw new Error('unable to set heading type')
     }
     console.log(headingText)
-    if (headingText === val) {
+    if (headingText.toLowerCase() === val.toLowerCase()) {
       clickEl(headingItemContainer)
       console.log('clicked')
       break
@@ -285,13 +285,14 @@ const heading = (val: string) => {
 
 const align = (val: string) => {
   let element: HTMLElement | null
-  if (val === 'left') {
+  const alignment = val.toLowerCase()
+  if (alignment === 'left') {
     element = document.getElementById('alignLeftButton')
-  } else if (val === 'center') {
+  } else if (alignment === 'center') {
     element = document.getElementById('alignCenterButton')
-  } else if (val === 'right') {
+  } else if (alignment === 'right') {
     element = document.getElementById('alignRightButton')
-  } else if (val === 'justify') {
+  } else if (alignment === 'justify') {
     element = document.getElementById('alignJustifyButton')
   } else {
     throw new Error('unknown alignment option: ' + val)

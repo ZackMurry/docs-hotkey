@@ -84,7 +84,7 @@ The `highlight` action has a configuration option for the color of the highlight
 
 ![Highlight configuration screenshot](docs/highlight_configuration.png)
 
-Docs Hotkey is able to highlight in all of the colors in the Google Docs color palette. To find the name of a color you wish to highlight in, open the highlight menu in Google Docs and hover over the color. This will show a tooltip with the name of the color, which can be entered into the `highlight` configuration. Note that the highlight color should be entered exactly as shown by Google Docs, including case.
+Docs Hotkey is able to highlight in all of the colors in the Google Docs color palette. To find the name of a color you wish to highlight in, open the highlight menu in Google Docs and hover over the color. This will show a tooltip with the name of the color, which can be entered into the `highlight` configuration.
 
 ![Highlight color palette](docs/highlight_palette.png)
 
@@ -100,13 +100,13 @@ The `heading` action changes the type of text in Docs (e.g., Normal text, Headin
 
 ![Heading configuration](docs/heading.png)
 
-This action will accept any value in the following drop-down (note that this is also case-sensitive):
+This action will accept any value in the following drop-down:
 
 ![Heading dropdown screenshot](docs/heading_dropdown.png)
 
 ### Align configuration
 
-The `align` action accepts any of the following values in its configuration field: `left`, `center`, `right`, or `justify` (case-sensitive).
+The `align` action accepts any of the following values in its configuration field: `left`, `center`, `right`, or `justify`.
 
 ## Set a keyboard shortcut
 

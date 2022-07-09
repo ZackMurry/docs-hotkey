@@ -12,6 +12,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Link,
   Text
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
@@ -69,7 +70,7 @@ const App: FC = () => {
     Object.entries(commands).forEach(([internalName, { alias, actions }]) => {
       actions.forEach((action, index) => {
         const type = getActionType(action)
-        const config = getActionConfig(action)
+        const config = getActionConfig(action).toLowerCase()
         if (type === 'al' && config !== 'left' && config !== 'center' && config !== 'right' && config !== 'justify') {
           addActionError(alias, index, 'the configuration for align must be one of `left`, `center`, `right`, or `justify`')
           hasErrors = true
@@ -130,115 +131,123 @@ const App: FC = () => {
   }, [])
 
   return (
-    <Box w={325} h={400}>
-      <Box bg='docsBlue' p='5px'>
-        <Heading color='white' ml='5px'>
-          Docs Hotkey
-        </Heading>
-      </Box>
-      {commands && (
-        <>
-          <Accordion allowMultiple>
-            {Object.entries(commands).map(([internalName, { actions, alias }]) => (
-              <AccordionItem key={internalName}>
-                <AccordionButton>
-                  <Heading as='h6' fontSize='14px'>
-                    {alias}
-                  </Heading>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel>
-                  <Flex alignItems='center'>
-                    <FormLabel pt='8px' fontSize='14px'>
-                      Name:
-                    </FormLabel>
-                    <Input
-                      size='sm'
-                      value={alias}
-                      onChange={e => setCommands({ ...commands, [internalName]: { actions, alias: e.target.value } })}
-                      my='5px'
-                    />
-                    <IconButton
-                      ml='3px'
-                      bg='transparent'
-                      size='sm'
-                      icon={<DeleteIcon fontSize='sm' color='red.400' />}
-                      aria-label='Delete command'
-                      onClick={() => onDeleteCommand(internalName)}
-                    />
-                  </Flex>
-                  <Heading as='h6' fontSize='14px' mt='5px'>
-                    Actions
-                  </Heading>
-                  <Box>
-                    {actions.map((action, index) => (
-                      // I'm using the index as a key, fight me (bc the order won't change and adding an id would increase complexity)
-                      <Box key={`action-${index}`}>
-                        <ActionDisplay
-                          value={action}
-                          onChange={v => onActionChange(v, internalName, alias, actions, index)}
-                          onDelete={() => onDeleteAction(internalName, index)}
-                        />
-                      </Box>
-                    ))}
-                  </Box>
-                  <Button
-                    fontWeight='normal'
-                    textDecor='underline'
-                    m='3px'
-                    color='#777'
-                    size='sm'
-                    variant='link'
-                    onClick={() => setCommands({ ...commands, [internalName]: { actions: [...actions, ''], alias } })}
-                  >
-                    Add action
-                  </Button>
-                  <Text m='3px' color='#777' fontSize='sm'>
-                    This command is in shortcut slot {internalName.substring(4)}
-                  </Text>
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-          <Button
-            fontWeight='normal'
-            textDecor='underline'
-            m='5px'
-            ml='15px'
-            mt='10px'
-            color='#777'
-            size='sm'
-            variant='link'
-            onClick={onAddCommand}
-          >
-            Add command
-          </Button>
-        </>
-      )}
+    <Flex flexDir='column' justifyContent='space-between' w={325} h={400}>
       <Box>
-        <Button
-          color='#fff'
-          mt='10px'
-          ml='15px'
-          mb='10px'
-          borderRadius='3px'
-          size='sm'
-          variant='filled'
-          bg='docsBlue'
-          _hover={{ bg: 'docsBlueHover' }}
-          onClick={onSave}
-        >
-          Save All
-        </Button>
+        <Box bg='docsBlue' p='5px'>
+          <Heading color='white' ml='5px'>
+            Docs Hotkey
+          </Heading>
+        </Box>
+        {commands && (
+          <>
+            <Accordion allowMultiple>
+              {Object.entries(commands).map(([internalName, { actions, alias }]) => (
+                <AccordionItem key={internalName}>
+                  <AccordionButton>
+                    <Heading as='h6' fontSize='14px'>
+                      {alias}
+                    </Heading>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <Flex alignItems='center'>
+                      <FormLabel pt='8px' fontSize='14px'>
+                        Name:
+                      </FormLabel>
+                      <Input
+                        size='sm'
+                        value={alias}
+                        onChange={e => setCommands({ ...commands, [internalName]: { actions, alias: e.target.value } })}
+                        my='5px'
+                      />
+                      <IconButton
+                        ml='3px'
+                        bg='transparent'
+                        size='sm'
+                        icon={<DeleteIcon fontSize='sm' color='red.400' />}
+                        aria-label='Delete command'
+                        onClick={() => onDeleteCommand(internalName)}
+                      />
+                    </Flex>
+                    <Heading as='h6' fontSize='14px' mt='5px'>
+                      Actions
+                    </Heading>
+                    <Box>
+                      {actions.map((action, index) => (
+                        // I'm using the index as a key, fight me (bc the order won't change and adding an id would increase complexity)
+                        <Box key={`action-${index}`}>
+                          <ActionDisplay
+                            value={action}
+                            onChange={v => onActionChange(v, internalName, alias, actions, index)}
+                            onDelete={() => onDeleteAction(internalName, index)}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                    <Button
+                      fontWeight='normal'
+                      textDecor='underline'
+                      m='3px'
+                      color='#777'
+                      size='sm'
+                      variant='link'
+                      onClick={() => setCommands({ ...commands, [internalName]: { actions: [...actions, ''], alias } })}
+                    >
+                      Add action
+                    </Button>
+                    <Text m='3px' color='#777' fontSize='sm'>
+                      This command is in shortcut slot {internalName.substring(4)}
+                    </Text>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            <Button
+              fontWeight='normal'
+              textDecor='underline'
+              m='5px'
+              ml='15px'
+              mt='10px'
+              color='#777'
+              size='sm'
+              variant='link'
+              onClick={onAddCommand}
+            >
+              Add command
+            </Button>
+          </>
+        )}
+        <Box>
+          <Button
+            color='#fff'
+            mt='10px'
+            ml='15px'
+            mb='10px'
+            borderRadius='3px'
+            size='sm'
+            variant='filled'
+            bg='docsBlue'
+            _hover={{ bg: 'docsBlueHover' }}
+            _active={{ bg: 'docsBlueClick' }}
+            onClick={onSave}
+          >
+            Save All
+          </Button>
+        </Box>
+        <Box pb='20px' ml='15px' mr='20px'>
+          {errors.map(e => (
+            <Text fontWeight='bold' color='red.400' size='sm' mt='5px'>
+              {e}
+            </Text>
+          ))}
+        </Box>
       </Box>
-      <Box pb='20px' ml='15px' mr='20px'>
-        {errors.map(e => (
-          <Text fontWeight='bold' color='red.400' size='sm' mt='5px'>
-            {e}
-          </Text>
-        ))}
-      </Box>
-    </Box>
+      <Flex w='100%' justifyContent='center' mb='10px'>
+        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://zackmurry.github.io/docs-hotkey'>
+          Help
+        </Link>
+      </Flex>
+    </Flex>
   )
 }
 

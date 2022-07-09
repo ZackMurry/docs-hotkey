@@ -3,7 +3,8 @@ import { extendTheme } from '@chakra-ui/react'
 const theme = extendTheme({
   colors: {
     docsBlue: '#1a73e8',
-    docsBlueHover: '#63a0ef'
+    docsBlueHover: '#63a0ef',
+    docsBlueClick: '#6ea9f5'
   },
   fonts: {
     heading: "Roboto, 'Noto Sans', Sans-Serif",
