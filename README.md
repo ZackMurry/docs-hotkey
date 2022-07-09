@@ -67,7 +67,7 @@ The `bold`, `underline`, `highlight`, and `italicize` actions have a toggle sett
 
 ### Highlight configuration
 
-The `highlight` action has a configuration option for the color of the highlight. This can be changed by changing `yellow` to another color.
+The `highlight` action has a configuration option for the color of the highlight. This can be changed by changing `yellow` to another color. To remove highlight, change `yellow` to `none`.
 
 ![Highlight configuration screenshot](docs/highlight_configuration.png)
 

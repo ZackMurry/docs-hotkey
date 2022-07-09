@@ -1,9 +1,13 @@
 ---
-title: Docs Hotkey
+title: Docs Hotkey | Chrome Extension for Google Docs
 header-includes: \
-  <meta name="keywords" content="Foo,Bar" /><meta >
-  <meta name="description" content="My description" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="keywords" content="Hotkey,Google,Docs,Debate,Format,Zack,Murry,Chrome,Extension,Browser,Shortcut" /><meta >
+  <meta name="description" content="A Chrome extension for easily styling content on Google Docs with hotkeys" />
+  <link rel="icon" type="image/x-icon" href="/docs-hotkey/favicon.ico">
+---
+
+### A Chrome extension for easily styling content on Google Docs with hotkeys
+
 ---
 
 Docs Hotkey allows for complex hotkey setups with simple configuration. Hotkeys can be set up to do the following:
@@ -20,8 +24,8 @@ Docs Hotkey allows for complex hotkey setups with simple configuration. Hotkeys 
 A single hotkey can be configured to do several of these at once.
 
 <video controls width="100%">
-    <source src="https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-a1cb-ad9672e3d089.mp4" type="video/mp4">
-    Sorry, your browser doesn't support embedded videos.
+  <source src="https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-a1cb-ad9672e3d089.mp4" type="video/mp4" />
+  Sorry, your browser doesn't support embedded videos.
 </video>
 
 ## Table of Contents
@@ -76,7 +80,7 @@ The `bold`, `underline`, `highlight`, and `italicize` actions have a toggle sett
 
 ### Highlight configuration
 
-The `highlight` action has a configuration option for the color of the highlight. This can be changed by changing `yellow` to another color.
+The `highlight` action has a configuration option for the color of the highlight. This can be changed by changing `yellow` to another color. To remove highlight, change `yellow` to `none`.
 
 ![Highlight configuration screenshot](docs/highlight_configuration.png)
 
