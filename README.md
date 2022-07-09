@@ -120,3 +120,5 @@ Bugs are very likely to occur when Google updates the UI for Docs. The `heading`
 This is free, open-source software licensed under the MIT License. The full license can be found [here](https://raw.githubusercontent.com/ZackMurry/docs-hotkey/main/LICENSE).
 
 To contribute, visit <https://github.com/ZackMurry/docs-hotkey>.
+
+Created by Zack Murry.
