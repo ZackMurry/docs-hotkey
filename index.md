@@ -1,6 +1,6 @@
 ---
 title: Docs Hotkey | Chrome Extension for Google Docs
-header-includes: \
+header-includes:
   <meta name="keywords" content="Hotkey,Google,Docs,Debate,Format,Zack,Murry,Chrome,Extension,Browser,Shortcut" /><meta >
   <meta name="description" content="A Chrome extension for easily styling content on Google Docs with hotkeys" />
   <link rel="icon" type="image/x-icon" href="/docs-hotkey/favicon.ico">
