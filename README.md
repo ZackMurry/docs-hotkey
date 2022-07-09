@@ -28,6 +28,8 @@ https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-
     - [Align configuration](#align-configuration)
   - [Set a keyboard shortcut](#set-a-keyboard-shortcut)
     - [Which shortcut slot is my command in?](#which-slot-is-my-command-in)
+- [Bugs and feature requests](#bugs-and-feature-requests)
+- [License](#license)
 
 # Usage
 
@@ -95,7 +97,7 @@ The `align` action accepts any of the following values in its configuration fiel
 
 ## Set a keyboard shortcut
 
-In order to actually use a command, you need to link it to a shortcut. To do this, go to [chrome://extensions/shortcuts](chrome://extensions/shortcuts) and click the edit icon for whichever slot your command is in. Then, simply press the keys for the shortcut and your command will now be run whenever you hit those keys on Google Docs! By default, the command in slot 1 will be set to the shortcut `Control+Shift+H`.
+In order to actually use a command, you need to link it to a shortcut. To do this, go to <chrome://extensions/shortcuts> and click the edit icon for whichever slot your command is in. Then, simply press the keys for the shortcut and your command will now be run whenever you hit those keys on Google Docs! By default, the command in slot 1 will be set to the shortcut `Control+Shift+H`.
 
 ![Chrome Extensions Shortcuts Screen](docs/chrome_shortcuts.png)
 
@@ -106,3 +108,15 @@ The configuration of your command shows which shortcut slot a command is in. Thi
 ![Shortcut slot](docs/shortcut_slot.png)
 
 Because Chrome only allows for 10 keyboard shortcuts per extension, the maximum number of hotkeys you can have at once is 10.
+
+# Bugs and feature requests
+
+Bugs and feature requests can be submitted on GitHub at <https://github.com/ZackMurry/docs-hotkey/issues> or can be emailed to <docshotkey@zackmurry.com>.
+
+Bugs are very likely to occur when Google updates the UI for Docs. The `heading` action is particularly unstable.
+
+# License
+
+This is free, open-source software licensed under the MIT License. The full license can be found [here](https://raw.githubusercontent.com/ZackMurry/docs-hotkey/main/LICENSE).
+
+To contribute, visit <https://github.com/ZackMurry/docs-hotkey>.
