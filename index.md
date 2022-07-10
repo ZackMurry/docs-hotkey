@@ -112,7 +112,7 @@ The `align` action accepts any of the following values in its configuration fiel
 
 In order to actually use a command, you need to link it to a shortcut. To do this, go to <chrome://extensions/shortcuts> and click the edit icon for whichever slot your command is in. Then, simply press the keys for the shortcut and your command will now be run whenever you hit those keys on Google Docs! By default, the command in slot 1 will be set to the shortcut `Control+Shift+H`.
 
-![Chrome Extensions Shortcuts Screen](docs/chrome_shortcuts.png)
+![Chrome Extensions Shortcuts Screen](docs/chrome_shortcuts.png){ width=100% }
 
 ### Which slot is my command in?
 
