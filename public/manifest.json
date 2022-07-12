@@ -1,8 +1,8 @@
 {
   "name": "Docs Hotkey",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Create hotkeys for Google Docs",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["storage"],
   "background": {
     "service_worker": "static/js/background.js"
   },
