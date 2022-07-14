@@ -35,7 +35,7 @@ https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-
 
 ## Installation
 
-Docs Hotkey is published on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/docs-hotkey/eafjegmepdcjogimhmjgppflbeioline).
+Docs Hotkey is published on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/docs-hotkey/npkpplmpfeaeemeecniaikpjjfbfefhh).
 
 ## Create a command
 

@@ -48,7 +48,7 @@ A single hotkey can be configured to do several of these at once.
 
 ## Installation
 
-Docs Hotkey is published on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/docs-hotkey/eafjegmepdcjogimhmjgppflbeioline).
+Docs Hotkey is published on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/docs-hotkey/npkpplmpfeaeemeecniaikpjjfbfefhh).
 
 ## Create a command
 
