@@ -124,7 +124,7 @@ Because Chrome only allows for 10 keyboard shortcuts per extension, the maximum 
 
 # Bugs and feature requests
 
-Bugs and feature requests can be submitted on GitHub at <https://github.com/ZackMurry/docs-hotkey/issues> or can be emailed to <docshotkey@zackmurry.com>.
+Bugs and feature requests can be submitted on GitHub at <https://github.com/ZackMurry/docs-hotkey/issues> or emailed to <docshotkey@zackmurry.com>.
 
 Bugs are very likely to occur when Google updates the UI for Docs. The `heading` action is particularly unstable.
 

@@ -3,7 +3,7 @@ import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/r
 import { CloseIcon } from '@chakra-ui/icons'
 
 // bold, underline, highlight, italicize, font family, font size, heading, clear, align, unbold, un-underline, unitalicize, toggle highlight
-type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui' | 'ht'
+type ActionType = 'b' | 'u' | 'hl' | 'i' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui' | 'ht' | 'ex'
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
@@ -65,8 +65,9 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         <option value='ub'>Unbold</option>
         <option value='uu'>Un-underline</option>
         <option value='ui'>Unitalicize</option>
+        <option value='ex'>Execute Add-on</option>
       </Select>
-      {(type === 'ff' || type === 'hl' || type === 'ht' || type === 'hd' || type === 'al') && (
+      {(type === 'ff' || type === 'hl' || type === 'ht' || type === 'hd' || type === 'al' || type === 'ex') && (
         <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />
       )}
       {type === 'fs' && <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />}

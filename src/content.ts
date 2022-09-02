@@ -266,18 +266,14 @@ const heading = (val: string) => {
   if (!headingListContainer) {
     throw new Error('unable to find heading list container')
   }
-  console.log('for')
   for (let i = 0; i < headingListContainer.children.length; i++) {
-    console.log(i)
-    const headingItemContainer = headingListContainer?.children[i] as HTMLElement
-    const headingText = headingItemContainer?.children[0]?.children[1].innerHTML
+    const headingItemContainer = headingListContainer.children[i] as HTMLElement
+    const headingText = headingItemContainer.children[0]?.children[1].innerHTML
     if (!headingText) {
       throw new Error('unable to set heading type')
     }
-    console.log(headingText)
     if (headingText.toLowerCase() === val.toLowerCase()) {
       clickEl(headingItemContainer)
-      console.log('clicked')
       break
     }
   }
@@ -309,6 +305,38 @@ const clearFormatting = () => {
     throw new Error('unable to clear formatting')
   }
   clickEl(clearFormattingElement)
+}
+
+const executeAddon = async (config: string) => {
+  const menubarElement = document.getElementById('docs-menubar')
+  if (!menubarElement) {
+    throw new Error('unable to execute add-on')
+  }
+  const parts = config.split('.')
+  if (parts.length !== 2) {
+    throw new Error('invalid add-on protocol')
+  }
+  outer: for (let i = 0; i < menubarElement.children.length; i++) {
+    const menu = menubarElement.children[i] as HTMLElement
+    console.log(menu.innerHTML)
+    if (menu.innerHTML === 'Extensions') {
+      clickEl(menu)
+      const addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
+      if (!addon) {
+        throw new Error('unable to execute add-on')
+      }
+      for (let j = 0; j < addon.length; j++) {
+        console.log((addon[j].children[0] as HTMLElement).innerText)
+        console.log(parts[0] + '\n►')
+        if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0] + '\n►') {
+          clickEl(addon[j].children[0] as HTMLElement)
+          console.log('found')
+          console.log(addon[j])
+          break outer
+        }
+      }
+    }
+  }
 }
 
 const runActionsFromArray = async (input: string[]) => {
@@ -378,6 +406,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'ui': {
         italicize(true)
+        break
+      }
+      case 'ex': {
+        await executeAddon(config)
         break
       }
       default: {
