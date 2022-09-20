@@ -26,6 +26,6 @@ The shrink action makes all selected text 8pt font if it isn't highlighted or bo
 
 ## Further Resources
 
-Terms of Service: [https://zackmurry.github.io/docs-hotkey/addon/terms]
-Privacy Policy: [https://zackmurry.github.io/docs-hotkey/addon/privacy]
+[Terms of Service](https://zackmurry.github.io/docs-hotkey/addon/terms)
+[Privacy Policy](https://zackmurry.github.io/docs-hotkey/addon/privacy)
 Support: zack.murry.developer@gmail.com
