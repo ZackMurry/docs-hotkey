@@ -316,25 +316,42 @@ const executeAddon = async (config: string) => {
   if (parts.length !== 2) {
     throw new Error('invalid add-on protocol')
   }
-  outer: for (let i = 0; i < menubarElement.children.length; i++) {
+  let addon: HTMLCollection | null = null
+  for (let i = 0; i < menubarElement.children.length; i++) {
     const menu = menubarElement.children[i] as HTMLElement
-    console.log(menu.innerHTML)
     if (menu.innerHTML === 'Extensions') {
       clickEl(menu)
-      const addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
-      if (!addon) {
-        throw new Error('unable to execute add-on')
-      }
-      for (let j = 0; j < addon.length; j++) {
-        console.log((addon[j].children[0] as HTMLElement).innerText)
-        console.log(parts[0] + '\n►')
-        if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0] + '\n►') {
-          clickEl(addon[j].children[0] as HTMLElement)
-          console.log('found')
-          console.log(addon[j])
-          break outer
-        }
-      }
+      addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
+      break
+    }
+  }
+  if (!addon) {
+    throw new Error('unable to execute add-on')
+  }
+  for (let j = 0; j < addon.length; j++) {
+    if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0] + '\n►') {
+      clickEl(addon[j].children[0] as HTMLElement)
+      await new Promise<void>(resolve => {
+        var interval = setInterval(() => {
+          const popups = document.getElementsByClassName(
+            'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
+          )
+          outer: for (let k = 0; k < popups.length; k++) {
+            if (window.getComputedStyle(popups[k]).display === 'block') {
+              for (let l = 0; l < popups[k].children.length; l++) {
+                if ((popups[k]?.children[l]?.children[0] as HTMLElement | null)?.innerText === parts[1]) {
+                  console.log(popups[k].children[l])
+                  clearInterval(interval)
+                  clickEl(popups[k].children[l] as HTMLElement)
+                  break outer
+                }
+              }
+            }
+          }
+          resolve()
+        }, 50)
+      })
+      break
     }
   }
 }
