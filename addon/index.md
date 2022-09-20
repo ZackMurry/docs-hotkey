@@ -10,7 +10,7 @@ header-includes:
 
 Debate Format currently allows for:
 
-- One-click shrinking of unbolded, ununderlined, and unhighlighted text
+- One-click shrinking of unbolded and unhighlighted text
 
 ## Usage
 
@@ -22,7 +22,7 @@ Click "Extensions" at the top bar, then "Debate Format," then the desired action
 
 ### Shrink
 
-The shrink action makes all selected text 8pt font if it isn't highlighted, bolded, or underlined.
+The shrink action makes all selected text 8pt font if it isn't highlighted or bolded.
 
 ## Further Resources
 
