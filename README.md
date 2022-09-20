@@ -26,6 +26,7 @@ https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-
     - [Font configuration](#font-configuration)
     - [Heading configuration](#heading-configuration)
     - [Align configuration](#align-configuration)
+    - [Add-ons](#add-ons)
   - [Set a keyboard shortcut](#set-a-keyboard-shortcut)
     - [Which shortcut slot is my command in?](#which-slot-is-my-command-in)
 - [Bugs and feature requests](#bugs-and-feature-requests)
@@ -94,6 +95,16 @@ This action will accept any value in the following drop-down:
 ### Align configuration
 
 The `align` action accepts any of the following values in its configuration field: `left`, `center`, `right`, or `justify`.
+
+### Add-ons
+
+The `execute add-on` action executes an add-on in your extensions menu in Google Docs. To get started, install an add-on by clicking "Extensions," then "Add-ons," then "Get add-ons."
+
+An official add-on is called "Debate Format," which currently provides the ability to shrink unhighlighted and unbolded text. [More information here](https://zackmurry.github.io/docs-hotkey/addon).
+
+The configuration for this add on is the add-on's name, then a period, then the menu option to execute. For example, for Debate Format's `shrink` action, the configuration should be `Debate Format.Shrink`.
+
+Add-ons are experimental and may not work for some users. For support, email zack.murry.developer@gmail.com.
 
 ## Set a keyboard shortcut
 
