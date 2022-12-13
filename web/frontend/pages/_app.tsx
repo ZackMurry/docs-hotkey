@@ -5,6 +5,7 @@ import { NextPage } from 'next'
 import theme from 'lib/theme'
 import NavBar from 'components/NavBar'
 import 'styles/globals.css'
+import DocumentationPage from 'components/DocumentationPage'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -15,7 +16,9 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <ChakraProvider theme={theme}>
         {/* <NavBar /> */}
-        <Component {...pageProps} />
+        <DocumentationPage>
+          <Component {...pageProps} />
+        </DocumentationPage>
       </ChakraProvider>
     </>
   )
