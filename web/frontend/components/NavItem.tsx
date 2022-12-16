@@ -6,20 +6,26 @@ interface Props {
   title: string
   path: string
   currentPath: string
+  onClick?: () => void
+  isMobile?: boolean
 }
 
-const NavItem: FC<Props> = ({ title, path, currentPath }) => {
+const NavItem: FC<Props> = ({ title, path, currentPath, onClick, isMobile }) => {
   const router = useRouter()
+  const handleClick = () => {
+    onClick()
+    router.push(path)
+  }
   return (
     <Box
       borderRadius='5px 0 0 5px'
       bg={currentPath === path ? '#d6e7ff' : undefined}
-      pl='2.5vw'
+      pl={isMobile ? '7.5vw' : '2.5vw'}
       cursor='pointer'
-      onClick={() => router.push(path)}
+      onClick={handleClick}
       transition='background 0.5s ease'
     >
-      <Heading fontSize='14pt' fontWeight='bold' color='#5e6675' p='3px 0' mb='10px'>
+      <Heading fontSize='14pt' fontWeight='bold' color='navbarText' p='3px 0' mb='10px'>
         {title}
       </Heading>
     </Box>

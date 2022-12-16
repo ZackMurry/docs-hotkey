@@ -262,13 +262,13 @@ const heading = (val: string) => {
     throw new Error('unable to set as heading')
   }
   clickEl(headingButtonElement)
-  const headingListContainer = document.getElementById(':fc')?.parentNode
+  const headingListContainer = document.getElementById(':l0')?.parentNode
   if (!headingListContainer) {
     throw new Error('unable to find heading list container')
   }
   for (let i = 0; i < headingListContainer.children.length; i++) {
     const headingItemContainer = headingListContainer.children[i] as HTMLElement
-    const headingText = headingItemContainer.children[0]?.children[1].innerHTML
+    const headingText = headingItemContainer.children[0]?.children[1]?.innerHTML
     if (!headingText) {
       throw new Error('unable to set heading type')
     }

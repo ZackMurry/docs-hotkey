@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { Box, Heading, Text, Link, UnorderedList, ListItem, OrderedList, Code } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { CopyIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 
 // todo: responsiveness
 const IntroductionSection: FC = () => {
   return (
     <Box>
-      {/* purpose, key terms, installation */}
       <Heading fontSize='24pt' color='headingText' mb='15px'>
         Background
       </Heading>
@@ -73,7 +72,6 @@ const IntroductionSection: FC = () => {
           <Code bg='codeBg' color='codeText' borderRadius='3px' px='5px' py='2px'>
             git clone https://github.com/ZackMurry/docs-hotkey
           </Code>
-          .
         </ListItem>
         <ListItem>
           Install{' '}
@@ -92,14 +90,20 @@ const IntroductionSection: FC = () => {
             npm install
           </Code>
         </ListItem>
-        .
         <ListItem>
           Compile the project by executing{' '}
           <Code bg='codeBg' color='codeText' borderRadius='3px' px='5px' py='2px'>
             npm run build
           </Code>
         </ListItem>
-        .
+        <ListItem>
+          Go to{' '}
+          <Link color='bodyText' onClick={() => navigator.clipboard.writeText('chrome://extensions')}>
+            chrome://extensions <CopyIcon fontSize='sm' mx='1px' mt='-3px' />
+          </Link>
+          .
+        </ListItem>
+        <ListItem>Click "Load unpacked" and select the "build" folder in the Docs Hotkey directory.</ListItem>
       </OrderedList>
       {/* todo: finish by showing how to zip it, enable developer mode, and add it as an extension*/}
     </Box>

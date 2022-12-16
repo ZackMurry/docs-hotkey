@@ -79,11 +79,12 @@ const App: FC = () => {
           hasErrors = true
         } else if (
           type === 'hd' &&
-          config !== 'Normal text' &&
-          config !== 'Title' &&
-          config !== 'Subtitle' &&
-          !config.match(/Heading [1-6]/)
+          config !== 'normal text' &&
+          config !== 'title' &&
+          config !== 'subtitle' &&
+          !config.match(/heading [1-6]/)
         ) {
+          console.log(config)
           addActionError(alias, index, 'invalid heading type')
           hasErrors = true
         } else if ((type === 'hl' || type === 'ht') && !colorMap.has(config) && config !== 'none') {

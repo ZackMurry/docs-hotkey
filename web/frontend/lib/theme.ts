@@ -11,7 +11,9 @@ const theme = extendTheme({
     bodyText: '#4f566b',
     subheadingText: '#353b54',
     codeText: '#c1c9d2',
-    codeBg: '#626a80'
+    codeBg: '#626a80',
+    navbarBg: '#f5f5f5',
+    navbarText: '#5e6675'
   },
   fonts: {
     heading: "'DM Sans', Sans-Serif",
