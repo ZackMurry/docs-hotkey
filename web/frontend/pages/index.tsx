@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Box, Heading, Text, Link as ChakraLink, UnorderedList, ListItem, OrderedList, Code } from '@chakra-ui/react'
+import { Box, Heading, Text, Link, UnorderedList, ListItem, OrderedList, Code } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 // todo: responsiveness
@@ -10,11 +10,11 @@ const IntroductionSection: FC = () => {
       <Heading fontSize='24pt' color='headingText' mb='15px'>
         Background
       </Heading>
-      <Text fontSize='13pt' color='bodyText'>
+      <Text fontSize='1.3em' color='bodyText'>
         Docs Hotkey is a free,{' '}
-        <ChakraLink href='https://github.com/ZackMurry/docs-hotkey' color='docsBlue' isExternal>
+        <Link href='https://github.com/ZackMurry/docs-hotkey' color='docsBlue' isExternal>
           open-source <ExternalLinkIcon fontSize='sm' mx='1px' mt='-3px' />
-        </ChakraLink>{' '}
+        </Link>{' '}
         Chrome extension that allows users to create custom keyboard shortcuts for formatting in Google Docs. Originally, it
         was made solely to add a highlighting shortcut, but other formatting shortcuts have since been added. Docs Hotkey can
         currently:
@@ -30,10 +30,16 @@ const IntroductionSection: FC = () => {
         <ListItem>Clear all styles (and remove specific styles)</ListItem>
         <ListItem>Execute add-ons</ListItem>
       </UnorderedList>
-      <Box my='10px'>
+      <Box
+        w={{ base: '250px', sm: '300px', md: '350px', lg: '450px' }}
+        h={{ base: '150px', sm: '175px', md: '200px', lg: '250px' }}
+        maxW='80vw'
+        my='10px'
+      >
         <iframe
-          width='560'
-          height='315'
+          style={{ display: 'block' }}
+          width='100%'
+          height='100%'
           src='https://www.youtube-nocookie.com/embed/XHJ9cBlmpQE?controls=0'
           title='YouTube video player'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
@@ -45,13 +51,13 @@ const IntroductionSection: FC = () => {
       </Heading>
       <Text fontSize='13pt' color='bodyText'>
         Docs Hotkey is published on the Chrome Web Store{' '}
-        <ChakraLink
+        <Link
           href='https://chrome.google.com/webstore/detail/docs-hotkey/npkpplmpfeaeemeecniaikpjjfbfefhh'
           color='docsBlue'
           isExternal
         >
           here <ExternalLinkIcon fontSize='sm' mx='1px' mt='-3px' />
-        </ChakraLink>{' '}
+        </Link>{' '}
         . After installing the extension or updating a hotkey, you may need to refresh any Google Docs tabs. Docs Hotkey
         never sends any of your data out of your computer.
       </Text>
@@ -71,13 +77,13 @@ const IntroductionSection: FC = () => {
         </ListItem>
         <ListItem>
           Install{' '}
-          <ChakraLink
+          <Link
             href='https://chrome.google.com/webstore/detail/docs-hotkey/npkpplmpfeaeemeecniaikpjjfbfefhh'
             color='docsBlue'
             isExternal
           >
             Node.js <ExternalLinkIcon fontSize='sm' mx='1px' mt='-3px' />
-          </ChakraLink>
+          </Link>
           .
         </ListItem>
         <ListItem>

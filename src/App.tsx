@@ -20,7 +20,7 @@ import { Command } from './types'
 import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
 import { colorMap } from './content'
 
-// todo: add an MD file with instructions for use and then use a MD to HTML converter to serve that and have it open on install
+// todo: change save button text to a checkmark after click
 // todo: error messages (including when actions are invalid)
 const App: FC = () => {
   const [commands, setCommands] = useState<{ [internalName: string]: Command } | null>(null)
