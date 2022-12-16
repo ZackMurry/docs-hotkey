@@ -13,7 +13,9 @@ interface Props {
 const NavItem: FC<Props> = ({ title, path, currentPath, onClick, isMobile }) => {
   const router = useRouter()
   const handleClick = () => {
-    onClick()
+    if (onClick) {
+      onClick()
+    }
     router.push(path)
   }
   return (
