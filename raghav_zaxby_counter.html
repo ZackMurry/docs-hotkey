@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Raghav Zaxby's Counter</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <h1 id="zaxby">Raghav Zaxby's Counter: 0</h1>  
+    </main>
+	<script>
+    var count = 0
+    setInterval(() => {
+       const z = document.getElementById('zaxby')
+       if (z) {
+         z.innerText = `Raghav Zaxby's Counter: ${count++}`
+       }
+    }, 1000)
+  </script>
+  </body>
+</html>
+
