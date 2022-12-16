@@ -51,7 +51,7 @@ const CreatingHotkeysSection: FC = () => {
         The final step is to link a keyboard shortcut to the command. Visit{' '}
         <Link color='bodyText' onClick={() => navigator.clipboard.writeText('chrome://extensions/shortcuts')}>
           chrome://extensions/shortcuts <CopyIcon fontSize='sm' mx='1px' mt='-3px' />
-        </Link>
+        </Link>{' '}
         and find Docs Hotkey. Find which shortcut slot your command is in through the extensions. For example, the command in
         the screenshot is in shortcut slot 1. Click the edit button for "Slot 1" and enter the keyboard shortcut you would
         like to use for the hotkey. Your hotkey is now set up! You may need to refresh your Google Docs tabs for your changes

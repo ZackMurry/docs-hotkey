@@ -12,7 +12,7 @@ const MobileNavbar: FC = () => {
   const path = router.asPath
 
   return (
-    <header style={{ background: chakraTheme.colors['navbarBg'] }}>
+    <header style={{ background: chakraTheme.colors['navbarBg'], position: 'fixed', left: 0, top: 0, width: '100%' }}>
       <Flex h='7vh' p='12.5px 25px' justifyContent='space-between' alignItems='center'>
         <IconButton onClick={() => setExpanded(!isExpanded)} bg='transparent' aria-label='Open navigation'>
           <HamburgerIcon w='35px' h='35px' color='darkGray' />
