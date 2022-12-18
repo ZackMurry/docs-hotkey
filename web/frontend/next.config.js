@@ -6,7 +6,10 @@ const nextConfig = {
     loader: 'akamai',
     path: '.'
   },
-  assetPrefix: './'
+  assetPrefix: './',
+  typescript: {
+    ignoreBuildErrors: true
+  }
 }
 
 module.exports = nextConfig

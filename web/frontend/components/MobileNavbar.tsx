@@ -31,7 +31,9 @@ const MobileNavbar: FC = () => {
       >
         <Flex>
           <Img src='/128.png' w='32px' h='32px' />
-          <Heading fontSize='18pt'>Docs Hotkey</Heading>
+          <Heading fontSize='18pt' ml='5px'>
+            Docs Hotkey
+          </Heading>
         </Flex>
         <IconButton bg='transparent' aria-label='Open navigation'>
           <HamburgerIcon w='35px' h='35px' color='darkGray' />

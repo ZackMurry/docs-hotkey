@@ -18,7 +18,7 @@ const DocumentationPage: FC<Props> = ({ children }) => {
         <Box position='fixed' top='0' left='0' w='20vw' borderRight='2px solid #dbdde0' h='100vh' bg='navbarBg'>
           <Flex height='7vh' mb='3vh' pr='1vw' pt='1vh' justifyContent='right' alignItems='center' color='headingText'>
             <Img src='/128.png' w='48px' h='48px' />
-            <Heading ml='5px'>Docs Hotkey</Heading>
+            <Heading ml='7px'>Docs Hotkey</Heading>
           </Flex>
           <Box pl={{ base: '1vw', xl: '7.5vw' }}>
             <NavItem title='Introduction' path='/' currentPath={path} />
