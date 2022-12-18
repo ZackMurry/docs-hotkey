@@ -1,7 +1,7 @@
 import { HamburgerIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { FC, useState } from 'react'
-import { Box, Flex, Collapse, useColorModeValue, IconButton, Text } from '@chakra-ui/react'
+import { Box, Flex, Collapse, useColorModeValue, IconButton, Text, Heading, Img } from '@chakra-ui/react'
 import chakraTheme from 'lib/theme'
 import NavItem from './NavItem'
 import { useRouter } from 'next/router'
@@ -12,9 +12,28 @@ const MobileNavbar: FC = () => {
   const path = router.asPath
 
   return (
-    <header style={{ background: chakraTheme.colors['navbarBg'], position: 'fixed', left: 0, top: 0, width: '100%' }}>
-      <Flex h='7vh' p='12.5px 25px' justifyContent='space-between' alignItems='center'>
-        <IconButton onClick={() => setExpanded(!isExpanded)} bg='transparent' aria-label='Open navigation'>
+    <header
+      style={{
+        background: chakraTheme.colors['navbarBg'],
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        width: '100%',
+        padding: '5px 0'
+      }}
+    >
+      <Flex
+        h='7vh'
+        p='12.5px 5vw'
+        justifyContent='space-between'
+        alignItems='center'
+        onClick={() => setExpanded(!isExpanded)}
+      >
+        <Flex>
+          <Img src='/128.png' w='32px' h='32px' />
+          <Heading fontSize='18pt'>Docs Hotkey</Heading>
+        </Flex>
+        <IconButton bg='transparent' aria-label='Open navigation'>
           <HamburgerIcon w='35px' h='35px' color='darkGray' />
         </IconButton>
       </Flex>

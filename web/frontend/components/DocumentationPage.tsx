@@ -36,7 +36,7 @@ const DocumentationPage: FC<Props> = ({ children }) => {
       ) : (
         <MobileNavbar />
       )}
-      <Box my='3.5vh' mx={{ base: '5vw', lg: '15vw' }} py='3.5vh' px={{ base: '5vw', lg: '10vw' }}>
+      <Box my='3.5vh' mx={isDesktop ? '15vw' : '7vh'} py={isDesktop ? '3.5vh' : '10vh'} px={isDesktop ? '10vw' : '3vw'}>
         {children}
       </Box>
     </>
