@@ -15,6 +15,8 @@ A single hotkey can be configured to do several of these at once.
 
 https://user-images.githubusercontent.com/64462489/178075172-5f7ef0b2-1af4-4c0b-a1cb-ad9672e3d089.mp4
 
+# The documentation below is a bit outdated. Please visit https://docs-hotkey.zackmurry.com for an up-to-date resource.
+
 ## Table of Contents
 
 - [Usage](#usage)
