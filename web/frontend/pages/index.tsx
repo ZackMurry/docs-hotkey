@@ -9,7 +9,7 @@ const IntroductionSection: FC = () => {
       <Heading fontSize='24pt' color='headingText' mb='15px'>
         Background
       </Heading>
-      <Text fontSize='1.3em' color='bodyText'>
+      <Text fontSize='13pt' color='bodyText'>
         Docs Hotkey is a free,{' '}
         <Link href='https://github.com/ZackMurry/docs-hotkey' color='docsBlue' isExternal>
           open-source <ExternalLinkIcon fontSize='sm' mx='1px' mt='-3px' />

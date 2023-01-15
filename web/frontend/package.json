@@ -30,6 +30,11 @@
     ]
   },
   "devDependencies": {
+    "@types/aria-query": "^5.0.1",
+    "@types/babel__core": "^7.1.20",
+    "@types/body-parser": "^1.19.2",
+    "@types/bonjour": "^3.5.10",
+    "@types/chrome": "^0.0.204",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",

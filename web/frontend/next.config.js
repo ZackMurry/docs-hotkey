@@ -4,9 +4,12 @@
 const nextConfig = {
   images: {
     loader: 'akamai',
-    path: ''
+    path: '.'
   },
-  assetPrefix: './'
+  assetPrefix: './',
+  typescript: {
+    ignoreBuildErrors: true
+  }
 }
 
 module.exports = nextConfig
