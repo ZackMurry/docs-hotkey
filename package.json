@@ -44,6 +44,6 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.193",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.0"
   }
 }

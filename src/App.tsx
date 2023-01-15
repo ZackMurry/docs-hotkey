@@ -244,7 +244,7 @@ const App: FC = () => {
         </Box>
       </Box>
       <Flex w='100%' justifyContent='center' mb='10px'>
-        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://zackmurry.github.io/docs-hotkey'>
+        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://docs-hotkey.zackmurry.com'>
           Help
         </Link>
       </Flex>
