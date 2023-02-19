@@ -1,6 +1,6 @@
 {
   "name": "Docs Hotkey",
-  "version": "0.6",
+  "version": "0.8",
   "description": "Create hotkeys for Google Docs",
   "permissions": ["storage"],
   "background": {
@@ -9,9 +9,8 @@
   "content_scripts": [
     {
       "matches": ["*://docs.google.com/document/d/*", "*://classroom.google.com/*"],
-      "js": ["static/js/content.js"],
-      "run_at": "document_start",
-      "all_frames": false
+      "all_frames": true,
+      "js": ["static/js/content.js"]
     }
   ],
   "commands": {

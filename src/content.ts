@@ -230,6 +230,38 @@ const highlight = (color: string, toggle: boolean = false) => {
   }
 }
 
+const textColor = (color: string, toggle: boolean = false) => {
+  let dropdownElement = document.getElementById('textColorButton')
+  if (!dropdownElement) {
+    throw new Error('unable to change text color: no dropdown element found')
+  }
+  clickEl(dropdownElement)
+  if (color.toLowerCase() === 'none') {
+    unhighlight()
+    return
+  }
+  if (!colorMap.has(color.toLowerCase())) {
+    throw new Error('unknown color!')
+  }
+
+  const textColorEl = document.getElementById(
+    `docs-material-colorpalette-cell-${(colorMap.get(color.toLowerCase()) ?? 90) - 90}`
+  )
+  if (!textColorEl) {
+    throw new Error('unable to change text color')
+  }
+  if (toggle && textColorEl.classList.contains('docs-material-colorpalette-cell-selected')) {
+    const blackEl = document.getElementById(`docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`)
+    if (!blackEl) {
+      throw new Error('unable to reset text color')
+    }
+
+    clickEl(blackEl)
+  } else {
+    clickEl(textColorEl)
+  }
+}
+
 const fontSize = async (val: string) => {
   const fontSizeInputElement = document.getElementById('fontSizeSelect')?.children[0].children[0].children[0]
     .children[0] as HTMLInputElement | null
@@ -393,6 +425,14 @@ const runActionsFromArray = async (input: string[]) => {
         highlight(config, true)
         break
       }
+      case 'tc': {
+        textColor(config)
+        break
+      }
+      case 'tt': {
+        textColor(config, true)
+        break
+      }
       case 'fs': {
         await fontSize(config)
         break
@@ -438,6 +478,10 @@ const runActionsFromArray = async (input: string[]) => {
 
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
   // console.log('received: ' + req.command)
+  if (new URL(document.location.href).host !== 'docs.google.com') {
+    sendRes('0')
+    return
+  }
   const command = commands[req.command]
   if (!command) {
     throw new Error('unknown command ' + command)
