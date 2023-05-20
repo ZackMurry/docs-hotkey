@@ -1,11 +1,11 @@
-import { getActionType } from './ActionDisplay'
+import {getActionType} from './ActionDisplay'
 
 interface Command {
   actions: string[]
   alias: string
 }
 
-let commands: { [internalName: string]: Command } = {}
+let commands: {[internalName: string]: Command} = {}
 
 chrome.storage.sync.get(['commands'], result => {
   console.log('commands: ' + JSON.stringify(result.commands))
@@ -49,7 +49,9 @@ const bold = (inverse: boolean = false) => {
   if (!boldElement) {
     throw new Error('unable to bold')
   }
-  if (inverse === boldElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse === boldElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleBold()
   }
 }
@@ -67,7 +69,10 @@ const underline = (inverse: boolean = false) => {
   if (!underlineElement) {
     throw new Error('unable to underline')
   }
-  if (inverse === underlineElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse ===
+    underlineElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleUnderline()
   }
 }
@@ -85,7 +90,10 @@ const italicize = (inverse: boolean = false) => {
   if (!italicizeElement) {
     throw new Error('unable to italicize')
   }
-  if (inverse === italicizeElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse ===
+    italicizeElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleItalics()
   }
 }
@@ -96,7 +104,9 @@ const fontFamily = (val: string) => {
     throw new Error('unable to change font family')
   }
   clickEl(fontFamilyElement)
-  let allFontContainer = document.getElementsByClassName('docs-fontmenu-fonts')[0]
+  let allFontContainer = document.getElementsByClassName(
+    'docs-fontmenu-fonts'
+  )[0]
   for (let i = 0; i < allFontContainer.children.length; i++) {
     const fontElement = allFontContainer.children[i] as HTMLElement
     const fontText = fontElement.children[0].children[1].innerHTML
@@ -109,8 +119,9 @@ const fontFamily = (val: string) => {
 
 // todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
 const unhighlight = () => {
-  const unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0]
-    .children[0] as HTMLElement
+  const unselectEl = document.getElementsByClassName(
+    'goog-menuitem colormenuitems-no-color'
+  )[0].children[0].children[0].children[0] as HTMLElement
   if (!unselectEl) {
     throw new Error('unable to unhighlight')
   }
@@ -200,7 +211,7 @@ export const colorMap = new Map(
     'dark cornflower blue 3': 166,
     'dark blue 3': 167,
     'dark purple 3': 168,
-    'dark magenta 3': 169
+    'dark magenta 3': 169,
   })
 )
 
@@ -219,11 +230,16 @@ const highlight = (color: string, toggle: boolean = false) => {
     throw new Error('unknown color!')
   }
 
-  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`)
+  const highlightEl = document.getElementById(
+    `docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`
+  )
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
-  if (toggle && highlightEl.classList.contains('docs-material-colorpalette-cell-selected')) {
+  if (
+    toggle &&
+    highlightEl.classList.contains('docs-material-colorpalette-cell-selected')
+  ) {
     unhighlight()
   } else {
     clickEl(highlightEl)
@@ -245,13 +261,20 @@ const textColor = (color: string, toggle: boolean = false) => {
   }
 
   const textColorEl = document.getElementById(
-    `docs-material-colorpalette-cell-${(colorMap.get(color.toLowerCase()) ?? 90) - 90}`
+    `docs-material-colorpalette-cell-${
+      (colorMap.get(color.toLowerCase()) ?? 90) - 90
+    }`
   )
   if (!textColorEl) {
     throw new Error('unable to change text color')
   }
-  if (toggle && textColorEl.classList.contains('docs-material-colorpalette-cell-selected')) {
-    const blackEl = document.getElementById(`docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`)
+  if (
+    toggle &&
+    textColorEl.classList.contains('docs-material-colorpalette-cell-selected')
+  ) {
+    const blackEl = document.getElementById(
+      `docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`
+    )
     if (!blackEl) {
       throw new Error('unable to reset text color')
     }
@@ -263,8 +286,8 @@ const textColor = (color: string, toggle: boolean = false) => {
 }
 
 const fontSize = async (val: string) => {
-  const fontSizeInputElement = document.getElementById('fontSizeSelect')?.children[0].children[0].children[0]
-    .children[0] as HTMLInputElement | null
+  const fontSizeInputElement = document.getElementById('fontSizeSelect')
+    ?.children[0].children[0].children[0].children[0] as HTMLInputElement | null
   if (!fontSizeInputElement) {
     console.log('fontSize not found')
     return
@@ -276,7 +299,7 @@ const fontSize = async (val: string) => {
   const ke = new KeyboardEvent('keydown', {
     bubbles: true,
     cancelable: true,
-    keyCode: 9
+    keyCode: 9,
   })
   // https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
   await new Promise<void>(resolve =>
@@ -332,7 +355,9 @@ const align = (val: string) => {
 }
 
 const clearFormatting = () => {
-  const clearFormattingElement = document.getElementById('clearFormattingButton')
+  const clearFormattingElement = document.getElementById(
+    'clearFormattingButton'
+  )
   if (!clearFormattingElement) {
     throw new Error('unable to clear formatting')
   }
@@ -353,7 +378,9 @@ const executeAddon = async (config: string) => {
     const menu = menubarElement.children[i] as HTMLElement
     if (menu.innerHTML === 'Extensions') {
       clickEl(menu)
-      addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
+      addon = document.getElementsByClassName(
+        'docs-menu-attached-button-above'
+      )[0]?.children as HTMLCollection
       break
     }
   }
@@ -361,7 +388,7 @@ const executeAddon = async (config: string) => {
     throw new Error('unable to execute add-on')
   }
   for (let j = 0; j < addon.length; j++) {
-    if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0] + '\n►') {
+    if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0]) {
       clickEl(addon[j].children[0] as HTMLElement)
       await new Promise<void>(resolve => {
         var interval = setInterval(() => {
@@ -371,7 +398,10 @@ const executeAddon = async (config: string) => {
           outer: for (let k = 0; k < popups.length; k++) {
             if (window.getComputedStyle(popups[k]).display === 'block') {
               for (let l = 0; l < popups[k].children.length; l++) {
-                if ((popups[k]?.children[l]?.children[0] as HTMLElement | null)?.innerText === parts[1]) {
+                if (
+                  (popups[k]?.children[l]?.children[0] as HTMLElement | null)
+                    ?.innerText === parts[1]
+                ) {
                   console.log(popups[k].children[l])
                   clearInterval(interval)
                   clickEl(popups[k].children[l] as HTMLElement)
