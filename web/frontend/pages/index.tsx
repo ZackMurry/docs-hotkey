@@ -23,6 +23,7 @@ const IntroductionSection: FC = () => {
         <ListItem>Bold</ListItem>
         <ListItem>Underline</ListItem>
         <ListItem>Italicize</ListItem>
+        <ListItem>Change text color</ListItem>
         <ListItem>Change fonts</ListItem>
         <ListItem>Change font size</ListItem>
         <ListItem>Set heading type (e.g., Heading 1, Normal Text, Title)</ListItem>

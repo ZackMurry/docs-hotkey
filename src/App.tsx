@@ -18,7 +18,7 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons'
 import { Command } from './types'
 import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
-import { colorMap } from './content'
+import { colorMap } from './colorMap'
 
 // todo: change save button text to a checkmark after click
 // todo: error messages (including when actions are invalid)

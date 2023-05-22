@@ -19,7 +19,7 @@ const HighlightAction: FC = () => {
       />
       <Text fontSize='13pt' color='bodyText' mb='15px' mt='15px'>
         In order to find the name of a color, simply open the highlight menu and hover over it. Type this name into the color
-        field exactly to highlight with it.
+        field exactly to highlight with it. The same technique can be used for actions that change the text color.
       </Text>
       <Text fontSize='13pt' color='bodyText' mb='15px' mt='15px'>
         This action has a "toggle" checkbox. When this box is checked, it will unhighlight your selection if it is all
