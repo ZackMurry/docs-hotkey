@@ -1,11 +1,17 @@
-import {getActionType} from './ActionDisplay'
+import { colorMap } from './colorMap'
+
+type ActionType = 'b' | 'u' | 'hl' | 'i' | 'tc' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui' | 'ht' | 'tt' | 'ex'
+const getActionType = (s: string): ActionType => (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
+const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
+
+console.log('LOADED')
 
 interface Command {
   actions: string[]
   alias: string
 }
 
-let commands: {[internalName: string]: Command} = {}
+let commands: { [internalName: string]: Command } = {}
 
 chrome.storage.sync.get(['commands'], result => {
   console.log('commands: ' + JSON.stringify(result.commands))
@@ -67,9 +73,7 @@ const bold = (inverse: boolean = false) => {
   if (!boldElement) {
     throw new Error('unable to bold')
   }
-  if (
-    inverse === boldElement.classList.contains('goog-toolbar-button-checked')
-  ) {
+  if (inverse === boldElement.classList.contains('goog-toolbar-button-checked')) {
     toggleBold()
   }
 }
@@ -87,10 +91,7 @@ const underline = (inverse: boolean = false) => {
   if (!underlineElement) {
     throw new Error('unable to underline')
   }
-  if (
-    inverse ===
-    underlineElement.classList.contains('goog-toolbar-button-checked')
-  ) {
+  if (inverse === underlineElement.classList.contains('goog-toolbar-button-checked')) {
     toggleUnderline()
   }
 }
@@ -108,10 +109,7 @@ const italicize = (inverse: boolean = false) => {
   if (!italicizeElement) {
     throw new Error('unable to italicize')
   }
-  if (
-    inverse ===
-    italicizeElement.classList.contains('goog-toolbar-button-checked')
-  ) {
+  if (inverse === italicizeElement.classList.contains('goog-toolbar-button-checked')) {
     toggleItalics()
   }
 }
@@ -122,9 +120,7 @@ const fontFamily = (val: string) => {
     throw new Error('unable to change font family')
   }
   clickEl(fontFamilyElement)
-  let allFontContainer = document.getElementsByClassName(
-    'docs-fontmenu-fonts'
-  )[0]
+  let allFontContainer = document.getElementsByClassName('docs-fontmenu-fonts')[0]
   for (let i = 0; i < allFontContainer.children.length; i++) {
     const fontElement = allFontContainer.children[i] as HTMLElement
     const fontText = fontElement.children[0].children[1].innerHTML
@@ -250,101 +246,14 @@ const fontWeight = async (val: string) => {
 
 // todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
 const unhighlight = () => {
-  const unselectEl = document.getElementsByClassName(
-    'goog-menuitem colormenuitems-no-color'
-  )[0].children[0].children[0].children[0] as HTMLElement
+  const unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0]
+    .children[0] as HTMLElement
   if (!unselectEl) {
     throw new Error('unable to unhighlight')
   }
   clickEl(unselectEl)
   clickEl(unselectEl)
 }
-
-// i literally don't care... thank god for vim
-export const colorMap = new Map(
-  Object.entries({
-    black: 90,
-    'dark gray 4': 91,
-    'dark gray 3': 92,
-    'dark gray 2': 93,
-    'dark gray 1': 94,
-    gray: 95,
-    'light gray 1': 96,
-    'light gray 2': 97,
-    'light gray 3': 98,
-    white: 99,
-    'red berry': 100,
-    red: 101,
-    orange: 102,
-    yellow: 103,
-    green: 104,
-    cyan: 105,
-    'cornflower blue': 106,
-    blue: 107,
-    purple: 108,
-    magenta: 109,
-    'light red berry 3': 110,
-    'light red 3': 111,
-    'light orange 3': 112,
-    'light yellow 3': 113,
-    'light green 3': 114,
-    'light cyan 3': 115,
-    'light cornflower blue 3': 116,
-    'light blue 3': 117,
-    'light purple 3': 118,
-    'light magenta 3': 119,
-    'light red berry 2': 120,
-    'light red 2': 121,
-    'light orange 2': 122,
-    'light yellow 2': 123,
-    'light green 2': 124,
-    'light cyan 2': 125,
-    'light cornflower blue 2': 126,
-    'light blue 2': 127,
-    'light purple 2': 128,
-    'light magenta 2': 129,
-    'light red berry 1': 130,
-    'light red 1': 131,
-    'light orange 1': 132,
-    'light yellow 1': 133,
-    'light green 1': 134,
-    'light cyan 1': 135,
-    'light cornflower blue 1': 136,
-    'light blue 1': 137,
-    'light purple 1': 138,
-    'light magenta 1': 139,
-    'dark red berry 1': 140,
-    'dark red 1': 141,
-    'dark orange 1': 142,
-    'dark yellow 1': 143,
-    'dark green 1': 144,
-    'dark cyan 1': 145,
-    'dark cornflower blue 1': 146,
-    'dark blue 1': 147,
-    'dark purple 1': 148,
-    'dark magenta 1': 149,
-    'dark red berry 2': 150,
-    'dark red 2': 151,
-    'dark orange 2': 152,
-    'dark yellow 2': 153,
-    'dark green 2': 154,
-    'dark cyan 2': 155,
-    'dark cornflower blue 2': 156,
-    'dark blue 2': 157,
-    'dark purple 2': 158,
-    'dark magenta 2': 159,
-    'dark red berry 3': 160,
-    'dark red 3': 161,
-    'dark orange 3': 162,
-    'dark yellow 3': 163,
-    'dark green 3': 164,
-    'dark cyan 3': 165,
-    'dark cornflower blue 3': 166,
-    'dark blue 3': 167,
-    'dark purple 3': 168,
-    'dark magenta 3': 169,
-  })
-)
 
 // todo: custom hex value in a future version?
 const highlight = (color: string, toggle: boolean = false) => {
@@ -361,16 +270,11 @@ const highlight = (color: string, toggle: boolean = false) => {
     throw new Error('unknown color!')
   }
 
-  const highlightEl = document.getElementById(
-    `docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`
-  )
+  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`)
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
-  if (
-    toggle &&
-    highlightEl.classList.contains('docs-material-colorpalette-cell-selected')
-  ) {
+  if (toggle && highlightEl.classList.contains('docs-material-colorpalette-cell-selected')) {
     unhighlight()
   } else {
     clickEl(highlightEl)
@@ -392,20 +296,13 @@ const textColor = (color: string, toggle: boolean = false) => {
   }
 
   const textColorEl = document.getElementById(
-    `docs-material-colorpalette-cell-${
-      (colorMap.get(color.toLowerCase()) ?? 90) - 90
-    }`
+    `docs-material-colorpalette-cell-${(colorMap.get(color.toLowerCase()) ?? 90) - 90}`
   )
   if (!textColorEl) {
     throw new Error('unable to change text color')
   }
-  if (
-    toggle &&
-    textColorEl.classList.contains('docs-material-colorpalette-cell-selected')
-  ) {
-    const blackEl = document.getElementById(
-      `docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`
-    )
+  if (toggle && textColorEl.classList.contains('docs-material-colorpalette-cell-selected')) {
+    const blackEl = document.getElementById(`docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`)
     if (!blackEl) {
       throw new Error('unable to reset text color')
     }
@@ -417,8 +314,8 @@ const textColor = (color: string, toggle: boolean = false) => {
 }
 
 const fontSize = async (val: string) => {
-  const fontSizeInputElement = document.getElementById('fontSizeSelect')
-    ?.children[0].children[0].children[0].children[0] as HTMLInputElement | null
+  const fontSizeInputElement = document.getElementById('fontSizeSelect')?.children[0].children[0].children[0]
+    .children[0] as HTMLInputElement | null
   if (!fontSizeInputElement) {
     console.log('fontSize not found')
     return
@@ -430,7 +327,7 @@ const fontSize = async (val: string) => {
   const ke = new KeyboardEvent('keydown', {
     bubbles: true,
     cancelable: true,
-    keyCode: 9,
+    keyCode: 9
   })
   // https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
   await new Promise<void>(resolve =>
@@ -486,9 +383,7 @@ const align = (val: string) => {
 }
 
 const clearFormatting = () => {
-  const clearFormattingElement = document.getElementById(
-    'clearFormattingButton'
-  )
+  const clearFormattingElement = document.getElementById('clearFormattingButton')
   if (!clearFormattingElement) {
     throw new Error('unable to clear formatting')
   }
@@ -509,9 +404,7 @@ const executeAddon = async (config: string) => {
     const menu = menubarElement.children[i] as HTMLElement
     if (menu.innerHTML === 'Extensions') {
       clickEl(menu)
-      addon = document.getElementsByClassName(
-        'docs-menu-attached-button-above'
-      )[0]?.children as HTMLCollection
+      addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
       break
     }
   }
@@ -529,10 +422,7 @@ const executeAddon = async (config: string) => {
           outer: for (let k = 0; k < popups.length; k++) {
             if (window.getComputedStyle(popups[k]).display === 'block') {
               for (let l = 0; l < popups[k].children.length; l++) {
-                if (
-                  (popups[k]?.children[l]?.children[0] as HTMLElement | null)
-                    ?.innerText === parts[1]
-                ) {
+                if ((popups[k]?.children[l]?.children[0] as HTMLElement | null)?.innerText === parts[1]) {
                   console.log(popups[k].children[l])
                   clearInterval(interval)
                   clickEl(popups[k].children[l] as HTMLElement)
@@ -642,7 +532,7 @@ const runActionsFromArray = async (input: string[]) => {
 }
 
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
-  // console.log('received: ' + req.command)
+  console.log('received: ' + req.command)
   if (new URL(document.location.href).host !== 'docs.google.com') {
     sendRes('0')
     return

@@ -4,24 +4,24 @@
   "description": "Create hotkeys for Google Docs",
   "permissions": ["storage"],
   "background": {
-    "scripts": ["static/js/background.js"],
-    "persistent": false
+    "scripts": ["static/js/background.js"]
   },
-  "content_security_policy": "default-src 'self' script-src",
   "content_scripts": [
     {
-      "matches": [
-        "*://docs.google.com/document/d/*",
-        "*://classroom.google.com/*"
-      ],
+      "matches": ["*://docs.google.com/document/d/*"],
       "all_frames": true,
-      "js": ["static/js/content.js"]
+      "js": ["static/js/content.js"],
+      "run_at": "document_end"
     }
   ],
   "commands": {
     "slot1": {
       "suggested_key": {
+<<<<<<< HEAD
         "default": "Ctrl+Shift+H"
+=======
+        "default": "Ctrl+Alt+H"
+>>>>>>> 2e76e7ea11d5f4e1f0e21dbe88fa6e7ba0a10fa7
       },
       "description": "Slot 1"
     },
