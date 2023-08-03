@@ -18,6 +18,24 @@ chrome.storage.onChanged.addListener((changes, area) => {
     console.log('new commands: ' + JSON.stringify(commands))
   }
 })
+/*
+const dispatchMouseEvent = (target, event) => {
+  if (!target) {
+    return false
+  }
+  var e = document.createEvent('MouseEvents')
+  e.initEvent.apply(e, [event, true, true])
+  target.dispatchEvent(e)
+  return true
+}
+
+const clickEl = (el) => {
+  dispatchMouseEvent(el, 'mouseover')
+  dispatchMouseEvent(el, 'mousedown')
+  dispatchMouseEvent(el, 'click')
+  dispatchMouseEvent(el, 'mouseup')
+}
+*/
 
 const dispatchMouseEvent = (target: HTMLElement, event: string) => {
   if (!target) {
@@ -115,6 +133,119 @@ const fontFamily = (val: string) => {
       break
     }
   }
+}
+
+// Clicks the paint format button twice, doing nothing, but refocuses the text
+// todo: not working!! do not publish lol
+const refocusText = () => {
+  const dummyButton = document.getElementsByClassName(
+    'docs-icon-paint-format-20'
+  )[0] as HTMLElement | null // Paint format button... will need to change if it gets removed
+  if (!dummyButton) {
+    console.error('unable to find dummy button') // soft fail
+    return
+  }
+  clickEl(dummyButton)
+  setTimeout(() => {
+    clickEl(dummyButton)
+  }, 0)
+  // Failsafe for if the button stays active
+  setTimeout(() => {
+    if (dummyButton.classList.contains('goog-toolbar-button-checked')) {
+      console.log('did not turn off!')
+      clickEl(dummyButton)
+    }
+  }, 0)
+}
+
+const fontWeight = async (val: string) => {
+  const fontFamilyElement = document.getElementById('docs-font-family')
+  if (!fontFamilyElement) {
+    throw new Error('unable to change font family')
+  }
+  clickEl(fontFamilyElement)
+  const fontMenu = document.getElementsByClassName('docs-fontmenu')[0]
+  if (!fontMenu) {
+    throw new Error('unable to find font menu')
+  }
+  let currentFont: HTMLElement | null = null
+  let currentFontString: string | undefined = undefined
+  for (let i = 3; i < fontMenu.children.length; i++) {
+    if (fontMenu.children[i].classList.contains('goog-option-selected')) {
+      currentFont = fontMenu.children[i] as HTMLElement
+      currentFontString = fontMenu.children[i].textContent
+        ?.replaceAll('►', '')
+        .trim()
+    }
+  }
+  console.log(currentFontString)
+  if (!currentFont) {
+    throw new Error('unable to find current font button')
+  }
+  if (!currentFontString) {
+    throw new Error('unable to determine current font')
+  }
+  dispatchMouseEvent(currentFont, 'mouseover')
+  // let fontWeightMenu = fontMenu.nextSibling as HTMLElement
+  // while (
+  //   fontWeightMenu.style.display === 'none' ||
+  //   fontWeightMenu.getAttributeNS !== 'menu'
+  // ) {
+  //   fontWeightMenu = fontWeightMenu.nextSibling as HTMLElement
+  //   if (fontWeightMenu === null) {
+  //     throw new Error('unable to find font weight menu')
+  //   }
+  // }
+  const fontWeightMenu = await new Promise<HTMLElement | null>(resolve =>
+    setTimeout(() => {
+      const fontWeightMenuQuery = document.querySelectorAll(
+        'div[role="menu"]:not([display="none"])'
+      )
+      console.log(fontWeightMenuQuery)
+      const fontWeightMenusFiltered: HTMLElement[] = []
+      let resolved = false
+      fontWeightMenuQuery.forEach(val => {
+        if (!resolved && val.classList.length === 2) {
+          const textGrandChild = val.children[0]?.children[0]
+            ?.children[1] as HTMLElement | null
+          if (textGrandChild !== null) {
+            console.log(textGrandChild)
+            console.log(textGrandChild.style.fontFamily)
+            if (
+              textGrandChild.style.fontFamily === currentFontString ||
+              textGrandChild.style.fontFamily === `docs-${currentFontString}`
+            ) {
+              fontWeightMenusFiltered.push(val as HTMLElement)
+              console.log('resolving with val', val)
+              resolve(val as HTMLElement)
+              resolved = true
+              return
+            }
+          }
+        }
+      })
+      if (!resolved) resolve(null)
+    }, 0)
+  )
+  console.log(fontWeightMenu)
+  if (!fontWeightMenu) {
+    clickEl(fontFamilyElement) // Close menu
+    refocusText()
+    return
+  }
+  let i = 0
+  for (; i < fontWeightMenu.children.length; i++) {
+    console.log(fontWeightMenu.children[i].textContent)
+    if (fontWeightMenu.children[i].textContent === val) {
+      console.log('Clicking child ' + i)
+      clickEl(fontWeightMenu.children[i] as HTMLElement)
+      break
+    }
+  }
+  if (i === fontWeightMenu.children.length) {
+    clickEl(fontFamilyElement) // Close menu
+  }
+  refocusText()
 }
 
 // todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
@@ -469,6 +600,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'ff': {
         fontFamily(config)
+        break
+      }
+      case 'fw': {
+        fontWeight(config)
         break
       }
       case 'hd': {
