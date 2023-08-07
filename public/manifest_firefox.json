@@ -17,11 +17,7 @@
   "commands": {
     "slot1": {
       "suggested_key": {
-<<<<<<< HEAD
-        "default": "Ctrl+Shift+H"
-=======
         "default": "Ctrl+Alt+H"
->>>>>>> 2e76e7ea11d5f4e1f0e21dbe88fa6e7ba0a10fa7
       },
       "description": "Slot 1"
     },

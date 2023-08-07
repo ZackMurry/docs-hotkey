@@ -85,27 +85,29 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
 
   return (
     <Flex py="3px" alignItems="center">
-      <Select
-        size="sm"
-        value={type === 'ht' ? 'hl' : type === 'tt' ? 'tc' : type}
-        placeholder="Select action type"
-        onChange={onTypeChange}>
-        <option value="b">Bold</option>
-        <option value="u">Underline</option>
-        <option value="hl">Highlight</option>
-        <option value="tc">Text color</option>
-        <option value="i">Italicize</option>
-        <option value="ff">Font</option>
-        <option value="fs">Font Size</option>
-        <option value="fw">Font Weight</option>
-        <option value="hd">Heading</option>
-        <option value="al">Align</option>
-        <option value="cl">Unstyle</option>
-        <option value="ub">Unbold</option>
-        <option value="uu">Un-underline</option>
-        <option value="ui">Unitalicize</option>
-        <option value="ex">Execute Add-on</option>
-      </Select>
+      {
+        <Select
+          size="sm"
+          value={type === 'ht' ? 'hl' : type === 'tt' ? 'tc' : type}
+          placeholder="Select action type"
+          onChange={onTypeChange}>
+          <option value="b">Bold</option>
+          <option value="u">Underline</option>
+          <option value="hl">Highlight</option>
+          <option value="tc">Text Color</option>
+          <option value="i">Italicize</option>
+          <option value="ff">Font</option>
+          <option value="fs">Font Size</option>
+          <option value="fw">Font Weight</option>
+          <option value="hd">Heading</option>
+          <option value="al">Align</option>
+          <option value="cl">Unstyle</option>
+          <option value="ub">Unbold</option>
+          <option value="uu">Un-underline</option>
+          <option value="ui">Unitalicize</option>
+          <option value="ex">Execute Add-on</option>
+        </Select>
+      }
       {(type === 'ff' ||
         type === 'fw' ||
         type === 'hl' ||

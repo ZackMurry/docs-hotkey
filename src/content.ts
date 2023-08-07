@@ -1,8 +1,27 @@
-import { colorMap } from './colorMap'
+import {colorMap} from './colorMap'
 
-type ActionType = 'b' | 'u' | 'hl' | 'i' | 'tc' | 'ff' | 'fs' | 'hd' | 'cl' | 'al' | 'ub' | 'uu' | 'ui' | 'ht' | 'tt' | 'ex'
-const getActionType = (s: string): ActionType => (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
-const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
+type ActionType =
+  | 'b'
+  | 'u'
+  | 'hl'
+  | 'i'
+  | 'tc'
+  | 'ff'
+  | 'fs'
+  | 'fw'
+  | 'hd'
+  | 'cl'
+  | 'al'
+  | 'ub'
+  | 'uu'
+  | 'ui'
+  | 'ht'
+  | 'tt'
+  | 'ex'
+const getActionType = (s: string): ActionType =>
+  (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
+const getActionConfig = (s: string): string =>
+  s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : ''
 
 console.log('LOADED')
 
@@ -11,7 +30,7 @@ interface Command {
   alias: string
 }
 
-let commands: { [internalName: string]: Command } = {}
+let commands: {[internalName: string]: Command} = {}
 
 chrome.storage.sync.get(['commands'], result => {
   console.log('commands: ' + JSON.stringify(result.commands))
@@ -73,7 +92,9 @@ const bold = (inverse: boolean = false) => {
   if (!boldElement) {
     throw new Error('unable to bold')
   }
-  if (inverse === boldElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse === boldElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleBold()
   }
 }
@@ -91,7 +112,10 @@ const underline = (inverse: boolean = false) => {
   if (!underlineElement) {
     throw new Error('unable to underline')
   }
-  if (inverse === underlineElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse ===
+    underlineElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleUnderline()
   }
 }
@@ -109,7 +133,10 @@ const italicize = (inverse: boolean = false) => {
   if (!italicizeElement) {
     throw new Error('unable to italicize')
   }
-  if (inverse === italicizeElement.classList.contains('goog-toolbar-button-checked')) {
+  if (
+    inverse ===
+    italicizeElement.classList.contains('goog-toolbar-button-checked')
+  ) {
     toggleItalics()
   }
 }
@@ -120,7 +147,9 @@ const fontFamily = (val: string) => {
     throw new Error('unable to change font family')
   }
   clickEl(fontFamilyElement)
-  let allFontContainer = document.getElementsByClassName('docs-fontmenu-fonts')[0]
+  let allFontContainer = document.getElementsByClassName(
+    'docs-fontmenu-fonts'
+  )[0]
   for (let i = 0; i < allFontContainer.children.length; i++) {
     const fontElement = allFontContainer.children[i] as HTMLElement
     const fontText = fontElement.children[0].children[1].innerHTML
@@ -129,29 +158,6 @@ const fontFamily = (val: string) => {
       break
     }
   }
-}
-
-// Clicks the paint format button twice, doing nothing, but refocuses the text
-// todo: not working!! do not publish lol
-const refocusText = () => {
-  const dummyButton = document.getElementsByClassName(
-    'docs-icon-paint-format-20'
-  )[0] as HTMLElement | null // Paint format button... will need to change if it gets removed
-  if (!dummyButton) {
-    console.error('unable to find dummy button') // soft fail
-    return
-  }
-  clickEl(dummyButton)
-  setTimeout(() => {
-    clickEl(dummyButton)
-  }, 0)
-  // Failsafe for if the button stays active
-  setTimeout(() => {
-    if (dummyButton.classList.contains('goog-toolbar-button-checked')) {
-      console.log('did not turn off!')
-      clickEl(dummyButton)
-    }
-  }, 0)
 }
 
 const fontWeight = async (val: string) => {
@@ -164,6 +170,7 @@ const fontWeight = async (val: string) => {
   if (!fontMenu) {
     throw new Error('unable to find font menu')
   }
+  ;(fontMenu as HTMLElement).style.display = 'none' // Genius: turn off font menu display so that user's cursor doesn't interfere
   let currentFont: HTMLElement | null = null
   let currentFontString: string | undefined = undefined
   for (let i = 3; i < fontMenu.children.length; i++) {
@@ -174,7 +181,7 @@ const fontWeight = async (val: string) => {
         .trim()
     }
   }
-  console.log(currentFontString)
+  // console.log(currentFontString)
   if (!currentFont) {
     throw new Error('unable to find current font button')
   }
@@ -182,31 +189,26 @@ const fontWeight = async (val: string) => {
     throw new Error('unable to determine current font')
   }
   dispatchMouseEvent(currentFont, 'mouseover')
-  // let fontWeightMenu = fontMenu.nextSibling as HTMLElement
-  // while (
-  //   fontWeightMenu.style.display === 'none' ||
-  //   fontWeightMenu.getAttributeNS !== 'menu'
-  // ) {
-  //   fontWeightMenu = fontWeightMenu.nextSibling as HTMLElement
-  //   if (fontWeightMenu === null) {
-  //     throw new Error('unable to find font weight menu')
-  //   }
-  // }
+
   const fontWeightMenu = await new Promise<HTMLElement | null>(resolve =>
     setTimeout(() => {
       const fontWeightMenuQuery = document.querySelectorAll(
         'div[role="menu"]:not([display="none"])'
       )
-      console.log(fontWeightMenuQuery)
+      // console.log(fontWeightMenuQuery)
       const fontWeightMenusFiltered: HTMLElement[] = []
       let resolved = false
       fontWeightMenuQuery.forEach(val => {
         if (!resolved && val.classList.length === 2) {
+          console.log('2 class length', val)
           const textGrandChild = val.children[0]?.children[0]
             ?.children[1] as HTMLElement | null
           if (textGrandChild !== null) {
-            console.log(textGrandChild)
-            console.log(textGrandChild.style.fontFamily)
+            // console.log(textGrandChild)
+            // console.log(
+            //   'text grandchild font family',
+            //   textGrandChild.style.fontFamily
+            // )
             if (
               textGrandChild.style.fontFamily === currentFontString ||
               textGrandChild.style.fontFamily === `docs-${currentFontString}`
@@ -223,31 +225,31 @@ const fontWeight = async (val: string) => {
       if (!resolved) resolve(null)
     }, 0)
   )
-  console.log(fontWeightMenu)
+  // console.log(fontWeightMenu)
   if (!fontWeightMenu) {
-    clickEl(fontFamilyElement) // Close menu
-    refocusText()
+    clickEl(currentFont) // Close menu
+    // console.error('unable to find font weight menu')
     return
   }
+  dispatchMouseEvent(fontWeightMenu as HTMLElement, 'mouseover')
   let i = 0
   for (; i < fontWeightMenu.children.length; i++) {
     console.log(fontWeightMenu.children[i].textContent)
     if (fontWeightMenu.children[i].textContent === val) {
-      console.log('Clicking child ' + i)
+      // console.log('Clicking child ' + i)
+      // console.log(fontWeightMenu.children[i])
+      dispatchMouseEvent(fontWeightMenu as HTMLElement, 'mouseover')
       clickEl(fontWeightMenu.children[i] as HTMLElement)
       break
     }
   }
-  if (i === fontWeightMenu.children.length) {
-    clickEl(fontFamilyElement) // Close menu
-  }
-  refocusText()
 }
 
 // todo add option to do/not do this when highlighting (along with everything else, like if bold, don't unbold)
 const unhighlight = () => {
-  const unselectEl = document.getElementsByClassName('goog-menuitem colormenuitems-no-color')[0].children[0].children[0]
-    .children[0] as HTMLElement
+  const unselectEl = document.getElementsByClassName(
+    'goog-menuitem colormenuitems-no-color'
+  )[0].children[0].children[0].children[0] as HTMLElement
   if (!unselectEl) {
     throw new Error('unable to unhighlight')
   }
@@ -270,11 +272,16 @@ const highlight = (color: string, toggle: boolean = false) => {
     throw new Error('unknown color!')
   }
 
-  const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`)
+  const highlightEl = document.getElementById(
+    `docs-material-colorpalette-cell-${colorMap.get(color.toLowerCase())}`
+  )
   if (!highlightEl) {
     throw new Error('unable to highlight')
   }
-  if (toggle && highlightEl.classList.contains('docs-material-colorpalette-cell-selected')) {
+  if (
+    toggle &&
+    highlightEl.classList.contains('docs-material-colorpalette-cell-selected')
+  ) {
     unhighlight()
   } else {
     clickEl(highlightEl)
@@ -296,13 +303,20 @@ const textColor = (color: string, toggle: boolean = false) => {
   }
 
   const textColorEl = document.getElementById(
-    `docs-material-colorpalette-cell-${(colorMap.get(color.toLowerCase()) ?? 90) - 90}`
+    `docs-material-colorpalette-cell-${
+      (colorMap.get(color.toLowerCase()) ?? 90) - 90
+    }`
   )
   if (!textColorEl) {
     throw new Error('unable to change text color')
   }
-  if (toggle && textColorEl.classList.contains('docs-material-colorpalette-cell-selected')) {
-    const blackEl = document.getElementById(`docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`)
+  if (
+    toggle &&
+    textColorEl.classList.contains('docs-material-colorpalette-cell-selected')
+  ) {
+    const blackEl = document.getElementById(
+      `docs-material-colorpalette-cell-${(colorMap.get('black') ?? 90) - 90}`
+    )
     if (!blackEl) {
       throw new Error('unable to reset text color')
     }
@@ -314,8 +328,8 @@ const textColor = (color: string, toggle: boolean = false) => {
 }
 
 const fontSize = async (val: string) => {
-  const fontSizeInputElement = document.getElementById('fontSizeSelect')?.children[0].children[0].children[0]
-    .children[0] as HTMLInputElement | null
+  const fontSizeInputElement = document.getElementById('fontSizeSelect')
+    ?.children[0].children[0].children[0].children[0] as HTMLInputElement | null
   if (!fontSizeInputElement) {
     console.log('fontSize not found')
     return
@@ -327,7 +341,7 @@ const fontSize = async (val: string) => {
   const ke = new KeyboardEvent('keydown', {
     bubbles: true,
     cancelable: true,
-    keyCode: 9
+    keyCode: 9,
   })
   // https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
   await new Promise<void>(resolve =>
@@ -383,7 +397,9 @@ const align = (val: string) => {
 }
 
 const clearFormatting = () => {
-  const clearFormattingElement = document.getElementById('clearFormattingButton')
+  const clearFormattingElement = document.getElementById(
+    'clearFormattingButton'
+  )
   if (!clearFormattingElement) {
     throw new Error('unable to clear formatting')
   }
@@ -404,7 +420,9 @@ const executeAddon = async (config: string) => {
     const menu = menubarElement.children[i] as HTMLElement
     if (menu.innerHTML === 'Extensions') {
       clickEl(menu)
-      addon = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
+      addon = document.getElementsByClassName(
+        'docs-menu-attached-button-above'
+      )[0]?.children as HTMLCollection
       break
     }
   }
@@ -422,7 +440,10 @@ const executeAddon = async (config: string) => {
           outer: for (let k = 0; k < popups.length; k++) {
             if (window.getComputedStyle(popups[k]).display === 'block') {
               for (let l = 0; l < popups[k].children.length; l++) {
-                if ((popups[k]?.children[l]?.children[0] as HTMLElement | null)?.innerText === parts[1]) {
+                if (
+                  (popups[k]?.children[l]?.children[0] as HTMLElement | null)
+                    ?.innerText === parts[1]
+                ) {
                   console.log(popups[k].children[l])
                   clearInterval(interval)
                   clickEl(popups[k].children[l] as HTMLElement)
