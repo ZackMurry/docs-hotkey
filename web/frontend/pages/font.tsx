@@ -31,7 +31,7 @@ const FontAction: FC = () => {
       </Text>
       <Img
         src='/docs_font_weight_selection.png'
-        alt='Screenshot of the Google Docs font selection menu.'
+        alt='Screenshot of the Google Docs font weight selection menu.'
         width={{ base: '275px', md: '300px', lg: '325px' }}
         height={{ base: '225px', md: '250px', lg: '275px' }}
       />
