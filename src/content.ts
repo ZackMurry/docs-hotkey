@@ -200,7 +200,7 @@ const fontWeight = async (val: string) => {
       let resolved = false
       fontWeightMenuQuery.forEach(val => {
         if (!resolved && val.classList.length === 2) {
-          console.log('2 class length', val)
+          // console.log('2 class length', val)
           const textGrandChild = val.children[0]?.children[0]
             ?.children[1] as HTMLElement | null
           if (textGrandChild !== null) {
@@ -214,7 +214,7 @@ const fontWeight = async (val: string) => {
               textGrandChild.style.fontFamily === `docs-${currentFontString}`
             ) {
               fontWeightMenusFiltered.push(val as HTMLElement)
-              console.log('resolving with val', val)
+              // console.log('resolving with val', val)
               resolve(val as HTMLElement)
               resolved = true
               return
@@ -234,7 +234,7 @@ const fontWeight = async (val: string) => {
   dispatchMouseEvent(fontWeightMenu as HTMLElement, 'mouseover')
   let i = 0
   for (; i < fontWeightMenu.children.length; i++) {
-    console.log(fontWeightMenu.children[i].textContent)
+    // console.log(fontWeightMenu.children[i].textContent)
     if (fontWeightMenu.children[i].textContent === val) {
       // console.log('Clicking child ' + i)
       // console.log(fontWeightMenu.children[i])
@@ -257,6 +257,62 @@ const unhighlight = () => {
   clickEl(unselectEl)
 }
 
+const highlightHex = (color: string, toggle: boolean) => {
+  let i = 170
+  let curr: HTMLElement | null = null
+  while (
+    (curr = document.getElementById(`docs-material-colorpalette-cell-${i}`)
+      ?.firstChild as HTMLElement | null)
+  ) {
+    if (curr.title.includes(color)) {
+      if (
+        toggle &&
+        curr.parentElement &&
+        curr.parentElement.classList.contains(
+          'docs-material-colorpalette-cell-selected'
+        )
+      ) {
+        unhighlight()
+      } else {
+        clickEl(curr)
+      }
+      return
+    }
+    i++
+  }
+
+  // If it's not in the custom list
+  const customElement = document.getElementById(
+    `docs-material-colorpalette-cell-${i - 2}`
+  )
+  if (!customElement) {
+    throw new Error('unable to find custom highlight button')
+  }
+  clickEl(customElement)
+
+  // Enter hex value
+  const hexTextBox = document.getElementsByClassName(
+    'docs-material-hsv-color-picker-input'
+  )
+  if (!hexTextBox.length) {
+    throw new Error('unable to find hex text box')
+  }
+  const htb = hexTextBox[0] as HTMLInputElement
+  htb.value = color
+  htb.dispatchEvent(new Event('keyup', {bubbles: true})) // Tell Docs that the value changed
+
+  // Click OK
+  const buttons = document.getElementsByClassName(
+    'docs-material-button-content'
+  )
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].innerHTML === 'OK') {
+      clickEl(buttons[i] as HTMLElement)
+      break
+    }
+  }
+}
+
 // todo: custom hex value in a future version?
 const highlight = (color: string, toggle: boolean = false) => {
   let dropdownElement = document.getElementById('bgColorButton')
@@ -266,6 +322,10 @@ const highlight = (color: string, toggle: boolean = false) => {
   clickEl(dropdownElement)
   if (color.toLowerCase() === 'none') {
     unhighlight()
+    return
+  }
+  if (color.startsWith('#')) {
+    highlightHex(color, toggle)
     return
   }
   if (!colorMap.has(color.toLowerCase())) {

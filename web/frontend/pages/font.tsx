@@ -21,6 +21,18 @@ const FontAction: FC = () => {
         list of recent fonts or in the longer list below it). The "More fonts" screen allows you to configure which fonts
         appear on the menu. Once your font is on the menu, simply type its name into the configuration box.
       </Text>
+      <Heading fontSize='24pt' color='headingText' mb='15px'>
+        Font Weight
+      </Heading>
+      <Text fontSize='13pt' color='bodyText' mb='15px'>
+        Additionally, the Font Weight action can be used to change the weight of the currently selected font.
+      </Text>
+      <Img
+        src='/docs_font_weight_selection.png'
+        alt='Screenshot of the Google Docs font weight selection menu.'
+        width={{ base: '225px', md: '250px', lg: '275px' }}
+        height={{ base: '225px', md: '250px', lg: '275px' }}
+      />
     </Box>
   )
 }
