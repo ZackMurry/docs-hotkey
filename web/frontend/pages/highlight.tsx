@@ -19,7 +19,9 @@ const HighlightAction: FC = () => {
       />
       <Text fontSize='13pt' color='bodyText' mb='15px' mt='15px'>
         In order to find the name of a color, simply open the highlight menu and hover over it. Type this name into the color
-        field exactly to highlight with it. The same technique can be used for actions that change the text color.
+        field exactly to highlight with it. Additionally, hexadecimal (hex) color codes can be entered to highlight in a custom color.
+        The color green, for example, can be used with the hex "#00ff00". The same technique can be used for actions that change the text color.
+        However, text color cannot currently be set using a hex code, but this functionality will be added soon.
       </Text>
       <Text fontSize='13pt' color='bodyText' mb='15px' mt='15px'>
         This action has a "toggle" checkbox. When this box is checked, it will unhighlight your selection if it is all
