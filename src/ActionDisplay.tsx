@@ -1,37 +1,29 @@
-import React, {FC, ChangeEvent} from 'react'
-import {
-  Checkbox,
-  Flex,
-  IconButton,
-  Input,
-  Select,
-  Tooltip,
-} from '@chakra-ui/react'
-import {CloseIcon} from '@chakra-ui/icons'
+import React, { FC, ChangeEvent } from 'react'
+import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons'
 
-// bold, underline, highlight, italicize, text color, font family, font size, heading, clear, align, unbold, un-underline, unitalicize, toggle highlight, toggle text color, execute add-on
 type ActionType =
-  | 'b'
-  | 'u'
-  | 'hl'
-  | 'i'
-  | 'tc'
-  | 'ff'
-  | 'fw'
-  | 'fs'
-  | 'hd'
-  | 'cl'
-  | 'al'
-  | 'ub'
-  | 'uu'
-  | 'ui'
-  | 'ht'
-  | 'tt'
-  | 'ex'
+  | 'b' // bold
+  | 'u' // underline
+  | 'hl' // highlight
+  | 'i' // italicize
+  | 'tc' // text color
+  | 'ff' // font family
+  | 'fw' // font weight
+  | 'fs' // font size
+  | 'hd' // heading
+  | 'cl' // clear
+  | 'al' // align
+  | 'in' // indent
+  | 'ub' // unbold
+  | 'uu' // ununderline
+  | 'ui' // unitalicize
+  | 'ht' // toggle highlight
+  | 'tt' // toggle text color
+  | 'ex' // execute add-on
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
-export const getActionConfig = (s: string): string =>
-  s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : ''
+export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
 interface Props {
   value: string
@@ -39,7 +31,7 @@ interface Props {
   onDelete: () => void
 }
 
-const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
+const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
   const type = value ? getActionType(value) : undefined
   const config = getActionConfig(value)
 
@@ -60,12 +52,14 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
       newConfig = 'Normal text'
     } else if (type === 'al') {
       newConfig = 'left'
+    } else if (type === 'in') {
+      newConfig = '1'
     }
     onChange(type + (newConfig.length ? `#${newConfig}` : ''))
   }
 
   const onConfigChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value: val} = e.target
+    const { value: val } = e.target
     onChange(type + (val.length ? `#${val}` : ''))
   }
 
@@ -84,28 +78,30 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
   }
 
   return (
-    <Flex py="3px" alignItems="center">
+    <Flex py='3px' alignItems='center'>
       {
         <Select
-          size="sm"
+          size='sm'
           value={type === 'ht' ? 'hl' : type === 'tt' ? 'tc' : type}
-          placeholder="Select action type"
-          onChange={onTypeChange}>
-          <option value="b">Bold</option>
-          <option value="u">Underline</option>
-          <option value="hl">Highlight</option>
-          <option value="tc">Text Color</option>
-          <option value="i">Italicize</option>
-          <option value="ff">Font</option>
-          <option value="fs">Font Size</option>
-          <option value="fw">Font Weight</option>
-          <option value="hd">Heading</option>
-          <option value="al">Align</option>
-          <option value="cl">Unstyle</option>
-          <option value="ub">Unbold</option>
-          <option value="uu">Un-underline</option>
-          <option value="ui">Unitalicize</option>
-          <option value="ex">Execute Add-on</option>
+          placeholder='Select action type'
+          onChange={onTypeChange}
+        >
+          <option value='b'>Bold</option>
+          <option value='u'>Underline</option>
+          <option value='hl'>Highlight</option>
+          <option value='tc'>Text Color</option>
+          <option value='i'>Italicize</option>
+          <option value='ff'>Font</option>
+          <option value='fs'>Font Size</option>
+          <option value='fw'>Font Weight</option>
+          <option value='hd'>Heading</option>
+          <option value='al'>Align</option>
+          <option value='in'>Indent</option>
+          <option value='cl'>Unstyle</option>
+          <option value='ub'>Unbold</option>
+          <option value='uu'>Un-underline</option>
+          <option value='ui'>Unitalicize</option>
+          <option value='ex'>Execute Add-on</option>
         </Select>
       }
       {(type === 'ff' ||
@@ -116,17 +112,9 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'tt' ||
         type === 'hd' ||
         type === 'al' ||
-        type === 'ex') && (
-        <Input size="sm" ml="3px" value={config} onChange={onConfigChange} />
-      )}
-      {type === 'fs' && (
-        <Input
-          size="sm"
-          ml="3px"
-          type="number"
-          value={config}
-          onChange={onConfigChange}
-        />
+        type === 'ex') && <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />}
+      {(type === 'fs' || type === 'in') && (
+        <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />
       )}
       {(type === 'b' ||
         type === 'u' ||
@@ -135,21 +123,21 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'ht' ||
         type === 'tc' ||
         type === 'tt') && (
-        <Tooltip label="Toggle" shouldWrapChildren>
+        <Tooltip label='Toggle' shouldWrapChildren>
           <Checkbox
-            size="md"
-            ml="8px"
+            size='md'
+            ml='8px'
             isChecked={config === 'toggle' || type === 'ht' || type === 'tt'}
             onChange={onToggleChange}
           />
         </Tooltip>
       )}
       <IconButton
-        bg="transparent"
-        size="sm"
-        ml="3px"
-        aria-label="Delete action"
-        icon={<CloseIcon fontSize="12px" color="red.400" />}
+        bg='transparent'
+        size='sm'
+        ml='3px'
+        aria-label='Delete action'
+        icon={<CloseIcon fontSize='12px' color='red.400' />}
         onClick={onDelete}
       />
     </Flex>
