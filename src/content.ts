@@ -3,7 +3,7 @@ import { bold, toggleBold } from './actions/bold'
 import { highlight, textColor } from './actions/color'
 import { fontFamily, fontSize, fontWeight } from './actions/font'
 import { italicize, toggleItalics } from './actions/italics'
-import { align, clearFormatting, heading } from './actions/page'
+import { align, clearFormatting, heading, indent } from './actions/page'
 import { toggleUnderline, underline } from './actions/underline'
 
 type ActionType =
@@ -116,6 +116,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'al': {
         align(config)
+        break
+      }
+      case 'in': {
+        indent(config)
         break
       }
       case 'ub': {

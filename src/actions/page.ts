@@ -50,3 +50,48 @@ export const clearFormatting = () => {
   }
   clickEl(clearFormattingElement)
 }
+
+export const indent = (num_string: string) => {
+  const num: number = parseInt(num_string)
+  if (num === 0) return // Do nothing
+
+  const menubarElement = document.getElementById('docs-menubar')
+  if (!menubarElement) {
+    throw new Error('unable to change indentation')
+  }
+  let formatMenu: HTMLCollection | null = null
+  for (let i = 0; i < menubarElement.children.length; i++) {
+    const menu = menubarElement.children[i] as HTMLElement
+    if (menu.innerHTML === 'Format') {
+      clickEl(menu)
+      formatMenu = document.getElementsByClassName('docs-menu-attached-button-above')[0]?.children as HTMLCollection
+      break
+    }
+  }
+
+  if (formatMenu === null) {
+    throw new Error('unable to change indentation')
+  }
+
+  const alignIndentButton = formatMenu[5] as HTMLDivElement
+  if (alignIndentButton.innerText !== 'Align & indent') {
+    throw new Error('unable to change indentation - assertion failed!')
+  }
+  clickEl(alignIndentButton)
+  setTimeout(() => {
+    const popups = document.getElementsByClassName(
+      'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
+    )
+    console.log(popups.length)
+    console.log(popups)
+    let popup: HTMLDivElement | null = null
+    for (let i = 0; i < popups.length; i++) {
+      const fc = popups[i].firstChild as HTMLDivElement
+      console.log(fc.innerText)
+      if (fc.innerText === 'LeftCtrl+Shift+L') {
+        popup = popups[i] as HTMLDivElement
+      }
+    }
+    console.log(popup)
+  }, 100)
+}
