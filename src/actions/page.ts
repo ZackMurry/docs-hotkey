@@ -51,8 +51,8 @@ export const clearFormatting = () => {
   clickEl(clearFormattingElement)
 }
 
-export const indent = (num_string: string) => {
-  const num: number = parseInt(num_string)
+export const indent = async (num_string: string) => {
+  let num: number = parseInt(num_string)
   if (num === 0) return // Do nothing
 
   const menubarElement = document.getElementById('docs-menubar')
@@ -78,20 +78,46 @@ export const indent = (num_string: string) => {
     throw new Error('unable to change indentation - assertion failed!')
   }
   clickEl(alignIndentButton)
-  setTimeout(() => {
-    const popups = document.getElementsByClassName(
-      'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
-    )
-    console.log(popups.length)
-    console.log(popups)
-    let popup: HTMLDivElement | null = null
-    for (let i = 0; i < popups.length; i++) {
-      const fc = popups[i].firstChild as HTMLDivElement
-      console.log(fc.innerText)
-      if (fc.innerText === 'LeftCtrl+Shift+L') {
-        popup = popups[i] as HTMLDivElement
+  await new Promise<void>(resolve => {
+    let numTries = 0
+    var interval = setInterval(() => {
+      const popups = document.getElementsByClassName(
+        'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
+      )
+      numTries++
+      console.log(numTries + ' tries')
+      console.log(popups.length)
+      console.log(popups)
+      let popup: HTMLDivElement | null = null
+      for (let i = 0; i < popups.length; i++) {
+        if (window.getComputedStyle(popups[i]).display === 'block' && i > 2) {
+          console.log(popups[i])
+          const increaseButton = popups[i].children[5] as HTMLElement
+          const decreaseButton = popups[i].children[6] as HTMLElement
+          if (num > 0 && (!increaseButton || increaseButton.innerText !== 'Increase indent\nCtrl+]')) {
+            throw new Error('unable to change indentation - increase button not found!')
+          }
+          if (num < 0 && (!decreaseButton || decreaseButton.innerText !== 'Decrease indent\nCtrl+[')) {
+            throw new Error('unable to change indentation - decrease button not found!')
+          }
+          while (num > 0) {
+            clickEl(increaseButton)
+            num--
+          }
+          while (num < 0) {
+            clickEl(decreaseButton)
+            num++
+          }
+          clearInterval(interval)
+          break
+        }
       }
-    }
-    console.log(popup)
-  }, 100)
+      if (numTries > 10) {
+        clearInterval(interval)
+        throw new Error('unable to change indentation - 10 attempts, no success :(')
+      }
+      console.log(popup)
+      resolve()
+    }, 50)
+  })
 }
