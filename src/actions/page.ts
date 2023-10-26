@@ -1,26 +1,48 @@
 import clickEl from './clickEl'
 
-export const heading = (val: string) => {
+export const heading = async (val: string) => {
   const headingButtonElement = document.getElementById('headingStyleSelect')
   if (!headingButtonElement) {
-    throw new Error('unable to set as heading')
+    throw new Error('unable to set heading type - button not found')
   }
   clickEl(headingButtonElement)
-  const headingListContainer = document.getElementById(':l0')?.parentNode
-  if (!headingListContainer) {
-    throw new Error('unable to find heading list container')
-  }
-  for (let i = 0; i < headingListContainer.children.length; i++) {
-    const headingItemContainer = headingListContainer.children[i] as HTMLElement
-    const headingText = headingItemContainer.children[0]?.children[1]?.innerHTML
-    if (!headingText) {
-      throw new Error('unable to set heading type')
-    }
-    if (headingText.toLowerCase() === val.toLowerCase()) {
-      clickEl(headingItemContainer)
-      break
-    }
-  }
+
+  await new Promise<void>(resolve => {
+    let numTries = 0
+    var interval = setInterval(() => {
+      const popups = document.getElementsByClassName(
+        'goog-menu goog-menu-vertical goog-menu-noaccel apps-menu-hide-mnemonics'
+      )
+      numTries++
+      for (let i = 0; i < popups.length; i++) {
+        if (window.getComputedStyle(popups[i]).display === 'block' && i > 2) {
+          const headingListContainer = popups[i]
+          const numChildren = headingListContainer.children.length
+          for (let i = 0; i < numChildren; i++) {
+            const headingItemContainer = headingListContainer.children[i] as HTMLElement
+            const headingText = headingItemContainer.children[0]?.children[1]?.innerHTML
+            if (!headingText) {
+              throw new Error('unable to set heading type')
+            }
+            if (headingText.toLowerCase() === val.toLowerCase()) {
+              clickEl(headingItemContainer)
+              clearInterval(interval)
+              resolve()
+              break
+            }
+          }
+          if (i === numChildren) {
+            // Loop reached condition (i.e., didn't break)
+            new Error('unable to set heading type - popup found, but heading value not')
+          }
+        }
+      }
+      if (numTries >= 10) {
+        clearInterval(interval)
+        throw new Error('unable to set heading type - 10 attempts, no success :(')
+      }
+    }, 50)
+  })
 }
 
 export const align = (val: string) => {
@@ -85,18 +107,16 @@ export const indent = async (num_string: string) => {
         'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
       )
       numTries++
-      console.log(numTries + ' tries')
-      console.log(popups.length)
-      console.log(popups)
-      let popup: HTMLDivElement | null = null
       for (let i = 0; i < popups.length; i++) {
-        if (window.getComputedStyle(popups[i]).display === 'block' && i > 2) {
-          console.log(popups[i])
+        // if (popups[i].children.length > 6) {
+        //   console.log((popups[i].children[5] as HTMLElement).innerText)
+        // }
+        if (
+          popups[i].children.length > 6 &&
+          (popups[i].children[5] as HTMLElement).innerText.startsWith('Increase indent')
+        ) {
           const increaseButton = popups[i].children[5] as HTMLElement
           const decreaseButton = popups[i].children[6] as HTMLElement
-          if (num > 0 && (!increaseButton || increaseButton.innerText !== 'Increase indent\nCtrl+]')) {
-            throw new Error('unable to change indentation - increase button not found!')
-          }
           if (num < 0 && (!decreaseButton || decreaseButton.innerText !== 'Decrease indent\nCtrl+[')) {
             throw new Error('unable to change indentation - decrease button not found!')
           }
@@ -109,15 +129,14 @@ export const indent = async (num_string: string) => {
             num++
           }
           clearInterval(interval)
+          resolve()
           break
         }
       }
-      if (numTries > 10) {
+      if (numTries >= 10) {
         clearInterval(interval)
         throw new Error('unable to change indentation - 10 attempts, no success :(')
       }
-      console.log(popup)
-      resolve()
     }, 50)
   })
 }

@@ -36,12 +36,12 @@ export const executeAddon = async (config: string) => {
                   console.log(popups[k].children[l])
                   clearInterval(interval)
                   clickEl(popups[k].children[l] as HTMLElement)
+                  resolve()
                   break outer
                 }
               }
             }
           }
-          resolve()
         }, 50)
       })
       break

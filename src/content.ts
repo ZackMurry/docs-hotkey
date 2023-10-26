@@ -49,6 +49,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 })
 
+// todo: catch errors so that later actions can still run
 const runActionsFromArray = async (input: string[]) => {
   for (const commandString of input) {
     const actionType = getActionType(commandString)
@@ -103,11 +104,11 @@ const runActionsFromArray = async (input: string[]) => {
         break
       }
       case 'fw': {
-        fontWeight(config)
+        await fontWeight(config)
         break
       }
       case 'hd': {
-        heading(config)
+        await heading(config)
         break
       }
       case 'cl': {
@@ -119,7 +120,7 @@ const runActionsFromArray = async (input: string[]) => {
         break
       }
       case 'in': {
-        indent(config)
+        await indent(config)
         break
       }
       case 'ub': {
