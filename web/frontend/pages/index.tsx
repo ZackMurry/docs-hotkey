@@ -2,7 +2,6 @@ import { FC } from 'react'
 import { Box, Heading, Text, Link, UnorderedList, ListItem, OrderedList, Code } from '@chakra-ui/react'
 import { CopyIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 
-// todo: responsiveness
 const IntroductionSection: FC = () => {
   return (
     <Box>

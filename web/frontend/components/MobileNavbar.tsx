@@ -54,6 +54,7 @@ const MobileNavbar: FC = () => {
           <NavItem title='Font' path='/font' currentPath={path} onClick={() => setExpanded(false)} isMobile />
           <NavItem title='Heading' path='/heading' currentPath={path} onClick={() => setExpanded(false)} isMobile />
           <NavItem title='Align' path='/align' currentPath={path} onClick={() => setExpanded(false)} isMobile />
+          <NavItem title='Indent' path='/indent' currentPath={path} onClick={() => setExpanded(false)} isMobile />
           <NavItem
             title='Execute Add-on'
             path='/execute-addon'

@@ -28,6 +28,7 @@ const DocumentationPage: FC<Props> = ({ children }) => {
             <NavItem title='Font' path='/font' currentPath={path} />
             <NavItem title='Heading' path='/heading' currentPath={path} />
             <NavItem title='Align' path='/align' currentPath={path} />
+            <NavItem title='Indent' path='/indent' currentPath={path} />
             <NavItem title='Execute Add-on' path='/execute-addon' currentPath={path} />
             <Box h='2vh' />
             <NavItem title='About' path='/about' currentPath={path} />
