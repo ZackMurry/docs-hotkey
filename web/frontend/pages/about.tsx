@@ -16,7 +16,12 @@ const AboutSection: FC = () => {
         .
       </Text>
       <Text fontSize='13pt' color='bodyText' mb='15px'>
-        If you find this extension useful, please consider rating it on the Chrome Web Store.
+        If you find this extension useful, please consider rating it on the Chrome Web Store. You can also support its
+        development{' '}
+        <Link href='https://ko-fi.com/zackmurry' color='docsBlue' isExternal>
+          here <ExternalLinkIcon fontSize='sm' mx='1px' mt='-3px' />
+        </Link>
+        .
       </Text>
       <Text fontSize='13pt' color='bodyText' mb='15px'>
         This is free, open-source software licensed under the MIT License. The full license can be found{' '}

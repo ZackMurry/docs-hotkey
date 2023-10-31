@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   Accordion,
   AccordionButton,
@@ -13,12 +13,12 @@ import {
   IconButton,
   Input,
   Link,
-  Text,
+  Text
 } from '@chakra-ui/react'
-import {DeleteIcon} from '@chakra-ui/icons'
-import {Command} from './types'
-import ActionDisplay, {getActionConfig, getActionType} from './ActionDisplay'
-import {colorMap} from './colorMap'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { Command } from './types'
+import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
+import { colorMap } from './colorMap'
 
 // todo: change save button text to a checkmark after click
 // todo: error messages (including when actions are invalid)
@@ -28,25 +28,17 @@ const App: FC = () => {
   } | null>(null)
   const [errors, setErrors] = useState<string[]>([])
 
-  const onActionChange = (
-    value: string,
-    internalName: string,
-    alias: string,
-    actions: string[],
-    index: number
-  ) => {
+  const onActionChange = (value: string, internalName: string, alias: string, actions: string[], index: number) => {
     const actionsCopy = actions.slice(0)
     actionsCopy[index] = value
-    setCommands(c => ({...c, [internalName]: {alias, actions: actionsCopy}}))
+    setCommands(c => ({ ...c, [internalName]: { alias, actions: actionsCopy } }))
   }
 
   const onDeleteAction = (internalName: string, index: number) => {
     if (commands === null) {
       setErrors(e => [
         ...e,
-        `Error deleting action ${
-          index + 1
-        } in ${internalName}: commands haven't loaded yet, please try again`,
+        `Error deleting action ${index + 1} in ${internalName}: commands haven't loaded yet, please try again`
       ])
       return
     }
@@ -54,27 +46,21 @@ const App: FC = () => {
     actionsCopy.splice(index, 1)
     setCommands({
       ...commands,
-      [internalName]: {...commands[internalName], actions: actionsCopy},
+      [internalName]: { ...commands[internalName], actions: actionsCopy }
     })
   }
 
   const onDeleteCommand = (internalName: string) => {
     if (commands === null) {
-      setErrors(e => [
-        ...e,
-        `Error deleting command in ${internalName}: commands haven't loaded yet, please try again`,
-      ])
+      setErrors(e => [...e, `Error deleting command in ${internalName}: commands haven't loaded yet, please try again`])
       return
     }
-    const {[internalName]: removed, ...others} = commands
+    const { [internalName]: removed, ...others } = commands
     setCommands(others)
   }
 
   const addActionError = (alias: string, index: number, message: string) => {
-    setErrors(e => [
-      ...e,
-      `Error in action ${index + 1} of ${alias}: ${message}`,
-    ])
+    setErrors(e => [...e, `Error in action ${index + 1} of ${alias}: ${message}`])
   }
 
   const onSave = () => {
@@ -86,32 +72,15 @@ const App: FC = () => {
 
     setErrors([])
     let hasErrors = false
-    Object.entries(commands).forEach(([internalName, {alias, actions}]) => {
+    Object.entries(commands).forEach(([internalName, { alias, actions }]) => {
       actions.forEach((action, index) => {
         const type = getActionType(action)
         const config = getActionConfig(action).toLowerCase()
-        if (
-          type === 'al' &&
-          config !== 'left' &&
-          config !== 'center' &&
-          config !== 'right' &&
-          config !== 'justify'
-        ) {
-          addActionError(
-            alias,
-            index,
-            'the configuration for align must be one of `left`, `center`, `right`, or `justify`'
-          )
+        if (type === 'al' && config !== 'left' && config !== 'center' && config !== 'right' && config !== 'justify') {
+          addActionError(alias, index, 'the configuration for align must be one of `left`, `center`, `right`, or `justify`')
           hasErrors = true
-        } else if (
-          (type === 'cl' || type === 'ub' || type === 'uu' || type === 'ui') &&
-          config !== ''
-        ) {
-          addActionError(
-            alias,
-            index,
-            'this action type cannot have a configuration'
-          )
+        } else if ((type === 'cl' || type === 'ub' || type === 'uu' || type === 'ui') && config !== '') {
+          addActionError(alias, index, 'this action type cannot have a configuration')
           hasErrors = true
         } else if (
           type === 'hd' &&
@@ -131,33 +100,22 @@ const App: FC = () => {
         ) {
           addActionError(alias, index, 'invalid highlight color')
           hasErrors = true
-        } else if (
-          (type === 'tc' || type === 'tt') &&
-          !colorMap.has(config) &&
-          config !== 'none'
-        ) {
+        } else if ((type === 'tc' || type === 'tt') && !colorMap.has(config) && config !== 'none') {
           addActionError(alias, index, 'invalid text color')
           hasErrors = true
-        } else if (
-          (type === 'b' || type === 'u' || type === 'i') &&
-          config !== '' &&
-          config !== 'toggle'
-        ) {
+        } else if ((type === 'b' || type === 'u' || type === 'i') && config !== '' && config !== 'toggle') {
           addActionError(alias, index, 'unknown configuration')
         }
       })
     })
     if (!hasErrors) {
-      chrome.storage.sync.set({commands})
+      chrome.storage.sync.set({ commands })
     }
   }
 
   const findOpenCommandSlot = (): string => {
     if (!commands) {
-      setErrors(e => [
-        ...e,
-        "Error adding command: commands haven't loaded yet, please try again",
-      ])
+      setErrors(e => [...e, "Error adding command: commands haven't loaded yet, please try again"])
       return ''
     }
     for (let i = 1; i < 10; i++) {
@@ -165,10 +123,7 @@ const App: FC = () => {
         return `slot${i}`
       }
     }
-    setErrors(e => [
-      ...e,
-      'Error adding command: there are already 10 commands! Please free a slot before adding another.',
-    ])
+    setErrors(e => [...e, 'Error adding command: there are already 10 commands! Please free a slot before adding another.'])
     return ''
   }
 
@@ -177,7 +132,7 @@ const App: FC = () => {
     if (slot !== '') {
       setCommands({
         ...commands,
-        [slot]: {alias: 'New Command', actions: ['']},
+        [slot]: { alias: 'New Command', actions: [''] }
       })
     }
   }
@@ -190,145 +145,133 @@ const App: FC = () => {
   }, [])
 
   return (
-    <Flex flexDir="column" justifyContent="space-between" w={325} h={400}>
+    <Flex flexDir='column' justifyContent='space-between' w={325} h={400}>
       <Box>
-        <Box bg="docsBlue" p="5px">
-          <Heading color="white" ml="5px">
+        <Box bg='docsBlue' p='5px'>
+          <Heading color='white' ml='5px'>
             Docs Hotkey
           </Heading>
         </Box>
         {commands && (
           <>
             <Accordion allowMultiple>
-              {Object.entries(commands).map(
-                ([internalName, {actions, alias}]) => (
-                  <AccordionItem key={internalName}>
-                    <AccordionButton>
-                      <Heading as="h6" fontSize="14px">
-                        {alias}
-                      </Heading>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>
-                      <Flex alignItems="center">
-                        <FormLabel pt="8px" fontSize="14px">
-                          Name:
-                        </FormLabel>
-                        <Input
-                          size="sm"
-                          value={alias}
-                          onChange={e =>
-                            setCommands({
-                              ...commands,
-                              [internalName]: {actions, alias: e.target.value},
-                            })
-                          }
-                          my="5px"
-                        />
-                        <IconButton
-                          ml="3px"
-                          bg="transparent"
-                          size="sm"
-                          icon={<DeleteIcon fontSize="sm" color="red.400" />}
-                          aria-label="Delete command"
-                          onClick={() => onDeleteCommand(internalName)}
-                        />
-                      </Flex>
-                      <Heading as="h6" fontSize="14px" mt="5px">
-                        Actions
-                      </Heading>
-                      <Box>
-                        {actions.map((action, index) => (
-                          // I'm using the index as a key, fight me (bc the order won't change and adding an id would increase complexity)
-                          <Box key={`action-${index}`}>
-                            <ActionDisplay
-                              value={action}
-                              onChange={v =>
-                                onActionChange(
-                                  v,
-                                  internalName,
-                                  alias,
-                                  actions,
-                                  index
-                                )
-                              }
-                              onDelete={() =>
-                                onDeleteAction(internalName, index)
-                              }
-                            />
-                          </Box>
-                        ))}
-                      </Box>
-                      <Button
-                        fontWeight="normal"
-                        textDecor="underline"
-                        m="3px"
-                        color="#777"
-                        size="sm"
-                        variant="link"
-                        onClick={() =>
+              {Object.entries(commands).map(([internalName, { actions, alias }]) => (
+                <AccordionItem key={internalName}>
+                  <AccordionButton>
+                    <Heading as='h6' fontSize='14px'>
+                      {alias}
+                    </Heading>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <Flex alignItems='center'>
+                      <FormLabel pt='8px' fontSize='14px'>
+                        Name:
+                      </FormLabel>
+                      <Input
+                        size='sm'
+                        value={alias}
+                        onChange={e =>
                           setCommands({
                             ...commands,
-                            [internalName]: {actions: [...actions, ''], alias},
+                            [internalName]: { actions, alias: e.target.value }
                           })
-                        }>
-                        Add action
-                      </Button>
-                      <Text m="3px" color="#777" fontSize="sm">
-                        This command is in shortcut slot{' '}
-                        {internalName.substring(4)}
-                      </Text>
-                    </AccordionPanel>
-                  </AccordionItem>
-                )
-              )}
+                        }
+                        my='5px'
+                      />
+                      <IconButton
+                        ml='3px'
+                        bg='transparent'
+                        size='sm'
+                        icon={<DeleteIcon fontSize='sm' color='red.400' />}
+                        aria-label='Delete command'
+                        onClick={() => onDeleteCommand(internalName)}
+                      />
+                    </Flex>
+                    <Heading as='h6' fontSize='14px' mt='5px'>
+                      Actions
+                    </Heading>
+                    <Box>
+                      {actions.map((action, index) => (
+                        // I'm using the index as a key, fight me (bc the order won't change and adding an id would increase complexity)
+                        <Box key={`action-${index}`}>
+                          <ActionDisplay
+                            value={action}
+                            onChange={v => onActionChange(v, internalName, alias, actions, index)}
+                            onDelete={() => onDeleteAction(internalName, index)}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                    <Button
+                      fontWeight='normal'
+                      textDecor='underline'
+                      m='3px'
+                      color='#777'
+                      size='sm'
+                      variant='link'
+                      onClick={() =>
+                        setCommands({
+                          ...commands,
+                          [internalName]: { actions: [...actions, ''], alias }
+                        })
+                      }
+                    >
+                      Add action
+                    </Button>
+                    <Text m='3px' color='#777' fontSize='sm'>
+                      This command is in shortcut slot {internalName.substring(4)}
+                    </Text>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
             </Accordion>
             <Button
-              fontWeight="normal"
-              textDecor="underline"
-              m="5px"
-              ml="15px"
-              mt="10px"
-              color="#777"
-              size="sm"
-              variant="link"
-              onClick={onAddCommand}>
+              fontWeight='normal'
+              textDecor='underline'
+              m='5px'
+              ml='15px'
+              mt='10px'
+              color='#777'
+              size='sm'
+              variant='link'
+              onClick={onAddCommand}
+            >
               Add command
             </Button>
           </>
         )}
         <Box>
           <Button
-            color="#fff"
-            mt="10px"
-            ml="15px"
-            mb="10px"
-            borderRadius="3px"
-            size="sm"
-            variant="filled"
-            bg="docsBlue"
-            _hover={{bg: 'docsBlueHover'}}
-            _active={{bg: 'docsBlueClick'}}
-            onClick={onSave}>
+            color='#fff'
+            mt='10px'
+            ml='15px'
+            mb='10px'
+            borderRadius='3px'
+            size='sm'
+            variant='filled'
+            bg='docsBlue'
+            _hover={{ bg: 'docsBlueHover' }}
+            _active={{ bg: 'docsBlueClick' }}
+            onClick={onSave}
+          >
             Save All
           </Button>
         </Box>
-        <Box pb="20px" ml="15px" mr="20px">
+        <Box pb='20px' ml='15px' mr='20px'>
           {errors.map(e => (
-            <Text fontWeight="bold" color="red.400" size="sm" mt="5px">
+            <Text fontWeight='bold' color='red.400' size='sm' mt='5px'>
               {e}
             </Text>
           ))}
         </Box>
       </Box>
-      <Flex w="100%" justifyContent="center" mb="10px">
-        <Link
-          ml="15px"
-          fontSize="14px"
-          color="#777"
-          isExternal
-          href="https://docs-hotkey.zackmurry.com">
+      <Flex w='100%' justifyContent='center' mb='10px'>
+        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://docs-hotkey.zackmurry.com'>
           Help
+        </Link>
+        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://ko-fi.com/zackmurry'>
+          Donate
         </Link>
       </Flex>
     </Flex>
