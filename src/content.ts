@@ -20,6 +20,7 @@ type ActionType =
   | 'cl'
   | 'al'
   | 'in'
+  | 'er'
   | 'ub'
   | 'uu'
   | 'ui'

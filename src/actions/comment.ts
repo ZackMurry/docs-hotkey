@@ -1,10 +1,18 @@
 import clickEl from './clickEl'
 
-export const reactWithEmoji = (color: string, toggle: boolean) => {
+export const reactWithEmoji = (emoji: string) => {
+  console.log(`REACTING WITH ${emoji}`)
   const bubbleButtonContainer = document.getElementById('docs-instant-bubble')
-  if (!bubbleButtonContainer) {
+  if (
+    !bubbleButtonContainer?.children[0]?.children[0]?.children[1]?.children[0]
+      ?.children[0]
+  ) {
     throw new Error('unable to find emoji react button!')
   }
+  const emojiReactButton = bubbleButtonContainer.children[0].children[0]
+    .children[1].children[0].children[0] as HTMLElement
+  console.log(emojiReactButton)
+  clickEl(emojiReactButton)
   /*
   let i = 170
   let curr: HTMLElement | null = null
