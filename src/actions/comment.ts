@@ -1,4 +1,4 @@
-import clickEl from './clickEl'
+import clickEl, {dispatchMouseEvent} from './clickEl'
 
 export const reactWithEmoji = (emoji: string) => {
   console.log(`REACTING WITH ${emoji}`)
@@ -13,59 +13,48 @@ export const reactWithEmoji = (emoji: string) => {
     .children[1].children[0].children[0] as HTMLElement
   console.log(emojiReactButton)
   clickEl(emojiReactButton)
-  /*
-  let i = 170
-  let curr: HTMLElement | null = null
-  while (
-    (curr = document.getElementById(`docs-material-colorpalette-cell-${i}`)
-      ?.firstChild as HTMLElement | null)
-  ) {
-    if (curr.title.includes(color)) {
+  const emojiTextBoxElements = document.getElementsByClassName(
+    'appsElementsEmojipickerSearchInput'
+  )
+  if (!emojiTextBoxElements || !emojiTextBoxElements[0]) {
+    throw new Error('unable to open emoji dialog!')
+  }
+  setTimeout(() => {
+    const emojiTextBox = emojiTextBoxElements[0] as HTMLInputElement
+    emojiTextBox.value = emoji
+    emojiTextBox.dispatchEvent(new Event('input', {bubbles: true}))
+    setTimeout(() => {
+      const topEmojiListContainers = document.getElementsByClassName(
+        'appsElementsEmojipickerListEmojiList'
+      )
+      if (!topEmojiListContainers || topEmojiListContainers.length === 0) {
+        throw new Error('unable to find emojis!')
+      }
+      let topEmojiListContainer = topEmojiListContainers[1]
       if (
-        toggle &&
-        curr.parentElement &&
-        curr.parentElement.classList.contains(
-          'docs-material-colorpalette-cell-selected'
+        topEmojiListContainer.classList.contains(
+          'appsElementsEmojipickerListBrowseList'
         )
       ) {
-        unhighlight()
-      } else {
-        clickEl(curr)
+        console.warn(
+          'Not the write emoji list! A UI change has likely occurred'
+        )
+        topEmojiListContainer = topEmojiListContainers[0]
       }
-      return
-    }
-    i++
-  }
-
-  // If it's not in the custom list
-  const customElement = document.getElementById(
-    `docs-material-colorpalette-cell-${i - 2}`
-  )
-  if (!customElement) {
-    throw new Error('unable to find custom highlight button')
-  }
-  clickEl(customElement)
-
-  // Enter hex value
-  const hexTextBox = document.getElementsByClassName(
-    'docs-material-hsv-color-picker-input'
-  )
-  if (!hexTextBox.length) {
-    throw new Error('unable to find hex text box')
-  }
-  const htb = hexTextBox[0] as HTMLInputElement
-  htb.value = color
-  htb.dispatchEvent(new Event('keyup', {bubbles: true})) // Tell Docs that the value changed
-
-  // Click OK
-  const buttons = document.getElementsByClassName(
-    'docs-material-button-content'
-  )
-  for (let i = 0; i < buttons.length; i++) {
-    if (buttons[i].innerHTML === 'OK') {
-      clickEl(buttons[i] as HTMLElement)
-      break
-    }
-  }
-  */
+      if (
+        !topEmojiListContainer ||
+        !topEmojiListContainer.children.length ||
+        !topEmojiListContainer.children[0]
+      ) {
+        throw new Error('unable to find top emoji result!')
+      }
+      const topEmoji = topEmojiListContainer.children[0].children[0].children[0]
+        .children[0] as HTMLButtonElement
+      console.log(topEmoji)
+      dispatchMouseEvent(topEmoji, 'mouseenter')
+      topEmoji.focus()
+      topEmoji.dispatchEvent(new Event('click'))
+      clickEl(topEmoji)
+    }, 0)
+  }, 0)
 }
