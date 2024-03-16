@@ -1,11 +1,13 @@
-import {executeAddon} from './actions/addon'
-import {bold, toggleBold} from './actions/bold'
-import {highlight, textColor} from './actions/color'
-import {reactWithEmoji} from './actions/comment'
-import {fontFamily, fontSize, fontWeight} from './actions/font'
-import {italicize, toggleItalics} from './actions/italics'
-import {align, clearFormatting, heading, indent} from './actions/page'
-import {toggleUnderline, underline} from './actions/underline'
+import { executeAddon } from './actions/addon'
+import { bold, toggleBold } from './actions/bold'
+import { highlight, textColor } from './actions/color'
+import { reactWithEmoji } from './actions/comment'
+import { fontFamily, fontSize, fontWeight } from './actions/font'
+import { italicize, toggleItalics } from './actions/italics'
+import { align, clearFormatting, heading, indent, setLeftIndent } from './actions/page'
+import { toggleLeftBorder } from './actions/border'
+import { toggleUnderline, underline } from './actions/underline'
+import sleep from './utils/sleep'
 
 type ActionType =
   | 'b'
@@ -27,6 +29,7 @@ type ActionType =
   | 'ht'
   | 'tt'
   | 'ex'
+  | 'qu'
 const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 const getActionConfig = (s: string): string =>
@@ -39,7 +42,7 @@ interface Command {
   alias: string
 }
 
-let commands: {[internalName: string]: Command} = {}
+let commands: { [internalName: string]: Command } = {}
 
 chrome.storage.sync.get(['commands'], result => {
   console.log('commands: ' + JSON.stringify(result.commands))
@@ -141,6 +144,12 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'ui': {
         italicize(true)
+        break
+      }
+      case 'qu': {
+        await toggleLeftBorder()
+        await sleep(300)
+        await setLeftIndent(config)
         break
       }
       case 'ex': {
