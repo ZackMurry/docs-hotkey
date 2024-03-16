@@ -28,6 +28,7 @@ type ActionType =
   | 'ui' // unitalicize
   | 'ht' // toggle highlight
   | 'tt' // toggle text color
+  | 'qu' // quote
   | 'ex' // execute add-on
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
@@ -112,6 +113,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
           <option value="ub">Unbold</option>
           <option value="uu">Un-underline</option>
           <option value="ui">Unitalicize</option>
+          <option value="qu">Quote</option>
           <option value="ex">Execute Add-on</option>
         </Select>
       }
@@ -127,7 +129,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'ex') && (
         <Input size="sm" ml="3px" value={config} onChange={onConfigChange} />
       )}
-      {(type === 'fs' || type === 'in') && (
+      {(type === 'fs' || type === 'in' || type === 'qu') && (
         <Input
           size="sm"
           ml="3px"

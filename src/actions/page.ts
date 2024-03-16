@@ -1,3 +1,8 @@
+import findById from '../utils/findById'
+import findByIdAndClick from '../utils/findByIdAndClick'
+import findByNameAndClick from '../utils/findByNameAndClick'
+import findByTextsUnderSelector from '../utils/findByTextsUnderSelector'
+import typeValue from '../utils/typeValue'
 import clickEl from './clickEl'
 
 export const heading = async (val: string) => {
@@ -139,4 +144,22 @@ export const indent = async (num_string: string) => {
       }
     }, 50)
   })
+}
+
+export const setLeftIndent = async (indentNumber: string) => {
+  await findByIdAndClick('docs-format-menu')
+
+  const alignIndentButton = await findByTextsUnderSelector('.goog-menuitem-label', ['Align & indent', '對齊與縮排'])
+  clickEl(alignIndentButton)
+
+  const indentationOptionsButton = await findByTextsUnderSelector('.goog-menuitem-label', [
+    'Indentation options',
+    '縮排選項'
+  ])
+  clickEl(indentationOptionsButton)
+
+  const indentationStartInputElement = await findById('docs-indentationdialog-indentation-start')
+  typeValue(indentationStartInputElement as HTMLInputElement, indentNumber)
+
+  await findByNameAndClick('apply')
 }
