@@ -22,6 +22,7 @@ type ActionType =
   | 'cl' // clear
   | 'al' // align
   | 'in' // indent
+  | 'st' // strikethrough
   | 'er' // emoji reaction
   | 'bl' // bullet list
   | 'ub' // unbold
@@ -110,6 +111,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
           <option value="hd">Heading</option>
           <option value="al">Align</option>
           <option value="in">Indent</option>
+          <option value="st">Strikethrough</option>
           <option value="er">Emoji Reaction</option>
           <option value="bl">Bullet List</option>
           <option value="cl">Unstyle</option>

@@ -11,7 +11,7 @@ import {
   heading,
   indent,
 } from './actions/page'
-import {toggleUnderline, underline} from './actions/underline'
+import {toggleUnderline, underline, strikethrough} from './actions/underline'
 
 type ActionType =
   | 'b'
@@ -26,6 +26,7 @@ type ActionType =
   | 'cl'
   | 'al'
   | 'in'
+  | 'st'
   | 'er'
   | 'bl'
   | 'ub'
@@ -128,6 +129,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'al': {
         align(config)
+        break
+      }
+      case 'st': {
+        await strikethrough()
         break
       }
       case 'in': {
