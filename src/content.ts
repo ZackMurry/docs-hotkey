@@ -4,7 +4,13 @@ import {highlight, textColor} from './actions/color'
 import {reactWithEmoji} from './actions/comment'
 import {fontFamily, fontSize, fontWeight} from './actions/font'
 import {italicize, toggleItalics} from './actions/italics'
-import {align, clearFormatting, heading, indent} from './actions/page'
+import {
+  align,
+  bulletList,
+  clearFormatting,
+  heading,
+  indent,
+} from './actions/page'
 import {toggleUnderline, underline} from './actions/underline'
 
 type ActionType =
@@ -21,6 +27,7 @@ type ActionType =
   | 'al'
   | 'in'
   | 'er'
+  | 'bl'
   | 'ub'
   | 'uu'
   | 'ui'
@@ -129,6 +136,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'er': {
         reactWithEmoji(config)
+        break
+      }
+      case 'bl': {
+        bulletList(config)
         break
       }
       case 'ub': {

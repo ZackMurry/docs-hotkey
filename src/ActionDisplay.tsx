@@ -23,6 +23,7 @@ type ActionType =
   | 'al' // align
   | 'in' // indent
   | 'er' // emoji reaction
+  | 'bl' // bullet list
   | 'ub' // unbold
   | 'uu' // ununderline
   | 'ui' // unitalicize
@@ -65,6 +66,8 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
       newConfig = '1'
     } else if (type === 'er') {
       newConfig = 'check-mark'
+    } else if (type === 'bl') {
+      newConfig = '1'
     }
     onChange(type + (newConfig.length ? `#${newConfig}` : ''))
   }
@@ -108,6 +111,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
           <option value="al">Align</option>
           <option value="in">Indent</option>
           <option value="er">Emoji Reaction</option>
+          <option value="bl">Bullet List</option>
           <option value="cl">Unstyle</option>
           <option value="ub">Unbold</option>
           <option value="uu">Un-underline</option>
@@ -127,7 +131,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'ex') && (
         <Input size="sm" ml="3px" value={config} onChange={onConfigChange} />
       )}
-      {(type === 'fs' || type === 'in') && (
+      {(type === 'fs' || type === 'in' || type === 'bl') && (
         <Input
           size="sm"
           ml="3px"
