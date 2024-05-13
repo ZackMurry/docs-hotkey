@@ -1,17 +1,13 @@
-import {executeAddon} from './actions/addon'
-import {bold, toggleBold} from './actions/bold'
-import {highlight, textColor} from './actions/color'
-import {reactWithEmoji} from './actions/comment'
-import {fontFamily, fontSize, fontWeight} from './actions/font'
-import {italicize, toggleItalics} from './actions/italics'
-import {
-  align,
-  bulletList,
-  clearFormatting,
-  heading,
-  indent,
-} from './actions/page'
-import {toggleUnderline, underline, strikethrough} from './actions/underline'
+import { executeAddon } from './actions/addon'
+import { bold, toggleBold } from './actions/bold'
+import clickEl from './actions/clickEl'
+import { highlight, textColor } from './actions/color'
+import { reactWithEmoji } from './actions/comment'
+import { fontFamily, fontSize, fontWeight } from './actions/font'
+import { italicize, toggleItalics } from './actions/italics'
+import { align, bulletList, clearFormatting, heading, indent } from './actions/page'
+import { toggleUnderline, underline, strikethrough } from './actions/underline'
+import { isSlides } from './colorMap'
 
 type ActionType =
   | 'b'
@@ -35,10 +31,8 @@ type ActionType =
   | 'ht'
   | 'tt'
   | 'ex'
-const getActionType = (s: string): ActionType =>
-  (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
-const getActionConfig = (s: string): string =>
-  s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : ''
+const getActionType = (s: string): ActionType => (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
+const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
 console.log('LOADED')
 
@@ -47,7 +41,7 @@ interface Command {
   alias: string
 }
 
-let commands: {[internalName: string]: Command} = {}
+let commands: { [internalName: string]: Command } = {}
 
 chrome.storage.sync.get(['commands'], result => {
   console.log('commands: ' + JSON.stringify(result.commands))
