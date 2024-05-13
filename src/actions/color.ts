@@ -67,7 +67,7 @@ const highlightSlides = (color: string, toggle: boolean) => {
     return
   }
   if (color.startsWith('#')) {
-    highlightHex(color, toggle)
+    // highlightHex(color, toggle)
     return
   }
   const highlightNumber = getColorMapValue(color, 'highlight')
