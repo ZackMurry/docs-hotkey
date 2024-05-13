@@ -72,7 +72,7 @@ const highlightSlides = (color: string, toggle: boolean) => {
   }
   const highlightNumber = getColorMapValue(color, 'highlight')
   for (const offset of [132, 232, 332, 432, 295, 395, 495]) {
-    console.log({ offset })
+    // console.log({ offset })
     const highlightEl = document.getElementById(`docs-material-colorpalette-cell-${offset + highlightNumber}`)
     if (!highlightEl) {
       // console.log('not found')
@@ -131,7 +131,7 @@ const textColorSlides = (color: string, toggle: boolean) => {
   // Iterate over different possible black= values because it depends on the order in which the menus have been opened
   // The menu with display !== none is the right one
   for (const offset of [132, 232, 332, 432, 295, 395, 495]) {
-    console.log({ offset })
+    // console.log({ offset })
     const textColorEl = document.getElementById(`docs-material-colorpalette-cell-${offset + colorNumber}`)
     if (!textColorEl) {
       // console.log('not found')
@@ -167,7 +167,7 @@ export const textColor = (color: string, toggle: boolean = false) => {
   }
   clickEl(dropdownElement)
   const colorNumber = getColorMapValue(color, 'text')
-  console.log(`color number: ${colorNumber}`)
+  // console.log(`color number: ${colorNumber}`)
   const textColorEl = document.getElementById(`docs-material-colorpalette-cell-${colorNumber}`)
   if (!textColorEl) {
     throw new Error('unable to change text color')
