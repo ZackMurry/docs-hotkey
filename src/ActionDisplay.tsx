@@ -98,10 +98,31 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
     }
   }
 
+  const onInvertChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (type === 'u') {
+      onChange(`uu${config}`)
+    } else if (type === 'uu') {
+      onChange(`u${config}`)
+    } else if (type === 'i') {
+      onChange(`ui${config}`)
+    } else if (type === 'ui') {
+      onChange(`i${config}`)
+    } else if (type === 'b') {
+      onChange(`ub${config}`)
+    } else if (type === 'ub') {
+      onChange(`b${config}`)
+    }
+  }
+
   let normalizedType = type
   if (type === 'ht') normalizedType = 'hl'
   else if (type === 'tt') normalizedType = 'tc'
   else if (type === 'lst') normalizedType = 'ls'
+  else if (type === 'ub') normalizedType = 'b'
+  else if (type === 'ui') normalizedType = 'i'
+  else if (type === 'uu') normalizedType = 'u'
+
+  const isToggleDisabled = type === 'ub' || type === 'uu' || type === 'ui'
 
   return (
     <Flex py='3px' alignItems='center'>
@@ -124,9 +145,6 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
           <option value='bl'>Bullet List</option>
           <option value='ls'>List Space</option>
           <option value='cl'>Unstyle</option>
-          <option value='ub'>Unbold</option>
-          <option value='uu'>Un-underline</option>
-          <option value='ui'>Unitalicize</option>
           <option value='ex'>Execute Add-on</option>
         </Select>
       }
@@ -146,19 +164,34 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
       {(type === 'fs' || type === 'in' || type === 'bl') && (
         <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />
       )}
+      {(type === 'b' || type === 'ub' || type === 'u' || type === 'uu' || type === 'i' || type === 'ui') && (
+        <Tooltip label='Invert' shouldWrapChildren>
+          <Checkbox
+            size='md'
+            colorScheme='red'
+            ml='8px'
+            isChecked={type.startsWith('u') && type !== 'u'}
+            onChange={onInvertChange}
+          />
+        </Tooltip>
+      )}
       {(type === 'b' ||
+        type === 'ub' ||
         type === 'u' ||
+        type === 'uu' ||
         type === 'i' ||
+        type === 'ui' ||
         type === 'hl' ||
         type === 'ht' ||
         type === 'tc' ||
         type === 'tt' ||
         type === 'ls' ||
         type === 'lst') && (
-        <Tooltip label='Toggle' shouldWrapChildren>
+        <Tooltip label={isToggleDisabled ? 'Toggle (disabled due to invert)' : 'Toggle'} shouldWrapChildren>
           <Checkbox
             size='md'
             ml='8px'
+            disabled={isToggleDisabled}
             isChecked={config === 'toggle' || type === 'ht' || type === 'tt' || type === 'lst'}
             onChange={onToggleChange}
           />
