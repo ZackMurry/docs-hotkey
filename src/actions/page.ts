@@ -193,7 +193,6 @@ export const bulletList = (num_string: string) => {
 
 export const spaceList = (config: string, toggle: boolean) => {
   const spacingButton = document.getElementById('lineSpacingMenuButton')
-  console.log(spacingButton)
   if (!spacingButton) {
     throw new Error('unable to change spacing!')
   }
@@ -214,8 +213,8 @@ export const spaceList = (config: string, toggle: boolean) => {
     throw new Error('invalid list spacing configuration!')
   }
   if (!el) {
+    clickEl(spacingButton)
     throw new Error('unable to find list spacing button!')
   }
-  console.log(el)
   clickEl(el as HTMLElement)
 }
