@@ -6,7 +6,7 @@ import { reactWithEmoji } from './actions/comment'
 import { fontFamily, fontSize, fontWeight } from './actions/font'
 import { italicize, toggleItalics } from './actions/italics'
 import { align, bulletList, clearFormatting, heading, indent } from './actions/page'
-import { toggleUnderline, underline, strikethrough } from './actions/underline'
+import { toggleUnderline, underline, strikethrough, capitalize } from './actions/underline'
 import { isSlides } from './colorMap'
 
 type ActionType =
@@ -23,6 +23,7 @@ type ActionType =
   | 'al'
   | 'in'
   | 'st'
+  | 'cp'
   | 'er'
   | 'bl'
   | 'ub'
@@ -131,6 +132,10 @@ const runActionsFromArray = async (input: string[]) => {
       }
       case 'in': {
         await indent(config)
+        break
+      }
+      case 'cp': {
+        await capitalize(config)
         break
       }
       case 'er': {

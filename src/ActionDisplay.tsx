@@ -1,13 +1,6 @@
-import React, {FC, ChangeEvent} from 'react'
-import {
-  Checkbox,
-  Flex,
-  IconButton,
-  Input,
-  Select,
-  Tooltip,
-} from '@chakra-ui/react'
-import {CloseIcon} from '@chakra-ui/icons'
+import React, { FC, ChangeEvent } from 'react'
+import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons'
 
 type ActionType =
   | 'b' // bold
@@ -23,6 +16,7 @@ type ActionType =
   | 'al' // align
   | 'in' // indent
   | 'st' // strikethrough
+  | 'cp' // capitalization (lower(case), upper(case), title( )(case))
   | 'er' // emoji reaction
   | 'bl' // bullet list
   | 'ub' // unbold
@@ -33,8 +27,7 @@ type ActionType =
   | 'ex' // execute add-on
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
-export const getActionConfig = (s: string): string =>
-  s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : ''
+export const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
 interface Props {
   value: string
@@ -42,7 +35,7 @@ interface Props {
   onDelete: () => void
 }
 
-const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
+const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
   const type = value ? getActionType(value) : undefined
   const config = getActionConfig(value)
 
@@ -65,6 +58,8 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
       newConfig = 'left'
     } else if (type === 'in') {
       newConfig = '1'
+    } else if (type === 'cp') {
+      newConfig = 'uppercase'
     } else if (type === 'er') {
       newConfig = 'check-mark'
     } else if (type === 'bl') {
@@ -74,7 +69,7 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
   }
 
   const onConfigChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value: val} = e.target
+    const { value: val } = e.target
     onChange(type + (val.length ? `#${val}` : ''))
   }
 
@@ -93,32 +88,34 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
   }
 
   return (
-    <Flex py="3px" alignItems="center">
+    <Flex py='3px' alignItems='center'>
       {
         <Select
-          size="sm"
+          size='sm'
           value={type === 'ht' ? 'hl' : type === 'tt' ? 'tc' : type}
-          placeholder="Select action type"
-          onChange={onTypeChange}>
-          <option value="b">Bold</option>
-          <option value="u">Underline</option>
-          <option value="hl">Highlight</option>
-          <option value="tc">Text Color</option>
-          <option value="i">Italicize</option>
-          <option value="ff">Font</option>
-          <option value="fs">Font Size</option>
-          <option value="fw">Font Weight</option>
-          <option value="hd">Heading</option>
-          <option value="al">Align</option>
-          <option value="in">Indent</option>
-          <option value="st">Strikethrough</option>
-          <option value="er">Emoji Reaction</option>
-          <option value="bl">Bullet List</option>
-          <option value="cl">Unstyle</option>
-          <option value="ub">Unbold</option>
-          <option value="uu">Un-underline</option>
-          <option value="ui">Unitalicize</option>
-          <option value="ex">Execute Add-on</option>
+          placeholder='Select action type'
+          onChange={onTypeChange}
+        >
+          <option value='b'>Bold</option>
+          <option value='u'>Underline</option>
+          <option value='hl'>Highlight</option>
+          <option value='tc'>Text Color</option>
+          <option value='i'>Italicize</option>
+          <option value='ff'>Font</option>
+          <option value='fs'>Font Size</option>
+          <option value='fw'>Font Weight</option>
+          <option value='hd'>Heading</option>
+          <option value='al'>Align</option>
+          <option value='in'>Indent</option>
+          <option value='st'>Strikethrough</option>
+          <option value='cp'>Capitalize</option>
+          <option value='er'>Emoji Reaction</option>
+          <option value='bl'>Bullet List</option>
+          <option value='cl'>Unstyle</option>
+          <option value='ub'>Unbold</option>
+          <option value='uu'>Un-underline</option>
+          <option value='ui'>Unitalicize</option>
+          <option value='ex'>Execute Add-on</option>
         </Select>
       }
       {(type === 'ff' ||
@@ -129,18 +126,11 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'tt' ||
         type === 'hd' ||
         type === 'al' ||
+        type === 'cp' ||
         type === 'er' ||
-        type === 'ex') && (
-        <Input size="sm" ml="3px" value={config} onChange={onConfigChange} />
-      )}
+        type === 'ex') && <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />}
       {(type === 'fs' || type === 'in' || type === 'bl') && (
-        <Input
-          size="sm"
-          ml="3px"
-          type="number"
-          value={config}
-          onChange={onConfigChange}
-        />
+        <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />
       )}
       {(type === 'b' ||
         type === 'u' ||
@@ -149,21 +139,21 @@ const ActionDisplay: FC<Props> = ({value, onChange, onDelete}) => {
         type === 'ht' ||
         type === 'tc' ||
         type === 'tt') && (
-        <Tooltip label="Toggle" shouldWrapChildren>
+        <Tooltip label='Toggle' shouldWrapChildren>
           <Checkbox
-            size="md"
-            ml="8px"
+            size='md'
+            ml='8px'
             isChecked={config === 'toggle' || type === 'ht' || type === 'tt'}
             onChange={onToggleChange}
           />
         </Tooltip>
       )}
       <IconButton
-        bg="transparent"
-        size="sm"
-        ml="3px"
-        aria-label="Delete action"
-        icon={<CloseIcon fontSize="12px" color="red.400" />}
+        bg='transparent'
+        size='sm'
+        ml='3px'
+        aria-label='Delete action'
+        icon={<CloseIcon fontSize='12px' color='red.400' />}
         onClick={onDelete}
       />
     </Flex>
