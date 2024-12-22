@@ -214,7 +214,8 @@ export const spaceList = (config: string, toggle: boolean) => {
   }
   if (!el) {
     clickEl(spacingButton)
-    throw new Error('unable to find list spacing button!')
+    console.log('unable to find list spacing button! assuming already spaced')
+    return
   }
   clickEl(el as HTMLElement)
 }

@@ -2,9 +2,6 @@ import React, { FC, ChangeEvent } from 'react'
 import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
-// Todo: remove display for unbold, ununderline, and unitalicize in favor of 'invert' toggle button on base actions
-// need to leave action types for backwards compat
-
 type ActionType =
   | 'b' // bold
   | 'u' // underline
