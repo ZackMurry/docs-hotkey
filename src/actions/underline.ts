@@ -102,8 +102,8 @@ export const capitalize = async (config: string) => {
           // console.log(strks)
           if (strks[0] && strks[0].parentElement?.parentElement?.parentElement?.parentElement) {
             // console.log('found')
-            console.log('strikethrough found')
-            console.log(strks[0].parentElement?.parentElement?.parentElement?.parentElement.children[8])
+            // console.log('strikethrough found')
+            // console.log(strks[0].parentElement?.parentElement?.parentElement?.parentElement.children[8])
             const cap = strks[0].parentElement?.parentElement?.parentElement?.parentElement.children[8] as HTMLElement
             clickEl(cap)
             // clickEl(strks[0].parentElement?.parentElement as HTMLElement)
@@ -125,7 +125,7 @@ export const capitalize = async (config: string) => {
               resolve()
               return
             }
-            console.log(el)
+            // console.log(el)
             clickEl(el as HTMLElement)
             onSuccess()
             resolve()

@@ -2,6 +2,9 @@ import React, { FC, ChangeEvent } from 'react'
 import { Checkbox, Flex, IconButton, Input, Select, Tooltip } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 
+// Todo: remove display for unbold, ununderline, and unitalicize in favor of 'invert' toggle button on base actions
+// need to leave action types for backwards compat
+
 type ActionType =
   | 'b' // bold
   | 'u' // underline
@@ -16,14 +19,16 @@ type ActionType =
   | 'al' // align
   | 'in' // indent
   | 'st' // strikethrough
-  | 'cp' // capitalization (lower(case), upper(case), title( )(case))
+  | 'cp' // capitalization (lower, upper, title)
   | 'er' // emoji reaction
   | 'bl' // bullet list
+  | 'ls' // list spacing
   | 'ub' // unbold
   | 'uu' // ununderline
   | 'ui' // unitalicize
   | 'ht' // toggle highlight
   | 'tt' // toggle text color
+  | 'lst' // list spacing toggle
   | 'ex' // execute add-on
 export const getActionType = (s: string): ActionType =>
   (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
@@ -64,6 +69,8 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
       newConfig = 'check-mark'
     } else if (type === 'bl') {
       newConfig = '1'
+    } else if (type === 'ls') {
+      newConfig = 'after'
     }
     onChange(type + (newConfig.length ? `#${newConfig}` : ''))
   }
@@ -82,20 +89,24 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
       onChange(`tt#${config}`)
     } else if (type === 'tt') {
       onChange(`tc#${config}`)
+    } else if (type === 'ls') {
+      onChange(`lst#${config}`)
+    } else if (type === 'lst') {
+      onChange(`ls#${config}`)
     } else {
       onChange(type + (e.target.checked ? '#toggle' : ''))
     }
   }
 
+  let normalizedType = type
+  if (type === 'ht') normalizedType = 'hl'
+  else if (type === 'tt') normalizedType = 'tc'
+  else if (type === 'lst') normalizedType = 'ls'
+
   return (
     <Flex py='3px' alignItems='center'>
       {
-        <Select
-          size='sm'
-          value={type === 'ht' ? 'hl' : type === 'tt' ? 'tc' : type}
-          placeholder='Select action type'
-          onChange={onTypeChange}
-        >
+        <Select size='sm' value={normalizedType} placeholder='Select action type' onChange={onTypeChange}>
           <option value='b'>Bold</option>
           <option value='u'>Underline</option>
           <option value='hl'>Highlight</option>
@@ -111,6 +122,7 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
           <option value='cp'>Capitalize</option>
           <option value='er'>Emoji Reaction</option>
           <option value='bl'>Bullet List</option>
+          <option value='ls'>List Space</option>
           <option value='cl'>Unstyle</option>
           <option value='ub'>Unbold</option>
           <option value='uu'>Un-underline</option>
@@ -128,6 +140,8 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         type === 'al' ||
         type === 'cp' ||
         type === 'er' ||
+        type === 'ls' ||
+        type === 'lst' ||
         type === 'ex') && <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />}
       {(type === 'fs' || type === 'in' || type === 'bl') && (
         <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />
@@ -138,12 +152,14 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         type === 'hl' ||
         type === 'ht' ||
         type === 'tc' ||
-        type === 'tt') && (
+        type === 'tt' ||
+        type === 'ls' ||
+        type === 'lst') && (
         <Tooltip label='Toggle' shouldWrapChildren>
           <Checkbox
             size='md'
             ml='8px'
-            isChecked={config === 'toggle' || type === 'ht' || type === 'tt'}
+            isChecked={config === 'toggle' || type === 'ht' || type === 'tt' || type === 'lst'}
             onChange={onToggleChange}
           />
         </Tooltip>

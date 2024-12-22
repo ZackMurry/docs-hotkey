@@ -190,3 +190,32 @@ export const bulletList = (num_string: string) => {
     clickEl(els[0] as HTMLElement)
   }
 }
+
+export const spaceList = (config: string, toggle: boolean) => {
+  const spacingButton = document.getElementById('lineSpacingMenuButton')
+  console.log(spacingButton)
+  if (!spacingButton) {
+    throw new Error('unable to change spacing!')
+  }
+  clickEl(spacingButton)
+  let el = null
+  const conf = config.toLowerCase()
+  if (conf.includes('before')) {
+    el = document.querySelector('[aria-label="Add space before list item b"]')
+    if (toggle && !el) {
+      el = document.querySelector('[aria-label="Remove space before list item b"]')
+    }
+  } else if (conf.includes('after')) {
+    el = document.querySelector('[aria-label="Add space after list item a"]')
+    if (toggle && !el) {
+      el = document.querySelector('[aria-label="Remove space after list item a"]')
+    }
+  } else {
+    throw new Error('invalid list spacing configuration!')
+  }
+  if (!el) {
+    throw new Error('unable to find list spacing button!')
+  }
+  console.log(el)
+  clickEl(el as HTMLElement)
+}
