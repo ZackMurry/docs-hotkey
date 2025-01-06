@@ -20,6 +20,8 @@ import { Command } from './types'
 import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
 import { colorMap } from './colorMap'
 
+const NUM_SLOTS = 15
+
 const getSlotNumber = (input: string): string | null => {
   const match = input.match(/^slot9?(\d+)$/)
   return match ? match[1] : null
@@ -132,7 +134,7 @@ const App: FC = () => {
       setErrors(e => [...e, "Error adding command: commands haven't loaded yet, please try again"])
       return ''
     }
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i <= Math.min(9, NUM_SLOTS); i++) {
       if (commands[`slot${i}`] === undefined) {
         return `slot${i}`
       }
@@ -140,7 +142,7 @@ const App: FC = () => {
     // Terrible way of handling things, but we need slot ids to be
     // in alphabetical order without modifying the first 9 slots... (to not break old hotkeys)
     // so the first 9 are slot1, slot2, ..., slot9. The next are slot910, slot911, ...
-    for (let i = 10; i <= 15; i++) {
+    for (let i = 10; i <= NUM_SLOTS; i++) {
       if (commands[`slot9${i}`] === undefined) {
         return `slot9${i}`
       }
