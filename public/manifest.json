@@ -1,6 +1,6 @@
 {
   "name": "Docs Hotkey",
-  "version": "0.17",
+  "version": "0.18",
   "description": "Create hotkeys for Google Docs",
   "permissions": ["storage"],
   "background": {
@@ -43,6 +43,24 @@
     },
     "slot9": {
       "description": "Slot 9"
+    },
+    "slot910": {
+      "description": "Slot 10"
+    },
+    "slot911": {
+      "description": "Slot 11"
+    },
+    "slot912": {
+      "description": "Slot 12"
+    },
+    "slot913": {
+      "description": "Slot 13"
+    },
+    "slot914": {
+      "description": "Slot 14"
+    },
+    "slot915": {
+      "description": "Slot 15"
     }
   },
   "action": {

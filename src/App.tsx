@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import {
   Accordion,
   AccordionButton,
@@ -19,6 +19,20 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import { Command } from './types'
 import ActionDisplay, { getActionConfig, getActionType } from './ActionDisplay'
 import { colorMap } from './colorMap'
+
+const getSlotNumber = (input: string): string | null => {
+  const match = input.match(/^slot9?(\d+)$/)
+  return match ? match[1] : null
+}
+
+const commandShortcuts: { [internalName: string]: string } = {}
+chrome.commands.getAll(commands => {
+  commands.forEach(c => {
+    if (c.name && c.shortcut) {
+      commandShortcuts[c.name] = c.shortcut
+    }
+  })
+})
 
 // todo: change save button text to a checkmark after click
 // todo: error messages (including when actions are invalid)
@@ -123,7 +137,15 @@ const App: FC = () => {
         return `slot${i}`
       }
     }
-    setErrors(e => [...e, 'Error adding command: there are already 10 commands! Please free a slot before adding another.'])
+    // Terrible way of handling things, but we need slot ids to be
+    // in alphabetical order without modifying the first 9 slots... (to not break old hotkeys)
+    // so the first 9 are slot1, slot2, ..., slot9. The next are slot910, slot911, ...
+    for (let i = 10; i <= 15; i++) {
+      if (commands[`slot9${i}`] === undefined) {
+        return `slot9${i}`
+      }
+    }
+    setErrors(e => [...e, 'Error adding command: there are already 15 commands! Please free a slot before adding another.'])
     return ''
   }
 
@@ -220,7 +242,8 @@ const App: FC = () => {
                       Add action
                     </Button>
                     <Text m='3px' color='#777' fontSize='sm'>
-                      This command is in shortcut slot {internalName.substring(4)}
+                      Shortcut slot {getSlotNumber(internalName)}
+                      {commandShortcuts[internalName] && `: ${commandShortcuts[internalName]}`}
                     </Text>
                   </AccordionPanel>
                 </AccordionItem>
