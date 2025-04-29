@@ -116,40 +116,29 @@ export const indent = async (num_string: string) => {
   await new Promise<void>(resolve => {
     let numTries = 0
     var interval = setInterval(() => {
-      const popups = document.getElementsByClassName(
-        'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
-      )
       numTries++
-      for (let i = 0; i < popups.length; i++) {
-        // if (popups[i].children.length > 6) {
-        //   console.log((popups[i].children[5] as HTMLElement).innerText)
-        // }
-        if (
-          popups[i].children.length > 6 &&
-          (popups[i].children[5] as HTMLElement).innerText.startsWith('Increase indent')
-        ) {
-          const increaseButton = popups[i].children[5] as HTMLElement
-          const decreaseButton = popups[i].children[6] as HTMLElement
-          if (num < 0 && (!decreaseButton || decreaseButton.innerText !== 'Decrease indent\nCtrl+[')) {
-            throw new Error('unable to change indentation - decrease button not found!')
-          }
-          while (num > 0) {
-            clickEl(increaseButton)
-            num--
-          }
-          while (num < 0) {
-            clickEl(decreaseButton)
-            num++
-          }
-          clearInterval(interval)
-          resolve()
-          break
-        }
-      }
       if (numTries >= 10) {
         clearInterval(interval)
         throw new Error('unable to change indentation - 10 attempts, no success :(')
       }
+      const increaseButton = document.querySelector('[aria-label="Increase indent i"]')
+      const decreaseButton = document.querySelector('[aria-label="Decrease indent d"]')
+      if (!increaseButton) {
+        return
+      }
+      if (num < 0 && !decreaseButton) {
+        return
+      }
+      while (num > 0) {
+        clickEl(increaseButton as HTMLElement)
+        num--
+      }
+      while (num < 0) {
+        clickEl(decreaseButton as HTMLElement)
+        num++
+      }
+      clearInterval(interval)
+      resolve()
     }, 50)
   })
 }

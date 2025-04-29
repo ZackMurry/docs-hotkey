@@ -25,9 +25,14 @@ export const executeAddon = async (config: string) => {
     if ((addon[j]?.children[0] as HTMLElement)?.innerText === parts[0]) {
       clickEl(addon[j].children[0] as HTMLElement)
       await new Promise<void>(resolve => {
+        var attempts = 0
         var interval = setInterval(() => {
+          if (attempts++ >= 10) {
+            clearInterval(interval)
+            throw new Error('failed to execute add-on - pop-up not found')
+          }
           const popups = document.getElementsByClassName(
-            'goog-menu goog-menu-vertical docs-material ia-menu apps-menu-hide-mnemonics'
+            'goog-menu goog-menu-vertical docs-material shell-menu apps-menu-hide-mnemonics'
           )
           outer: for (let k = 0; k < popups.length; k++) {
             if (window.getComputedStyle(popups[k]).display === 'block') {
