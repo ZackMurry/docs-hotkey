@@ -1,6 +1,6 @@
 {
   "name": "Docs Hotkey",
-  "version": "0.19",
+  "version": "0.20",
   "description": "Create hotkeys for Google Docs",
   "permissions": ["storage"],
   "background": {

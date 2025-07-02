@@ -6,6 +6,7 @@ import { reactWithEmoji } from './actions/comment'
 import { fontFamily, fontSize, fontWeight } from './actions/font'
 import { italicize, toggleItalics } from './actions/italics'
 import { align, bulletList, clearFormatting, heading, indent, spaceList } from './actions/page'
+import { searchMenu } from './actions/search'
 import { toggleUnderline, underline, strikethrough, capitalize } from './actions/underline'
 import { isSlides } from './colorMap'
 
@@ -34,6 +35,7 @@ type ActionType =
   | 'tt'
   | 'lst'
   | 'ex'
+  | 'sm'
 const getActionType = (s: string): ActionType => (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
@@ -172,8 +174,12 @@ const runActionsFromArray = async (input: string[]) => {
         await executeAddon(config)
         break
       }
+      case 'sm': {
+        await searchMenu(config)
+        break
+      }
       default: {
-        console.error('unknown command: ', commandString)
+        console.error('unknown command: ', commandString, actionType, config)
       }
     }
   }

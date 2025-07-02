@@ -20,6 +20,7 @@ type ActionType =
   | 'er' // emoji reaction
   | 'bl' // bullet list
   | 'ls' // list spacing
+  | 'sm' // Search menu
   | 'ub' // unbold
   | 'uu' // ununderline
   | 'ui' // unitalicize
@@ -68,6 +69,8 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
       newConfig = '1'
     } else if (type === 'ls') {
       newConfig = 'after'
+    } else if (type === 'sm') {
+      newConfig = 'Email draft'
     }
     onChange(type + (newConfig.length ? `#${newConfig}` : ''))
   }
@@ -141,6 +144,7 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
           <option value='er'>Emoji Reaction</option>
           <option value='bl'>Bullet List</option>
           <option value='ls'>List Space</option>
+          <option value='sm'>Search menu</option>
           <option value='cl'>Unstyle</option>
           <option value='ex'>Execute Add-on</option>
         </Select>
@@ -157,7 +161,8 @@ const ActionDisplay: FC<Props> = ({ value, onChange, onDelete }) => {
         type === 'er' ||
         type === 'ls' ||
         type === 'lst' ||
-        type === 'ex') && <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />}
+        type === 'ex' ||
+        type === 'sm') && <Input size='sm' ml='3px' value={config} onChange={onConfigChange} />}
       {(type === 'fs' || type === 'in' || type === 'bl') && (
         <Input size='sm' ml='3px' type='number' value={config} onChange={onConfigChange} />
       )}
