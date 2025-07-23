@@ -1,0 +1,18 @@
+site_name: Docs Hotkey Documentation
+theme:
+  name: readthedocs
+
+nav:
+  - Home: index.md
+  - Usage: usage.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - footnotes
+  - tables
+
+extra_css:
+  - assets/styles/youtube.css
