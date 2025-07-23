@@ -1,10 +1,10 @@
-site_name: Docs Hotkey Documentation
+site_name: Docs Hotkey
 theme:
   name: readthedocs
 
 nav:
   - Home: index.md
-  - Usage: usage.md
+  - About: about.md
 
 markdown_extensions:
   - toc:
@@ -16,3 +16,4 @@ markdown_extensions:
 
 extra_css:
   - assets/styles/youtube.css
+  - assets/styles/styles.css
