@@ -20,7 +20,7 @@ of the color (highlighted in the image below) and use this as your configuration
 
 <img src="/assets/screenshots/highlight-hex.png" alt="Hex colors screenshot" class='small-image' />
 
-## Bold, Underline, and Italicize
+## Bold, Italicize, Strikethrough, and Underline
 
 These actions do not take any configuration and modify the selected text as you'd imagine.
 

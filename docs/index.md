@@ -37,7 +37,7 @@ Hotkeys can currently be configured to:
 
 Docs Hotkey is available for free on the [Chrome Web Store](https://chromewebstore.google.com/detail/docs-hotkey/npkpplmpfeaeemeecniaikpjjfbfefhh?hl=en).
 After installing the extension or updating a hotkey, you may need to refresh any Google Docs tabs.
-Alternatively, you may build the extension from its source code using the instructions on the [Building from Source](build-from-source.md) page.
+Alternatively, you may build the extension from its source code using the instructions on the [Building from Source](build.md) page.
 
 ## Getting Started
 
