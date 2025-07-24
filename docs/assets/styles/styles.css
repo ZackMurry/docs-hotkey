@@ -1,5 +1,17 @@
+.large-image {
+  width: 75%;
+  min-width: 350px;
+  height: auto;
+}
+
 .small-image {
   width: 45%;
   min-width: 250px;
+  height: auto;
+}
+
+.very-small-image {
+  width: 25%;
+  min-width: 125px;
   height: auto;
 }
