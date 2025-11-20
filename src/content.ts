@@ -7,7 +7,7 @@ import { fontFamily, fontSize, fontWeight } from './actions/font'
 import { italicize, toggleItalics } from './actions/italics'
 import { align, bulletList, clearFormatting, heading, indent, spaceList } from './actions/page'
 import { searchMenu } from './actions/search'
-import { toggleUnderline, underline, strikethrough, capitalize } from './actions/underline'
+import { toggleUnderline, underline, strikethrough, capitalize } from './actions/format'
 import { isSlides } from './colorMap'
 
 type ActionType =
