@@ -108,9 +108,9 @@ export const indent = async (num_string: string) => {
     throw new Error('unable to change indentation')
   }
 
-  const alignIndentButton = formatMenu[5] as HTMLDivElement
-  if (alignIndentButton.innerText !== 'Align & indent') {
-    throw new Error('unable to change indentation - assertion failed!')
+  const alignIndentButton: HTMLElement | null = document.querySelector('[aria-label="Align & indent a"]')
+  if (!alignIndentButton) {
+    throw new Error('unable to change indentation - unable to find align/indent button!')
   }
   clickEl(alignIndentButton)
   await new Promise<void>(resolve => {

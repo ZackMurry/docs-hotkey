@@ -48,25 +48,18 @@ export const fontWeight = async (val: string) => {
   const fontWeightMenu = await new Promise<HTMLElement | null>(resolve =>
     setTimeout(() => {
       const fontWeightMenuQuery = document.querySelectorAll('div[role="menu"]:not([display="none"])')
-      // console.log(fontWeightMenuQuery)
       const fontWeightMenusFiltered: HTMLElement[] = []
       let resolved = false
       fontWeightMenuQuery.forEach(val => {
         if (!resolved && val.classList.length === 2) {
-          // console.log('2 class length', val)
           const textGrandChild = val.children[0]?.children[0]?.children[1] as HTMLElement | null
           if (textGrandChild !== null) {
-            // console.log(textGrandChild)
-            // console.log(
-            //   'text grandchild font family',
-            //   textGrandChild.style.fontFamily
-            // )
             if (
               textGrandChild.style.fontFamily === currentFontString ||
-              textGrandChild.style.fontFamily === `docs-${currentFontString}`
+              textGrandChild.style.fontFamily === `docs-${currentFontString}` ||
+              textGrandChild.style.fontFamily === `"docs-${currentFontString}"`
             ) {
               fontWeightMenusFiltered.push(val as HTMLElement)
-              // console.log('resolving with val', val)
               resolve(val as HTMLElement)
               resolved = true
               return
@@ -80,7 +73,7 @@ export const fontWeight = async (val: string) => {
   // console.log(fontWeightMenu)
   if (!fontWeightMenu) {
     clickEl(currentFont) // Close menu
-    // console.error('unable to find font weight menu')
+    console.error('unable to find font weight menu')
     return
   }
   dispatchMouseEvent(fontWeightMenu as HTMLElement, 'mouseover')
