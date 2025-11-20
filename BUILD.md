@@ -17,3 +17,5 @@ To compile the source code, follow these steps:
 - `cp build/manifest.firefox.json build/manifest.json`
 
 The compiled extension code will be in the `build` directory.
+
+Alternatively, you may run `bash build.sh`, which will run these steps for you.
