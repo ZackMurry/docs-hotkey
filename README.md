@@ -23,6 +23,10 @@ Bugs and feature requests can be submitted on GitHub at <https://github.com/Zack
 
 Bugs are very likely to occur when Google updates the UI for Docs. The `heading` action is particularly unstable.
 
+# Build Instructions
+
+The instructions for building the extension from source can be found in the BUILD.md file.
+
 # License
 
 This is free, open-source software licensed under the MIT License. The full license can be found [here](https://raw.githubusercontent.com/ZackMurry/docs-hotkey/main/LICENSE).

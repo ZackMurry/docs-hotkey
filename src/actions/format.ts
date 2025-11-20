@@ -35,8 +35,7 @@ export const strikethrough = async () => {
     const tryStrikethrough = (onSuccess: () => void) => {
       const strk: HTMLElement | null = document.querySelector('[aria-label="Strikethrough k"]')
       if (!strk) {
-        console.log('unable to find Strikethrough k button')
-        resolve()
+        // console.log('unable to find Strikethrough k button')
         return
       }
       clickEl(strk)

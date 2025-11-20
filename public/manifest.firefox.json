@@ -1,16 +1,13 @@
 {
   "manifest_version": 2,
   "name": "Docs Hotkey",
-  "version": "0.20",
+  "version": "0.21",
   "description": "Create hotkeys for Google Docs",
-
   "permissions": ["storage"],
-
   "background": {
     "scripts": ["static/js/background.js"],
     "persistent": true
   },
-
   "content_scripts": [
     {
       "matches": ["*://docs.google.com/document/d/*", "*://classroom.google.com/*", "*://docs.google.com/presentation/d/*"],
@@ -18,7 +15,6 @@
       "js": ["static/js/content.js"]
     }
   ],
-
   "commands": {
     "slot1": {
       "suggested_key": {
@@ -41,22 +37,22 @@
     "slot914": { "description": "Slot 14" },
     "slot915": { "description": "Slot 15" }
   },
-
   "browser_action": {
     "default_title": "Open popup",
     "default_popup": "index.html"
   },
-
   "icons": {
     "128": "icons/128.png",
     "64": "icons/64.png",
     "32": "icons/32.png",
     "16": "icons/16.png"
   },
-
   "browser_specific_settings": {
     "gecko": {
-      "id": "docshotkey@zackmurry.com"
+      "id": "docshotkey@zackmurry.com",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
