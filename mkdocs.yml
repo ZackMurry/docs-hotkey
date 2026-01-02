@@ -5,7 +5,7 @@ theme:
 nav:
   - Home: index.md
   - Usage: usage.md
-  - Building from Source: build.md
+  - Building from Source: source.md
   - About: about.md
   - Actions:
       - Styling Text: actions/text.md

@@ -91,11 +91,26 @@ const highlightSlides = (color: string, toggle: boolean) => {
   return
 }
 
+function simulateKeypress(key: string, target: Element | null = document.activeElement) {
+  const down = new KeyboardEvent('keydown', { key, bubbles: true })
+  const press = new KeyboardEvent('keypress', { key, bubbles: true })
+  const up = new KeyboardEvent('keyup', { key, bubbles: true })
+
+  console.log(target)
+  if (target) {
+    target.dispatchEvent(down)
+    target.dispatchEvent(press)
+    target.dispatchEvent(up)
+  }
+}
+
 export const highlight = (color: string, toggle: boolean = false) => {
   if (isSlides()) {
     highlightSlides(color, toggle)
     return
   }
+
+  simulateKeypress('ArrowDown')
   let dropdownElement = document.getElementById('bgColorButton')
   if (!dropdownElement) {
     throw new Error('unable to highlight: could not find dropdown')
