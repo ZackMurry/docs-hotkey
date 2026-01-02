@@ -6,6 +6,8 @@ The _highlight_ action applies a background color to the selected text.
 
 The configuration specifies the color of the highlight, in one of two forms:
 
+<div style="margin-bottom: -20px;"></div>
+
 - The **color name**, as defined by Google Docs
 - The **hexadecimal (hex)** representation of the color
 
@@ -52,3 +54,15 @@ For example, if you want to use the semi-bold weight for Roboto, then use "Semi 
 !!! note "Note"
     If the current font does not support the specified weight, it will keep the current font weight.
 <!-- prettier-ignore-end -->
+
+## Capitalize
+
+The _capitalize_ action changes the capitalization of the selected text. If there is no text selected, it will apply to the current word.
+
+The configuration options are as follows:
+
+<div style="margin-bottom: -20px;"></div>
+
+- uppercase
+- lowercase
+- titlecase (e.g., "I Love Docs Hotkey")
