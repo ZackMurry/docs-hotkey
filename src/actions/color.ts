@@ -12,30 +12,23 @@ export const unhighlight = () => {
 }
 
 export const highlightHex = (color: string, toggle: boolean) => {
-  let i = 170
-  let curr: HTMLElement | null = null
-  while ((curr = document.getElementById(`docs-material-colorpalette-cell-${i}`)?.firstChild as HTMLElement | null)) {
-    if (curr.title.includes(color)) {
-      if (
-        toggle &&
-        curr.parentElement &&
-        curr.parentElement.classList.contains('docs-material-colorpalette-cell-selected')
-      ) {
-        unhighlight()
-      } else {
-        clickEl(curr)
-      }
-      return
+  // Check whether this hex color already exists
+  const existingCustomColor = document.querySelector(`td[aria-label^="Custom Color ${color}"]`)
+  if (existingCustomColor) {
+    if (toggle && existingCustomColor.classList.contains('docs-material-colorpalette-cell-selected')) {
+      unhighlight()
+    } else {
+      clickEl(existingCustomColor as HTMLElement)
     }
-    i++
+    return
   }
 
-  // If it's not in the custom list
-  const customElement = document.getElementById(`docs-material-colorpalette-cell-${i - 2}`)
-  if (!customElement) {
-    throw new Error('unable to find custom highlight button')
+  // If it doesn't exist, create it as a new custom color
+  const addCustomColor = document.querySelector('td[aria-label="Add a custom color"]')
+  if (!addCustomColor) {
+    throw new Error('unable to find custom color highlight button')
   }
-  clickEl(customElement)
+  clickEl(addCustomColor as HTMLElement)
 
   // Enter hex value
   const hexTextBox = document.getElementsByClassName('docs-material-hsv-color-picker-input')
