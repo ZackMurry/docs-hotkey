@@ -11,9 +11,36 @@ export const unhighlight = () => {
   clickEl(unselectEl)
 }
 
+// Helper to discriminate between text (low) and highlight (high) elements
+const getElementWithMaxTrailingNumber = <T extends HTMLElement>(elements: NodeListOf<T>): T | null => {
+  if (elements.length === 1) {
+    return elements[0]
+  }
+  let maxElement: T | null = null
+  let maxValue = -Infinity
+
+  elements.forEach(el => {
+    if (!el.id) return
+
+    const lastPart = el.id.split('-').pop()
+    const num = Number(lastPart)
+
+    if (!Number.isNaN(num) && num > maxValue) {
+      maxValue = num
+      maxElement = el
+    }
+  })
+
+  return maxElement
+}
+
 export const highlightHex = (color: string, toggle: boolean) => {
   // Check whether this hex color already exists
-  const existingCustomColor = document.querySelector(`td[aria-label^="Custom Color ${color}"]`)
+  const existingCustomColorButtons: NodeListOf<HTMLElement> = document.querySelectorAll(
+    `td[aria-label^="Custom Color ${color}"]`
+  )
+  const existingCustomColor = getElementWithMaxTrailingNumber(existingCustomColorButtons)
+
   if (existingCustomColor) {
     if (toggle && existingCustomColor.classList.contains('docs-material-colorpalette-cell-selected')) {
       unhighlight()
