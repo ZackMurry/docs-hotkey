@@ -116,7 +116,12 @@ const App: FC = () => {
         ) {
           addActionError(alias, index, 'invalid highlight color')
           hasErrors = true
-        } else if ((type === 'tc' || type === 'tt') && !colorMap.has(config) && config !== 'none') {
+        } else if (
+          (type === 'tc' || type === 'tt') &&
+          !colorMap.has(config) &&
+          config !== 'none' &&
+          !config.startsWith('#')
+        ) {
           addActionError(alias, index, 'invalid text color')
           hasErrors = true
         } else if ((type === 'b' || type === 'u' || type === 'i') && config !== '' && config !== 'toggle') {

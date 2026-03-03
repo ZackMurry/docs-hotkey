@@ -1,10 +1,12 @@
-console.log('DOCS HOTKEY')
+import log from './util/logger'
+
+log('Background script loaded')
 chrome.commands.onCommand.addListener(command => {
-  console.log(command)
-  chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+  log(command)
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     if (tabs[0].id) {
-      chrome.tabs.sendMessage(tabs[0].id, {command}, res => {
-        console.log(res)
+      chrome.tabs.sendMessage(tabs[0].id, { command }, res => {
+        log(res)
       })
     }
   })

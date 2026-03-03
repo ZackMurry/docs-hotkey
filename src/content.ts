@@ -7,6 +7,7 @@ import { italicize, toggleItalics } from './actions/italics'
 import { align, bulletList, clearFormatting, heading, indent, spaceList } from './actions/page'
 import { searchMenu } from './actions/search'
 import { toggleUnderline, underline, strikethrough, capitalize } from './actions/format'
+import log from './util/logger'
 
 type ActionType =
   | 'b'
@@ -37,7 +38,7 @@ type ActionType =
 const getActionType = (s: string): ActionType => (s.indexOf('#') === -1 ? s : s.substring(0, s.indexOf('#'))) as ActionType
 const getActionConfig = (s: string): string => (s.indexOf('#') !== -1 ? s.substring(s.indexOf('#') + 1) : '')
 
-console.log('LOADED')
+log('Loaded content script')
 
 interface Command {
   actions: string[]
@@ -47,14 +48,14 @@ interface Command {
 let commands: { [internalName: string]: Command } = {}
 
 chrome.storage.sync.get(['commands'], result => {
-  console.log('commands: ' + JSON.stringify(result.commands))
+  log('commands: ' + JSON.stringify(result.commands))
   commands = result.commands
 })
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === 'sync' && changes['commands'] !== null) {
     commands = changes['commands'].newValue
-    console.log('new commands: ' + JSON.stringify(commands))
+    log('new commands: ' + JSON.stringify(commands))
   }
 })
 
@@ -184,14 +185,15 @@ const runActionsFromArray = async (input: string[]) => {
 }
 
 chrome.runtime.onMessage.addListener(async (req, sender, sendRes) => {
-  console.log('received: ' + req.command)
+  log(`running command: ${req.command} (${commands[req.command]?.alias ?? 'unknown'})`)
   if (new URL(document.location.href).host !== 'docs.google.com') {
+    log('invalid domain')
     sendRes('0')
     return
   }
   const command = commands[req.command]
   if (!command) {
-    throw new Error('unknown command ' + command)
+    throw new Error('unknown command ' + req.command)
   }
   // console.log('actions: ' + JSON.stringify(command.actions))
   try {
